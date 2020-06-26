@@ -1,5 +1,4 @@
 # Fix systemd-resolved problem
-echo "nameserver 8.8.8.8" >> /etc/resolv.conf
 apt update;
 
 # setup MySQL
