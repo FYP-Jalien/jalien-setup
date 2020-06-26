@@ -1,0 +1,5 @@
+trigger_job:
+  trigger:
+    project: nhardi/jalien-ci
+    branch: feature-jcentral-replica
+    strategy: depend
