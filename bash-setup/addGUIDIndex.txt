@@ -1,0 +1,12 @@
+USE `systemDB`;
+LOCK TABLES `GUIDINDEX` WRITE;
+INSERT INTO `GUIDINDEX` VALUES (indexId, hostIndex, tableName,'guidTime','guid2Time2');
+UNLOCK TABLES;
+USE `dataDB`;
+LOCK TABLES `GUIDINDEX` WRITE;
+INSERT INTO `GUIDINDEX` VALUES (indexId, hostIndex, tableName,'guidTime','guid2Time2'); 
+UNLOCK TABLES;
+USE `userDB`;
+LOCK TABLES `GUIDINDEX` WRITE;
+INSERT INTO `GUIDINDEX` VALUES (indexId, hostIndex, tableName,'guidTime','guid2Time2');
+UNLOCK TABLES;
