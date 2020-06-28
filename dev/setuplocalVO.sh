@@ -30,6 +30,8 @@ function make_keystore(){
 
 [[ -d $JALIEN_HOME ]] || die "JAliEn path not found!"
 $JALIEN_SETUP/dev/CreateConfig.sh /root/.j/testVO
+$JALIEN_SETUP/dev/CreateCertificates.sh /root/.j/testVO
+
 run_testj_setup
 make_keystore
 timeout $timeout tail --pid=$PID -f /dev/null
