@@ -2,9 +2,11 @@
 set -e
 
 export JALIEN_HOME=/jalien
+export JALIEN_SETUP=/jalien-setup
 export CERTS=/jalien-dev/certs
 export TVO_CERTS=/root/.j/testVO/globus
 export JALIEN_DEV=/jalien-dev
+export USER_ID=${USER_ID:-1000}
 
 cd $JALIEN_HOME
 cp "${JALIEN_DEV}"/*.jar "$JALIEN_HOME"
@@ -14,10 +16,10 @@ pushd $JALIEN_DEV
     chown $USER_ID *.txt
 popd
 
-bash /setuplocalVO.sh &>$JALIEN_DEV/setup_log.txt &
+bash $JALIEN_SETUP/dev/setuplocalVO.sh &>$JALIEN_DEV/setup_log.txt &
 tail --pid $! -f $JALIEN_DEV/setup_log.txt
 
-bash /verifylocalVO.sh &>$JALIEN_DEV/verify_log.txt &
+bash $JALIEN_SETUP/dev/verifylocalVO.sh &>$JALIEN_DEV/verify_log.txt &
 tail --pid $! -f  $JALIEN_DEV/verify_log.txt
 
 cp -r $TVO_CERTS $CERTS

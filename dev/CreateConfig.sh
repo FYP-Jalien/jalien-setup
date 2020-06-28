@@ -1,11 +1,12 @@
 #!/bin/bash
 [ x"$1" == x"" ] && echo "Usage: \$1<out> directory where to put testVO/config" && exit 1
 
-out="$(realpath $1)/config"
-[ -d $out ] && echo "output directory already exists" && exit 1
-mkdir -p "$out"
+out="$(realpath $1)"
+[ -d $out/config ] && echo "config directory already exists" && exit 1
+config=$out/config
+mkdir -p $config
 
-cat > $out/config.properties << EoF
+cat > $config/config.properties << EoF
 ldap_server = 127.0.0.1:8389
 ldap_root = o=localhost,dc=localdomain
 alien.users.basehomedir = /localhost/localdomain/user/
@@ -25,7 +26,7 @@ SE.priv.key.location = $out/globus/SE_priv.pem
 SE.pub.key.location = $out/globus/SE_pub.pem
 EoF
 
-cat > $out/logging.properties << EoF
+cat > $config/logging.properties << EoF
 handlers= java.util.logging.FileHandler
 java.util.logging.FileHandler.formatter = java.util.logging.SimpleFormatter
 java.util.logging.FileHandler.limit = 1000000
@@ -56,6 +57,11 @@ useSSL=false
 EoF
 }
 
-write_db_config $out/processses.properties processes
-write_db_config $out/alice_data.properties testVO_data
-write_db_config $out/alice_users.properties testVO_users
+write_db_config $config/processses.properties processes
+write_db_config $config/alice_data.properties testVO_data
+write_db_config $config/alice_users.properties testVO_users
+
+echo "password=pass" >> $config/ldap.config
+
+# create other dirs
+mkdir -p $out/{config,certs,bin,logs,slapd,sql,SE_storage} # but don't create globus and trusts
