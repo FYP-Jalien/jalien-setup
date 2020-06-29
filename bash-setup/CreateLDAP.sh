@@ -12,6 +12,8 @@ ldap_schema_zip="/jalien/testsys/ldap_schema_config.zip"
 ldap_port="8389"
 ldap_temp_file="${ldap_home}/ldap_temp.ldif"
 
+jalien_setup="/jalien-setup/bash-setup"
+
 function die(){
     if [[ $? -ne 0 ]]; then {
         echo "$1"
@@ -20,61 +22,73 @@ function die(){
     fi
 }
 
+function ldap_apply_ldif () {
+    file=$1
+    ldapadd -x -w ${ldap_pass} -h localhost -p ${ldap_port} -D cn=Manager,dc=localdomain -f "$file"
+}
+
 function createConfig(){
-    cp "/jalien/docker-setup/ldap/cn=config.ldif"  "${ldap_conf_dir}"
-    cp "/jalien/docker-setup/ldap/olcDatabase={0}config.ldif" "${ldap_conf_cn_dir}"
-    cp "/jalien/docker-setup/ldap/olcDatabase={-1}frontend.ldif" "${ldap_conf_cn_dir}"
-    cp "/jalien/docker-setup/ldap/olcDatabase={1}hdb.ldif" "${ldap_conf_cn_dir}"
-    cp "/jalien/docker-setup/ldap/olcBackend={0}hdb.ldif" "${ldap_conf_cn_dir}"
-    cp "/jalien/docker-setup/ldap/cn=module{0}.ldif" "${ldap_conf_cn_dir}"
+    mkdir -p $ldap_home
+    cp -r "${jalien_setup}/ldap/slapd.d" "${ldap_home}"
 }
 
 function extractLDAPSchema(){
-    #needed unzip dependency
-    unzip -u $ldap_schema_zip -d $ldap_conf_cn_dir
+    rsync -a "${jalien_setup}/ldap/schema/" ${ldap_conf_cn_dir}/
 }
 
 function startLDAP(){
+    mkdir -p $(dirname $ldap_log)
     nohup slapd -d -1 -s 0 -h ldap://:${ldap_port} -F ${ldap_conf_dir} > ${ldap_log} 2>&1> /dev/null&
 }
 
 function initializeLDAP(){
-    arr=(add_domain add_org add_packages add_institutions add_partitions add_people add_roles add_services add_sites)
+    arr=(
+        add_domain
+        add_org
+        add_packages
+        add_institutions
+        add_partitions
+        add_people
+        add_roles
+        add_services
+        add_sites
+        ldap_init
+    )
+
     for i in ${arr[@]}
     do
         echo $i
-        ldapadd -x -w ${ldap_pass} -h localhost -p ${ldap_port} -D cn=Manager,dc=localdomain -f "/jalien/docker-setup/ldap/${i}.ldif"
-    done
-    ldapadd -x -w ${ldap_pass} -h localhost -p ${ldap_port} -D cn=Manager,dc=localdomain -f /jalien/docker-setup/ldap/ldap_init.ldif
-}
-
-function getUserHome(){
-    sub_string=$(echo $1 | cut -c1)
-    echo "${base_home_dir}${sub_string}/$1/"
-}
-
-function addUserToLDAP(){
-    ldapadd -x -w ${ldap_pass} -h localhost -p ${ldap_port} -D cn=Manager,dc=localdomain -f "/jalien/docker-setup/ldap/add_user_${1}.ldif"
-}
-
-function addRoleToLDAP(){
-    ldapadd -x -w ${ldap_pass} -h localhost -p ${ldap_port} -D cn=Manager,dc=localdomain -f "/jalien/docker-setup/ldap/add_role_${1}.ldif"
-}
-
-function addSiteToLDAP(){
-    ldapadd -x -w ${ldap_pass} -h localhost -p ${ldap_port} -D cn=Manager,dc=localdomain -f "/jalien/docker-setup/ldap/add_site_jtest.ldif"
-    ldapadd -x -w ${ldap_pass} -h localhost -p ${ldap_port} -D cn=Manager,dc=localdomain -f "/jalien/docker-setup/ldap/add_config_jtest.ldif"
-    ldapadd -x -w ${ldap_pass} -h localhost -p ${ldap_port} -D cn=Manager,dc=localdomain -f "/jalien/docker-setup/ldap/add_services_jtest.ldif"
-    arr=("SE" "CE" "FTD" "PackMan")
-    for i in ${arr[@]}
-    do
-        ldapadd -x -w ${ldap_pass} -h localhost -p ${ldap_port} -D cn=Manager,dc=localdomain -f "/jalien/docker-setup/ldap/add_${i}_jtest.ldif"
+        ldap_apply_ldif $jalien_setup/ldap/ldif/${i}.ldif
     done
 }
 
-function addSEToLDAP(){
-    ldapadd -x -w ${ldap_pass} -h localhost -p ${ldap_port} -D cn=Manager,dc=localdomain -f "/jalien/docker-setup/ldap/add_SE_firstse.ldif"
-}
+# function getUserHome(){
+#     sub_string=$(echo $1 | cut -c1)
+#     echo "${base_home_dir}${sub_string}/$1/"
+# }
+
+# function addUserToLDAP(){
+#     ldapadd -x -w ${ldap_pass} -h localhost -p ${ldap_port} -D cn=Manager,dc=localdomain -f "/jalien/docker-setup/ldap/add_user_${1}.ldif"
+# }
+
+# function addRoleToLDAP(){
+#     ldapadd -x -w ${ldap_pass} -h localhost -p ${ldap_port} -D cn=Manager,dc=localdomain -f "/jalien/docker-setup/ldap/add_role_${1}.ldif"
+# }
+
+# function addSiteToLDAP(){
+#     ldapadd -x -w ${ldap_pass} -h localhost -p ${ldap_port} -D cn=Manager,dc=localdomain -f "/jalien/docker-setup/ldap/add_site_jtest.ldif"
+#     ldapadd -x -w ${ldap_pass} -h localhost -p ${ldap_port} -D cn=Manager,dc=localdomain -f "/jalien/docker-setup/ldap/add_config_jtest.ldif"
+#     ldapadd -x -w ${ldap_pass} -h localhost -p ${ldap_port} -D cn=Manager,dc=localdomain -f "/jalien/docker-setup/ldap/add_services_jtest.ldif"
+#     arr=("SE" "CE" "FTD" "PackMan")
+#     for i in ${arr[@]}
+#     do
+#         ldapadd -x -w ${ldap_pass} -h localhost -p ${ldap_port} -D cn=Manager,dc=localdomain -f "/jalien/docker-setup/ldap/add_${i}_jtest.ldif"
+#     done
+# }
+
+# function addSEToLDAP(){
+#     ldapadd -x -w ${ldap_pass} -h localhost -p ${ldap_port} -D cn=Manager,dc=localdomain -f "/jalien/docker-setup/ldap/add_SE_firstse.ldif"
+# }
 
 function main(){
     (
@@ -97,6 +111,7 @@ function main(){
             startLDAP
             sleep 2
             initializeLDAP
+            echo "done"
         }
         fi
     )
