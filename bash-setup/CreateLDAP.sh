@@ -16,11 +16,11 @@ function ldap_apply_ldif () {
 
 function createConfig(){
     mkdir -p $ldap_conf_dir
-    rsync -a "${jalien_setup}/ldap/config/" "$ldap_conf_dir"
+    rsync -a "${jalien_setup}/templates/ldap/config/" "$ldap_conf_dir"
 }
 
 function createSchema(){
-    rsync -a "${jalien_setup}/ldap/schema/" "$ldap_conf_dir/cn=config"
+    rsync -a "${jalien_setup}/templates/ldap/schema/" "$ldap_conf_dir/cn=config"
 }
 
 function startLDAP(){
@@ -67,7 +67,7 @@ function initializeLDAP(){
     for i in ${arr[@]}
     do
         echo $i
-        ldap_apply_ldif $jalien_setup/ldap/ldif/${i}.ldif
+        ldap_apply_ldif "$jalien_setup/templates/ldap/ldif/${i}.ldif"
     done
 }
 

@@ -1,25 +1,29 @@
 #!/bin/bash
+set -e
 
-function main() {
-    (
-        set -e
-        cd $JALIEN_HOME
-        cp "${JALIEN_DEV}"/*.jar "$JALIEN_HOME"
-        bash /setuplocalVO.sh
-        bash /verifylocalVO.sh
-        cp -r $TVO_CERTS $CERTS
-        chown $USER_ID $CERTS && chown $USER_ID "${CERTS}"/*
-        bash testj central
-    )
-exit_on_err 
-}
+export JALIEN_HOME=/jalien
+export JALIEN_SETUP=/jalien-setup
+export CERTS=/jalien-dev/certs
+export TVO_CERTS=/root/.j/testVO/globus
+export JALIEN_DEV=/jalien-dev
+export USER_ID=${USER_ID:-1000}
 
-function exit_on_err() {
-    exit_code=$?
-    if [ $exit_code -ne 0 ]; then
-        printf '\n JCENTRAL FAILED TO START \n'
-        exit $exit_code
-    fi
-}
+cd $JALIEN_HOME
+cp "${JALIEN_DEV}"/*.jar "$JALIEN_HOME"
 
-main
+pushd $JALIEN_DEV
+    touch setup_log.txt verify_log.txt jcentral_log.txt
+    chown $USER_ID *.txt
+popd
+
+bash $JALIEN_SETUP/dev/setuplocalVO.sh &>$JALIEN_DEV/setup_log.txt &
+tail --pid $! -f $JALIEN_DEV/setup_log.txt
+
+bash $JALIEN_SETUP/dev/verifylocalVO.sh &>$JALIEN_DEV/verify_log.txt &
+tail --pid $! -f  $JALIEN_DEV/verify_log.txt
+
+cp -r $TVO_CERTS $CERTS
+chown -vR $USER_ID $CERTS
+
+bash testj central &>$JALIEN_DEV/jcentral_log.txt &
+tail --pid $! -f $JALIEN_DEV/jcentral_log.txt
