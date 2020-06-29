@@ -12,4 +12,4 @@ echo mysql-community-server mysql-community-server/re-root-pass password ''; \
 # Install dependencies
 export DEBIAN_FRONTEND=noninteractive
 export LC_ALL=C
-apt install -y openjdk-11-jdk python3 python3-pip git slapd ldap-utils
+apt install -y openjdk-11-jdk python3 python3-pip git slapd ldap-utils rsync vim tmux entr less git
