@@ -1,3 +1,3 @@
 FROM jalien-base:latest
-COPY setup.sh entrypoint.sh setuplocalVO.sh verifylocalVO.sh /
+COPY setup.sh /
 RUN /setup.sh
