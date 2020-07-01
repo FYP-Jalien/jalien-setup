@@ -146,7 +146,7 @@ function userAddSubTable(){
     parentDir=$(echo $sql_cmd | mysql -u root -h 127.0.0.1 -p$mysql_pass -P $sql_port -D mysql -s)
     sub_string=$(echo $1 | cut -c1)
     addToINDEXTABLE 2 $2 "${base_home_dir}${sub_string}/$1/"
-    sql_cmd="USE ${userDB};LOCK TABLES L0L WRITE;INSERT INTO L0L VALUES (0,'admin',0,'2011-10-06 17:07:26',NULL,NULL,NULL,'${sub_string}/',0,NULL,0,${parentDir},'admin','d',NULL,NULL,'755');UNLOCK TABLES;"
+    sql_cmd="USE ${userDB}; LOCK TABLES L0L WRITE;INSERT INTO L0L VALUES (0,'admin',0,'2011-10-06 17:07:26',NULL,NULL,NULL,'${sub_string}/',0,NULL,0,${parentDir},'admin','d',NULL,NULL,'755');UNLOCK TABLES;"
     echo $sql_cmd | mysql --verbose -u root -h 127.0.0.1 -p$mysql_pass -P $sql_port -D mysql
     sql_cmd="select entryId from ${userDB}.L0L where lfn = '${sub_string}/';"
     parentDir=$(echo $sql_cmd | mysql -u root -h 127.0.0.1 -p$mysql_pass -P $sql_port -D mysql -s)
@@ -158,7 +158,7 @@ function userIndexTable(){
     sub_string=$(echo $1 | cut -c1)
     sql_cmd="select entryId from ${userDB}.L0L where lfn = '${sub_string}/';"
     parentDir=$(echo $sql_cmd | mysql -u root -h 127.0.0.1 -p$mysql_pass -P $sql_port -D mysql -s)
-    cp /jalien/docker-setup/userindextable.txt /tmp
+    cp $sql_templates/userindextable.txt /tmp
     sed -i -e "s:userDB:${userDB}:g" -e "s:username:${1}:g" -e "s:actuid:${2}:g" -e "s:parentDir:${parentDir}:g" /tmp/userindextable.txt
     mysql_apply < /tmp/userindextable.txt
 }
@@ -198,6 +198,8 @@ function main(){
             createCatalogueDB $userDB
 
             catalogueInitialDirectories
+            addUserToDB "admin" 1
+            addUserToDB "jalien" 2
             echo "Done DB init"
         }
         fi
@@ -206,4 +208,4 @@ function main(){
     )
     die "DB setup failed!"
 }
-main $1
+main $@
