@@ -64,5 +64,5 @@ write_db_config $config/alice_users.properties testVO_users
 echo "password=pass" >> $config/ldap.config
 
 # create other dirs
-mkdir -p $out/{config,certs,bin,logs,slapd,sql,SE_storage} # but don't create globus and trusts
+mkdir -p $out/{config,bin,logs,slapd,sql,SE_storage} # but don't create globus and trusts
 echo "CreateConfig done"
