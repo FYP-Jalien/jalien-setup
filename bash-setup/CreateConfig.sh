@@ -65,3 +65,4 @@ echo "password=pass" >> $config/ldap.config
 
 # create other dirs
 mkdir -p $out/{config,certs,bin,logs,slapd,sql,SE_storage} # but don't create globus and trusts
+echo "CreateConfig done"

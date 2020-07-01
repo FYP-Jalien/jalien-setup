@@ -1,21 +1,11 @@
 #!/bin/bash
 
-timeout=40
-
 function die() {
   if [[ $? -ne 0 ]]; then {
     echo "$1"
     exit 1
   }
   fi
-}
-
-function run_testj_setup(){
-  cd $JALIEN_HOME
-  echo "Setting up Environment"
-  bash testj test &
-  PID=$!
-  sleep 5
 }
 
 function make_keystore(){
@@ -28,11 +18,16 @@ function make_keystore(){
   die "Certificates could not be generated"
 }
 
-[[ -d $JALIEN_HOME ]] || die "JAliEn path not found!"
-$JALIEN_SETUP/dev/CreateConfig.sh /root/.j/testVO
-$JALIEN_SETUP/dev/CreateCertificates.sh /root/.j/testVO
+target="/root/.j/testVO"
+mkdir -p $target
 
-run_testj_setup
+[[ -d $JALIEN_HOME ]] || die "JAliEn path not found!"
+pushd $JALIEN_SETUP/bash-setup
+    ./CreateConfig.sh $target
+    ./CreateCertificates.sh $target
+    ./CreateLDAP.sh $target
+    ./CreateDB.sh $target
+popd
+
 make_keystore
-timeout $timeout tail --pid=$PID -f /dev/null
 exit 0

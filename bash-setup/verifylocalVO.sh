@@ -2,6 +2,9 @@
 
 
 #checks if JSh/ JBox can connect to JCentral
+bash "${JALIEN_HOME}/testj" central &> /dev/null&
+sleep 5
+
 bash "${JALIEN_HOME}/testj" box &> /dev/null&
 sleep 5
 

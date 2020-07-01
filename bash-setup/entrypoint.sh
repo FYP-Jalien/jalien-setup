@@ -16,10 +16,10 @@ pushd $JALIEN_DEV
     chown $USER_ID *.txt
 popd
 
-bash $JALIEN_SETUP/dev/setuplocalVO.sh &>$JALIEN_DEV/setup_log.txt &
+bash $JALIEN_SETUP/bash-setup/setuplocalVO.sh &>$JALIEN_DEV/setup_log.txt &
 tail --pid $! -f $JALIEN_DEV/setup_log.txt
 
-bash $JALIEN_SETUP/dev/verifylocalVO.sh &>$JALIEN_DEV/verify_log.txt &
+bash $JALIEN_SETUP/bash-setup/verifylocalVO.sh &>$JALIEN_DEV/verify_log.txt &
 tail --pid $! -f  $JALIEN_DEV/verify_log.txt
 
 cp -r $TVO_CERTS $CERTS
