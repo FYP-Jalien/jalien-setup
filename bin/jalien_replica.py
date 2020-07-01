@@ -17,7 +17,7 @@ logging.basicConfig(format="%(asctime)s [%(levelname)s] :: %(message)s",
                     datefmt="%Y/%m/%d %H:%M:%S",
                     level=logging.INFO)
 
-DEFAULT_DOCKER_IMAGE = 'gitlab-registry.cern.ch/adangwal/jalien/jalien-modified:version0.4'
+DEFAULT_DOCKER_IMAGE = 'jalien-dev'
 
 # pylint: disable=unused-argument
 def timeout(signum, frame):
@@ -92,7 +92,7 @@ def bootstrap_workspace(volume, jar, cleanup):
 
     return 0
 
-def start_container(volume, image, replica_name, cmd):
+def start_container(jalien_setup_repo, volume, image, replica_name, cmd):
     """
     Start a JCentral replica container
     """
@@ -118,6 +118,7 @@ def start_container(volume, image, replica_name, cmd):
                                              ports={'8998/tcp':'8998', '8097/tcp':'8097'},
                                              volumes={
                                                  str(volume):{'bind':'/jalien-dev', 'mode':'rw'},
+                                                 str(jalien_setup_repo):{'bind':'/jalien-setup', 'mode':'ro'},
                                              })
 
     if jalien_container.status != 'created':
@@ -155,15 +156,18 @@ def jalien_docker():
 @click.option('--image', default=DEFAULT_DOCKER_IMAGE,
               help="Name of Docker image to be used for the container")
 @click.option('--cleanup/--no-cleanup', default=True)
+@click.option("--setup", default=".")
+@click.option("--cmd", default="bash /jalien-setup/bash-setup/entrypoint.sh")
 # pylint: disable=too-many-arguments
-def start(volume, replica_name, jar, image, cleanup):
+def start(volume, replica_name, jar, image, cleanup, setup, cmd):
     """Creates and runs JCentral replica inside Docker"""
+    jalien_setup_repo = Path().expanduser().absolute()
     volume = Path(volume).expanduser().absolute()
     jar = Path(jar).expanduser().absolute()
 
     try:
         bootstrap_workspace(volume, jar, cleanup)
-        jalien_container = start_container(volume, image, replica_name, "/entrypoint.sh")
+        jalien_container = start_container(jalien_setup_repo, volume, image, replica_name, cmd)
         wait_for_service(jalien_container)
     # pylint: disable=bare-except,broad-except,invalid-name
     except Exception as e:
