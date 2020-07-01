@@ -15,6 +15,14 @@ function make_CA {
 
     openssl genrsa -out "$key" 1024
     openssl req -new -batch -key "$key" -x509 -days 365 -out "$cert" -subj "$subj"
+
+    CA_hash=`openssl x509 -hash -noout -in cacert.pem`
+    openssl x509 -inform PEM -in "cacert.pem" -outform DER -out "${CA_hash}.der"
+
+    openssl pkcs12 -password pass: -export -in "cacert.pem" -name alien -inkey "cakey.pem" -out "alien.p12"
+
+    cp alien.p12 *.der $TVO_TRUSTS
+    openssl rehash .
 }
 
 function make_cert() {
@@ -30,8 +38,6 @@ function make_cert() {
 pushd $TVO_CERTS
 
 make_CA "cacert.pem" "cakey.pem" "/C=CH/O=JAliEn/CN=JAliEnCA"
-openssl rehash .
-openssl pkcs12 -password pass: -export -in "cacert.pem" -name alien -inkey "cakey.pem" -out "${TVO_TRUSTS}/alien.p12"
 
 make_cert "usercert.pem"  "userkey.pem"    "/C=CH/O=JAliEn/CN=jalien"
 make_cert "hostcert.pem"  "hostkey.pem"    "/C=CH/O=JAliEn/CN=localhost.localdomain"
