@@ -7,3 +7,4 @@ yum -y install http://linuxsoft.cern.ch/wlcg/centos7/x86_64/wlcg-repo-1.0.0-1.el
 USER xrootd
 
 CMD ["xrootd"]
+# bump CI
