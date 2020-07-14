@@ -2,7 +2,7 @@ USE `systemDB`;
 
 LOCK TABLES `SE` WRITE;
 
-INSERT INTO `SE` VALUES (seNumber,0,'','VO_name::site::seName',',qos,','storedir','File',NULL,NULL,'','file://iodeamon','');
+INSERT INTO `SE` VALUES (seNumber,0,'','VO_name::site::seName',',qos,','storedir','File',NULL,NULL,'','root://172.17.0.3:1094','');
                 
 LOCK TABLES `SE_VOLUMES` WRITE;
                 
@@ -12,13 +12,17 @@ LOCK TABLES `SERanks` WRITE;
 
 INSERT INTO `SERanks` VALUES ('site','seNumber','0','0');
 
+LOCK TABLES `SEDistance` WRITE;
+
+INSERT INTO `SEDistance` VALUES ('site', 'seNumber','0','0');
+
 UNLOCK TABLES;
 
 USE `dataDB`;
                 
 LOCK TABLES `SE` WRITE;
                 
-INSERT INTO `SE` VALUES (seNumber,0,'','VO_name::site::seName',',qos,','storedir','File',NULL,NULL,'','file://iodeamon','');
+INSERT INTO `SE` VALUES (seNumber,0,'','VO_name::site::seName',',qos,','storedir','File',NULL,NULL,'','root://172.17.0.3:1094','');
                 
 LOCK TABLES `SE_VOLUMES` WRITE;
                 
@@ -28,13 +32,17 @@ LOCK TABLES `SERanks` WRITE;
 
 INSERT INTO `SERanks` VALUES ('site','seNumber','0','0');
 
+LOCK TABLES `SEDistance` WRITE;
+
+INSERT INTO `SEDistance` VALUES ('site', 'seNumber','0','0');
+
 UNLOCK TABLES;
 
 USE `userDB`;
 
 LOCK TABLES `SE` WRITE;
 
-INSERT INTO `SE` VALUES (seNumber,0,'','VO_name::site::seName',',qos,','storedir','File',NULL,NULL,'','file://iodeamon','');
+INSERT INTO `SE` VALUES (seNumber,0,'','VO_name::site::seName',',qos,','storedir','File',NULL,NULL,'','root://172.17.0.3:1094','');
 
 LOCK TABLES `SE_VOLUMES` WRITE;
 
@@ -43,5 +51,9 @@ INSERT INTO `SE_VOLUMES` VALUES ('storedir',seNumber,0,'VO_name::site::seName','
 LOCK TABLES `SERanks` WRITE;
 
 INSERT INTO `SERanks` VALUES ('site','seNumber','0','0');
+
+LOCK TABLES `SEDistance` WRITE;
+
+INSERT INTO `SEDistance` VALUES ('site', 'seNumber','0','0');
 
 UNLOCK TABLES;

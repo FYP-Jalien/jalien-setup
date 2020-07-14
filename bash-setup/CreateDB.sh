@@ -169,7 +169,7 @@ function addUserToDB(){
 }
 
 function addSEtoDB(){
-    cp /jalien/docker-setup/addSE.txt /tmp
+    cp $sql_templates/addSE.txt /tmp
     sub_string=$(echo $4 | cut -d':' -f1)
     sed -i -e "s:dataDB:${dataDB}:g" -e "s:userDB:${userDB}:g" -e "s:systemDB:${systemDB}:g" -e "s:VO_name:${VO_name}:g" -e "s:sub_string:${sub_string}:g" \
         -e "s:seName:${1}:g" -e "s:seNumber:${2}:g" -e "s:site:${3}:g" -e "s~iodeamon~${4}~g" \
@@ -200,6 +200,7 @@ function main(){
             catalogueInitialDirectories
             addUserToDB "admin" 1
             addUserToDB "jalien" 2
+            addSEtoDB "firstse" 1 "JTestSite" "localhost.localdomain:8092" "/tmp" "disk"
             echo "Done DB init"
         }
         fi
