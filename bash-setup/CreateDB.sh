@@ -9,9 +9,9 @@ sql_socket="${sql_home}/jalien-mysql.sock"
 sql_pid_file="/tmp/jalien-mysql.pid"
 sql_log="${sql_home}/jalien-mysql.log"
 
-systemDB="testVO_system"
-dataDB="testVO_data"
-userDB="testVO_users"
+systemDB="alice_system"
+dataDB="alice_data"
+userDB="alice_users"
 
 sql_port=3307
 mysql_pass="pass"

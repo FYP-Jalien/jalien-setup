@@ -58,8 +58,8 @@ EoF
 }
 
 write_db_config $config/processses.properties processes
-write_db_config $config/alice_data.properties testVO_data
-write_db_config $config/alice_users.properties testVO_users
+write_db_config $config/alice_data.properties alice_data
+write_db_config $config/alice_users.properties alice_users
 
 echo "password=pass" >> $config/ldap.config
 
