@@ -1,5 +1,8 @@
+variables:
+  JALIEN_SETUP: 1
+
 trigger_job:
   trigger:
     project: nhardi/jalien-ci
-    branch: feature-jcentral-replica
+    branch: dev
     strategy: depend
