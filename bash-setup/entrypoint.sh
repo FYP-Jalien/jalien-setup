@@ -6,7 +6,7 @@ export JALIEN_SETUP=/jalien-setup
 export CERTS=/jalien-dev/certs
 export TVO_CERTS=/root/.j/testVO/globus
 export JALIEN_DEV=/jalien-dev
-export USER_ID=${USER_ID:-1000}
+export USER_ID=975
 
 cd $JALIEN_HOME
 cp "${JALIEN_DEV}"/*.jar "$JALIEN_HOME"
