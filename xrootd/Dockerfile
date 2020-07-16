@@ -3,6 +3,6 @@ COPY installer.sh /
 RUN /bin/bash installer.sh
 ADD xrootd-conf /etc/xrootd
 USER xrootd
-
+ENV TTOKENAUTHZ_AUTHORIZATIONFILE='/etc/xrootd/TkAuthz.Authorization'
 CMD xrootd -c /etc/xrootd/xrootd-standalone.cfg
 # bump CI
