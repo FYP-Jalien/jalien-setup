@@ -165,7 +165,7 @@ else
     # The metamanager acts as a virtual stager. Beware, internally xrootd strips the trailing slashes so, no point in adding them here
     # Specify where the local file system name space is actually rooted.
     # http://xrootd.org/doc/dev49/ofs_config.htm#_Toc522916545
-    oss.localroot /tmp
+    oss.localroot /shared-volume
 
     # Specify the location of a file system that is to be used to hold data files.
     # http://xrootd.org/doc/dev49/cms_config.htm#_Toc520504671
