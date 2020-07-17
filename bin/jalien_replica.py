@@ -44,6 +44,8 @@ def params_check(volume, jar):
     """
     Validate command-line parameters (shared volume, jar file)
     """
+    xrootd_tkauth = './xrootd/xrootd-conf/TkAuthz.Authorization'
+    xrootd_tkauth = Path(xrootd_tkauth).expanduser().absolute()
     if not volume.exists():
         logging.info("Creating the shared volume directory in %s", volume)
         volume.mkdir(parents=True)
@@ -56,6 +58,8 @@ def params_check(volume, jar):
     else:
         logging.error("JAR file not found in {jar}")
         return False
+    logging.info("Sharing the TkAuthz.Authorization in %s", xrootd_tkauth)
+    shutil.copy(xrootd_tkauth, volume)
 
     return True
 
