@@ -6,7 +6,7 @@ export JALIEN_SETUP=/jalien-setup
 export CERTS=/jalien-dev/certs
 export TVO_CERTS=/root/.j/testVO/globus
 export JALIEN_DEV=/jalien-dev
-export USER_ID=975
+export USER_ID=${USER_ID:-1000}
 
 cd $JALIEN_HOME
 cp "${JALIEN_DEV}"/*.jar "$JALIEN_HOME"
@@ -24,6 +24,8 @@ tail --pid $! -f  $JALIEN_DEV/verify_log.txt
 
 cp -r $TVO_CERTS $CERTS
 chown -vR $USER_ID $CERTS
+chmod -v 777 $CERTS/globus/ $JALIEN_DEV/SEshared $CERTS
+chmod -v 644 $CERTS/globus/*
 
 bash testj central &>$JALIEN_DEV/jcentral_log.txt &
 tail --pid $! -f $JALIEN_DEV/jcentral_log.txt

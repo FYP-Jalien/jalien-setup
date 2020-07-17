@@ -1,11 +1,15 @@
 local_image=jalien-dev
 gitlab_dev_image=gitlab-registry.cern.ch/jalien/jalien-setup/jalien-dev
 gitlab_base_image=gitlab-registry.cern.ch/jalien/jalien-setup/jalien-base
+gitlab_xrootd_image=gitlab-registry.cern.ch/jalien/jalien-setup/xrootd-se
 
 base-image:
 	docker build -t jalien-base -f base/Dockerfile base
 
-dev-image: base-image
+xrootd-image:
+	docker build -t xrootd-se -f xrootd/Dockerfile xrootd
+
+dev-image: base-image xrootd-image
 	docker build -t jalien-dev -f dev/Dockerfile dev
 
 push-base: base-image

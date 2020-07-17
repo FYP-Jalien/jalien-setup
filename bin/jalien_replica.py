@@ -27,13 +27,17 @@ def timeout(signum, frame):
     logging.error("Setup Script taking too long. Check docker logs for more information")
     sys.exit(1)
 
-def workspace_cleanup(certpath):
+def workspace_cleanup(certpath, sepath):
     """
     Remove certificates if they already exist in the shared volume.
     """
-    logging.info("Deleting old certificates from %s", certpath)
+    logging.info("Deleting old certificate files from %s", certpath)
     shutil.rmtree(certpath, ignore_errors=True)
     certpath.mkdir(parents=True, exist_ok=True)
+
+    logging.info("Please manually delete files from %s to avoid stale files persisting", sepath)
+    shutil.rmtree(sepath, ignore_errors=True)
+    sepath.mkdir(parents=True, exist_ok=True)
     logging.info("Finished cleanup!")
 
 def params_check(volume, jar):
@@ -76,13 +80,14 @@ def bootstrap_workspace(volume, jar, cleanup):
     Prepare the shared volume for starting up a new JCentral instance.
     """
     certpath = volume.joinpath("certs")
+    sepath = volume.joinpath("SEshared")
 
     if not params_check(volume, jar):
         logging.error("Can't start the container, exiting...")
         return 1
 
     if cleanup:
-        workspace_cleanup(certpath)
+        workspace_cleanup(certpath, sepath)
 
     script = get_info(volume)
     print(script)
@@ -98,12 +103,13 @@ def start_container(jalien_setup_repo, volume, image, replica_name, cmd):
     """
     uid = os.getuid()
     env = ["USER_ID="+str(uid)]
+    se_image = 'xrootd-se'
 
     client = docker.from_env()
-    logging.info("Removing old JCentral container (if any)")
+    logging.info("Removing old JCentral and XRootD container (if any)")
     try:
         jalien_container = client.containers.list(filters={'name':replica_name})[0]
-        logging.info("A container with the name %s already exists.", replica_name)
+        logging.info("A container with the name %s or %s-SE already exists.", replica_name, replica_name)
         logging.info("Please remove it or specify a different name.")
         sys.exit(1)
     except IndexError:
@@ -115,17 +121,31 @@ def start_container(jalien_setup_repo, volume, image, replica_name, cmd):
                                              name=replica_name,
                                              environment=env,
                                              detach=True,
-                                             ports={'8998/tcp':'8998', '8097/tcp':'8097'},
+                                             ports={'8998/tcp':'8998', '8097/tcp':'8097', '3307/tcp':'3307', '8389/tcp':'8389'},
                                              volumes={
                                                  str(volume):{'bind':'/jalien-dev', 'mode':'rw'},
                                                  str(jalien_setup_repo):{'bind':'/jalien-setup', 'mode':'ro'},
+                                             })
+
+    xrootd_container = client.containers.run(se_image,
+                                             auto_remove=True,
+                                             name=replica_name+"-SE",
+                                             detach=True,
+                                             ports={'1094/tcp':'1094'},
+                                             volumes={
+                                                 str(volume):{'bind':'/jalien-dev', 'mode':'rw'},
+                                                 str(volume)+"/SEshared":{'bind':'/shared-volume', 'mode':'rw'}
                                              })
 
     if jalien_container.status != 'created':
         logging.info("Something went wrong with container. Streaming logs..")
         logging.info(jalien_container.logs())
 
-    return jalien_container
+    if xrootd_container.status != 'created':
+        logging.info("Something went wrong with XRootD container. Streaming logs..")
+        logging.info(xrootd_container.logs())
+
+    return jalien_container, xrootd_container
 
 def wait_for_service(jalien_container):
     """
@@ -139,6 +159,12 @@ def wait_for_service(jalien_container):
 
         if 'JCentral listening on' in i.decode():
             print("Container is running JCentral")
+            break
+        elif ':1094 initialization completed' in i.decode():
+            print("SE is running")
+            break
+        elif 'xrootd is terminating' in i.decode():
+            print("SE failed... Skipping SE setup")
             break
 
 @click.group()
@@ -167,8 +193,9 @@ def start(volume, replica_name, jar, image, cleanup, setup, cmd):
 
     try:
         bootstrap_workspace(volume, jar, cleanup)
-        jalien_container = start_container(jalien_setup_repo, volume, image, replica_name, cmd)
+        jalien_container, xrootd_container = start_container(jalien_setup_repo, volume, image, replica_name, cmd)
         wait_for_service(jalien_container)
+        wait_for_service(xrootd_container)
     # pylint: disable=bare-except,broad-except,invalid-name
     except Exception as e:
         logging.error("Something went wrong, unable to start the service...")
