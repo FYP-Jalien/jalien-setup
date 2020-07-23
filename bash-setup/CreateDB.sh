@@ -79,7 +79,7 @@ function startDB(){
 
 function fillDatabase(){
     cp $sql_templates/mysql_passwd.txt /tmp
-    sed -i -e "s:sql_pass:${mysql_pass}:g" -e "s:systemDB:${systemDB}:g" -e "s:dataDB:${dataDB}:g" -e "s:userDB:${userDB}:g" /tmp/mysql_passwd.txt
+    sed -i -e "s:sql_pass:${mysql_pass}:g" -e "s:dataDB:${dataDB}:g" -e "s:userDB:${userDB}:g" /tmp/mysql_passwd.txt
     mysql --verbose -u root -h 127.0.0.1 -P $sql_port -D mysql < /tmp/mysql_passwd.txt
 }
 
@@ -91,19 +91,19 @@ function createCatalogueDB(){
 
 function addToHOSTSTABLE(){
     cp $sql_templates/hostIndex.txt /tmp
-    sed -i -e "s:systemDB:${systemDB}:g" -e "s:dataDB:${dataDB}:g" -e "s:userDB:${userDB}:g" -e "s:hostIndex:${1}:g" -e "s~address~${2}~g" -e "s:db:${3}:g" /tmp/hostIndex.txt
+    sed -i -e "s:dataDB:${dataDB}:g" -e "s:userDB:${userDB}:g" -e "s:hostIndex:${1}:g" -e "s~address~${2}~g" -e "s:db:${3}:g" /tmp/hostIndex.txt
     mysql_apply < /tmp/hostIndex.txt
 }
 
 function addToINDEXTABLE(){
     cp $sql_templates/addIndexTable.txt /tmp
-    sed -i -e "s:systemDB:${systemDB}:g" -e "s:dataDB:${dataDB}:g" -e "s:userDB:${userDB}:g" -e "s:hostIndex:${1}:g" -e "s:tableName:${2}:g" -e "s:lfn:${3}:g" /tmp/addIndexTable.txt
+    sed -i -e "s:dataDB:${dataDB}:g" -e "s:userDB:${userDB}:g" -e "s:hostIndex:${1}:g" -e "s:tableName:${2}:g" -e "s:lfn:${3}:g" /tmp/addIndexTable.txt
     mysql_apply < /tmp/addIndexTable.txt
 }
 
 function addToGUIDINDEXTABLE(){
     cp $sql_templates/addGUIDIndex.txt /tmp
-    sed -i -e "s:systemDB:${systemDB}:g" -e "s:dataDB:${dataDB}:g" -e "s:userDB:${userDB}:g" -e "s:indexId:${1}:g" -e "s:hostIndex:${2}:g" -e "s:tableName:${3}:g" -e "s:guidTime:${4}:g" -e "s:guid2Time2:${5}:g" /tmp/addGUIDIndex.txt
+    sed -i -e "s:dataDB:${dataDB}:g" -e "s:userDB:${userDB}:g" -e "s:indexId:${1}:g" -e "s:hostIndex:${2}:g" -e "s:tableName:${3}:g" -e "s:guidTime:${4}:g" -e "s:guid2Time2:${5}:g" /tmp/addGUIDIndex.txt
     mysql_apply < /tmp/addGUIDIndex.txt
 }
 
@@ -171,7 +171,7 @@ function addUserToDB(){
 function addSEtoDB(){
     cp $sql_templates/addSE.txt /tmp
     sub_string=$(echo $4 | cut -d':' -f1)
-    sed -i -e "s:dataDB:${dataDB}:g" -e "s:userDB:${userDB}:g" -e "s:systemDB:${systemDB}:g" -e "s:VO_name:${VO_name}:g" -e "s:sub_string:${sub_string}:g" \
+    sed -i -e "s:dataDB:${dataDB}:g" -e "s:userDB:${userDB}:g" -e "s:VO_name:${VO_name}:g" -e "s:sub_string:${sub_string}:g" \
         -e "s:seName:${1}:g" -e "s:seNumber:${2}:g" -e "s:site:${3}:g" -e "s~iodeamon~${4}~g" \
         -e "s:storedir:${5}:g" -e "s:qos:${6}:g" -e "s:freespace:${7}:g" /tmp/addSE.txt
     mysql_apply < /tmp/addSE.txt
@@ -193,13 +193,12 @@ function main(){
             sleep 6
 
             fillDatabase
-            createCatalogueDB $systemDB
             createCatalogueDB $dataDB
             createCatalogueDB $userDB
 
             catalogueInitialDirectories
-            addUserToDB "admin" 1
-            addUserToDB "jalien" 2
+            addUserToDB "admin" 0
+            addUserToDB "jalien" 0
             addSEtoDB "firstse" 1 "JTestSite" "localhost.localdomain:8092" "/tmp" "disk"
             echo "Done DB init"
         }

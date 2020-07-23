@@ -1,6 +1,3 @@
-USE `systemDB`;
-LOCK TABLES `INDEXTABLE` WRITE;
-INSERT INTO `INDEXTABLE` VALUES (0, hostIndex, tableName,'lfn');
 USE `dataDB`; 
 LOCK TABLES `INDEXTABLE` WRITE;
 INSERT INTO `INDEXTABLE` VALUES (0,hostIndex,tableName,'lfn') ;
