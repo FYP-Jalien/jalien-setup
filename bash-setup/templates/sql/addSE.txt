@@ -2,7 +2,7 @@ USE `dataDB`;
                 
 LOCK TABLES `SE` WRITE;
                 
-INSERT INTO `SE` VALUES (seNumber,0,'','VO_name::site::seName',',qos,','storedir','File',NULL,NULL,'','root://172.17.0.1:1094','');
+INSERT INTO `SE` VALUES (seNumber,0,'','VO_name::site::seName',',qos,','storedir','File',NULL,NULL,'','root://iodeamon','');
                 
 LOCK TABLES `SE_VOLUMES` WRITE;
                 
@@ -22,7 +22,7 @@ USE `userDB`;
 
 LOCK TABLES `SE` WRITE;
 
-INSERT INTO `SE` VALUES (seNumber,0,'','VO_name::site::seName',',qos,','storedir','File',NULL,NULL,'','root://172.17.0.1:1094','');
+INSERT INTO `SE` VALUES (seNumber,0,'','VO_name::site::seName',',qos,','storedir','File',NULL,NULL,'','root://iodeamon','');
 
 LOCK TABLES `SE_VOLUMES` WRITE;
 

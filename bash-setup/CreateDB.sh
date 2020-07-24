@@ -199,7 +199,7 @@ function main(){
             catalogueInitialDirectories
             addUserToDB "admin" 0
             addUserToDB "jalien" 0
-            addSEtoDB "firstse" 1 "JTestSite" "localhost.localdomain:8092" "/tmp" "disk"
+            addSEtoDB "firstse" 1 "JTestSite" "xrootdse:1094" "/tmp" "disk"
             echo "Done DB init"
         }
         fi

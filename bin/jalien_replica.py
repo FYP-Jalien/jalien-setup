@@ -136,6 +136,7 @@ def start_container(jalien_setup_repo, volume, image, replica_name, cmd):
                                              auto_remove=True,
                                              name=replica_name+"-SE",
                                              detach=True,
+                                             hostname="xrootdse",
                                              ports={'1094/tcp':'1094'},
                                              volumes={
                                                  str(volume):{'bind':'/jalien-dev', 'mode':'rw'},
