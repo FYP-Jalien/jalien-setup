@@ -6,5 +6,5 @@ variables:
 trigger_job:
   trigger:
     project: nhardi/jalien-ci
-    branch: dev
+    branch: test-replica
     strategy: depend
