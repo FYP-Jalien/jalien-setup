@@ -75,7 +75,10 @@ def get_info(volume):
               'export X509_USER_CERT="${X509_CERT_DIR}/usercert.pem"',
               'export X509_USER_KEY="${X509_CERT_DIR}/userkey.pem"',
               'export JALIEN_TOKEN_CERT="${X509_CERT_DIR}/usercert.pem"',
-              'export JALIEN_TOKEN_KEY="${X509_CERT_DIR}/userkey.pem"']
+              'export JALIEN_TOKEN_KEY="${X509_CERT_DIR}/userkey.pem"',
+              'export JALIEN_HOST="localhost"',
+              'export JALIEN_WSPORT=8097',
+              ]
 
     return '\n'.join(script)
 
