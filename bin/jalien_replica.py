@@ -108,6 +108,7 @@ def start_container(jalien_setup_repo, volume, image, replica_name, cmd):
     uid = os.getuid()
     env = ["USER_ID="+str(uid)]
     se_image = 'xrootd-se'
+    se_cmd = 'bash /runner.sh'
 
     client = docker.from_env()
     logging.info("Removing old JCentral and XRootD container (if any)")
@@ -128,10 +129,10 @@ def start_container(jalien_setup_repo, volume, image, replica_name, cmd):
                                              ports={'8998/tcp':'8998', '8097/tcp':'8097', '3307/tcp':'3307', '8389/tcp':'8389'},
                                              volumes={
                                                  str(volume):{'bind':'/jalien-dev', 'mode':'rw'},
-                                                 str(jalien_setup_repo):{'bind':'/jalien-setup', 'mode':'ro'},
+                                                 str(jalien_setup_repo):{'bind':'/jalien-setup', 'mode':'rw'},
                                              })
-
-    xrootd_container = client.containers.run(se_image,
+    logging.info("command is: %s", se_cmd)
+    xrootd_container = client.containers.run(se_image, se_cmd,
                                              auto_remove=True,
                                              name=replica_name+"-SE",
                                              detach=True,
