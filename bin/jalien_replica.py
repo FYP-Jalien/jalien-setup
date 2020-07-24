@@ -106,11 +106,23 @@ def start_container(jalien_setup_repo, volume, image, replica_name, cmd):
     Start a JCentral replica container
     """
     uid = os.getuid()
-    env = ["USER_ID="+str(uid)]
+    env = ["USER_ID="+str(uid), "SE_HOST="+replica_name+"-SE"]
     se_image = 'xrootd-se'
     se_cmd = 'bash /runner.sh'
-
+    network_name = "localhost"
     client = docker.from_env()
+
+    logging.info("Removing old localhost network (if any)")
+    try:
+        network = client.networks.list(filters={'name':network_name})[0]
+        logging.info("A network with the name %s already exists.", network_name)
+        logging.info("Please remove it or specify a different name.")
+        sys.exit(1)
+    except IndexError:
+        logging.info("Network named %s does not exist!", network_name)
+
+    network = client.networks.create("localhost", driver="bridge")
+
     logging.info("Removing old JCentral and XRootD container (if any)")
     try:
         jalien_container = client.containers.list(filters={'name':replica_name})[0]
@@ -124,6 +136,7 @@ def start_container(jalien_setup_repo, volume, image, replica_name, cmd):
     jalien_container = client.containers.run(image, cmd,
                                              auto_remove=True,
                                              name=replica_name,
+                                             network=network_name,
                                              environment=env,
                                              detach=True,
                                              ports={'8998/tcp':'8998', '8097/tcp':'8097', '3307/tcp':'3307', '8389/tcp':'8389'},
@@ -135,8 +148,8 @@ def start_container(jalien_setup_repo, volume, image, replica_name, cmd):
     xrootd_container = client.containers.run(se_image, se_cmd,
                                              auto_remove=True,
                                              name=replica_name+"-SE",
+                                             network=network_name,
                                              detach=True,
-                                             hostname="xrootdse",
                                              ports={'1094/tcp':'1094'},
                                              volumes={
                                                  str(volume):{'bind':'/jalien-dev', 'mode':'rw'},
