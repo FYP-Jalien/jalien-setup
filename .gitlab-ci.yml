@@ -7,5 +7,5 @@ trigger_job:
     branch: test-replica
     strategy: depend
   variables:
-    JALIEN_SETUP_REPO: $CI_REPOSITORY_URL
+    JALIEN_SETUP_REPO: https://gitlab.cern.ch/nhardi/jalien-setup.git
     JALIEN_SETUP_BRANCH: $CI_COMMIT_REF_NAME
