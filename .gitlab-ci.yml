@@ -2,6 +2,8 @@ variables:
   JALIEN_SETUP: 1
   JALIEN_SETUP_REPO: $CI_REPOSITORY_URL
   JALIEN_SETUP_BRANCH: $CI_COMMIT_REF_NAME
+  JALIEN_ROOT_REPO: https://gitlab.cern.ch/nhardi/jalien-root.git
+  JALIEN_ROOT_BRANCH: feature-set-jcentral
 
 trigger_job:
   trigger:
