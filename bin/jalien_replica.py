@@ -13,6 +13,8 @@ import sys
 import click
 import docker
 
+from subprocess import call
+
 logging.basicConfig(format="%(asctime)s [%(levelname)s] :: %(message)s",
                     datefmt="%Y/%m/%d %H:%M:%S",
                     level=logging.INFO)
@@ -117,6 +119,7 @@ def start_container(jalien_setup_repo, volume, image, replica_name, cmd):
 
     logging.info("Removing old localhost network (if any)")
     try:
+        call("docker network rm localhost", shell=True)
         network = client.networks.list(filters={'name':network_name})[0]
         logging.info("A network with the name %s already exists.", network_name)
         logging.info("Please remove it or specify a different name.")
@@ -156,7 +159,7 @@ def start_container(jalien_setup_repo, volume, image, replica_name, cmd):
                                              ports={'1094/tcp':'1094'},
                                              volumes={
                                                  str(volume):{'bind':'/jalien-dev', 'mode':'rw'},
-                                                 str(volume)+"/SEshared":{'bind':'/shared-volume', 'mode':'rw'}
+                                                 "xrootd-se-storage":{'bind':'/shared-volume', 'mode':'rw'}
                                              })
 
     if jalien_container.status != 'created':
@@ -257,8 +260,10 @@ def stop(replica_name):
     """ Stops JCentral replica container """
     client = docker.from_env()
     try:
-        jalien_container = client.containers.list(filters={'name':replica_name})[0]
-        jalien_container.stop()
+        jalien_containers_list = client.containers.list(filters={'name':replica_name})
+        jalien_containers_list[0].stop()
+        jalien_containers_list[1].stop()
+        call("docker network rm localhost", shell=True)
     except IndexError:
         logging.warning("Something went wrong." \
                         "Please check if container %s is running", replica_name)

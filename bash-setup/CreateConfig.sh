@@ -37,7 +37,7 @@ java.util.logging.FileHandler.pattern = /tmp/alien%g.log
 lia.level = WARNING
 lazyj.level = WARNING
 apmon.level = WARNING
-alien.level = INFO
+alien.level = FINEST
 # tell LazyJ to use the same logging facilities
 use_java_logger=true
 EoF
