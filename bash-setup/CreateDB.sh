@@ -145,7 +145,6 @@ function userAddSubTable(){
     sql_cmd="select entryId from ${userDB}.L0L where lfn = '';"
     parentDir=$(echo $sql_cmd | mysql -u root -h 127.0.0.1 -p$mysql_pass -P $sql_port -D mysql -s)
     sub_string=$(echo $1 | cut -c1)
-    addToINDEXTABLE 2 $2 "${base_home_dir}${sub_string}/$1/"
     sql_cmd="USE ${userDB}; LOCK TABLES L0L WRITE;INSERT INTO L0L VALUES (0,'admin',0,'2011-10-06 17:07:26',NULL,NULL,NULL,'${sub_string}/',0,NULL,0,${parentDir},'admin','d',NULL,NULL,'755');UNLOCK TABLES;"
     echo $sql_cmd | mysql --verbose -u root -h 127.0.0.1 -p$mysql_pass -P $sql_port -D mysql
     sql_cmd="select entryId from ${userDB}.L0L where lfn = '${sub_string}/';"
@@ -156,7 +155,7 @@ function userAddSubTable(){
 
 function userIndexTable(){
     sub_string=$(echo $1 | cut -c1)
-    sql_cmd="select entryId from ${userDB}.L0L where lfn = '${sub_string}/';"
+    sql_cmd="select entryId from ${dataDB}.L0L where lfn = '${act_base_home_dir}';"
     parentDir=$(echo $sql_cmd | mysql -u root -h 127.0.0.1 -p$mysql_pass -P $sql_port -D mysql -s)
     cp $sql_templates/userindextable.txt /tmp
     sed -i -e "s:userDB:${userDB}:g" -e "s:username:${1}:g" -e "s:actuid:${2}:g" -e "s:parentDir:${parentDir}:g" /tmp/userindextable.txt
@@ -164,8 +163,8 @@ function userIndexTable(){
 }
 
 function addUserToDB(){
-    userAddSubTable $1 $2
     userIndexTable $1 $2
+    userAddSubTable $1 $2
 }
 
 function addSEtoDB(){
@@ -197,7 +196,6 @@ function main(){
             createCatalogueDB $userDB
 
             catalogueInitialDirectories
-            addUserToDB "admin" 0
             addUserToDB "jalien" 0
             addSEtoDB "firstse" 1 "JTestSite" "${SE_HOST}:1094" "/tmp" "disk"
             echo "Done DB init"

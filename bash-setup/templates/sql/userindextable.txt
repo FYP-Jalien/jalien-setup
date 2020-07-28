@@ -12,15 +12,6 @@ CREATE TABLE `LactuidL` (`entryId` bigint(11) NOT NULL AUTO_INCREMENT,`owner` va
 					KEY `type` (`type`), KEY `ctime` (`ctime`),KEY `guidtime` (`guidtime`)
 					) ENGINE=MyISAM AUTO_INCREMENT=6 DEFAULT CHARSET=latin1 COLLATE=latin1_general_cs;
 
-DROP TABLE IF EXISTS `LactuidL_QUOTA`;
-
-CREATE TABLE `LactuidL_QUOTA` (`user` varchar(64) COLLATE latin1_general_cs NOT NULL,`nbFiles` int(11) NOT NULL,
-						`totalSize` bigint(20) NOT NULL,KEY `user_ind` (`user`)) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_cs;
-
-DROP TABLE IF EXISTS `LactuidL_broken`;
-                
-CREATE TABLE `LactuidL_broken` (`entryId` bigint(11) NOT NULL,PRIMARY KEY (`entryId`)) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_cs;
-
 LOCK TABLES `LactuidL` WRITE;
 
 INSERT INTO `LactuidL` VALUES (0,'username',0,'2011-10-06 17:07:51',NULL,NULL,NULL,'',0,NULL,0,'parentDir','admin','d',NULL,NULL,'755');
