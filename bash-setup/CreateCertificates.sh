@@ -9,6 +9,10 @@ TVO_TRUSTS=$out/trusts
 mkdir -p $TVO_CERTS $TVO_TRUSTS
 
 function make_CA {
+    mkdir -p "$1"
+    pushd "$1"
+    shift
+
     cert="$1"
     key="$2"
     subj="$3"
@@ -23,26 +27,34 @@ function make_CA {
 
     cp alien.p12 *.der $TVO_TRUSTS
     openssl rehash .
+
+    popd
 }
 
 function make_cert() {
+    mkdir -p "$1"
+    pushd "$1"
+    shift
+
     cert="$1"
     key="$2"
     subj="$3"
 
     openssl req -nodes -newkey rsa:1024 -out "req.pem" -keyout "$key" -subj "$subj"
-    openssl x509 -req -in "req.pem" -CA "cacert.pem" -CAkey "cakey.pem" -CAcreateserial -out "$cert"
+    openssl x509 -req -in "req.pem" -CA "$TVO_CERTS/CA/cacert.pem" -CAkey "$TVO_CERTS/CA/cakey.pem" -CAcreateserial -out "$cert"
     rm "req.pem"
+
+    popd
 }
 
 pushd $TVO_CERTS
 
-make_CA "cacert.pem" "cakey.pem" "/C=CH/O=JAliEn/CN=JAliEnCA"
+make_CA "CA" "cacert.pem" "cakey.pem" "/C=CH/O=JAliEn/CN=JAliEnCA"
 
-make_cert "usercert.pem"  "userkey.pem"    "/C=CH/O=JAliEn/CN=jalien"
-make_cert "hostcert.pem"  "hostkey.pem"    "/C=CH/O=JAliEn/CN=localhost.localdomain"
-make_cert "AuthZ_pub.pem" "AuthZ_priv.pem" "/C=CH/O=JAliEn/CN=jAuth"
-make_cert "SE_pub.pem"    "SE_priv.pem"    "/C=CH/O=JAliEn/CN=TESTSE"
+make_cert "user"  "usercert.pem"  "userkey.pem"    "/C=CH/O=JAliEn/CN=jalien"
+make_cert "host"  "hostcert.pem"  "hostkey.pem"    "/C=CH/O=JAliEn/CN=localhost.localdomain"
+make_cert "authz" "AuthZ_pub.pem" "AuthZ_priv.pem" "/C=CH/O=JAliEn/CN=jAuth"
+make_cert "SE"    "SE_pub.pem"    "SE_priv.pem"    "/C=CH/O=JAliEn/CN=TESTSE"
 
-chmod 440 *.pem
+find -name '*.pem' | xargs -n1 chmod 440
 popd
