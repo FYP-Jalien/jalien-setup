@@ -11,7 +11,7 @@ ldap_server = 127.0.0.1:8389
 ldap_root = o=localhost,dc=localdomain
 alien.users.basehomedir = /localhost/localdomain/user/
 
-apiService = 127.0.0.1:8998
+apiService = 127.0.0.1:8098
 
 trusted.certificates.location = $out/trusts
 host.cert.priv.location = $out/globus/host/hostkey.pem

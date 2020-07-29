@@ -147,7 +147,7 @@ def start_container(jalien_setup_repo, volume, image, replica_name, cmd):
                                              network=network_name,
                                              environment=env,
                                              detach=True,
-                                             ports={'8998/tcp':'8998', '8097/tcp':'8097', '3307/tcp':'3307', '8389/tcp':'8389'},
+                                             ports={'8098/tcp':'8098', '8097/tcp':'8097', '3307/tcp':'3307', '8389/tcp':'8389'},
                                              volumes={
                                                  str(volume):{'bind':'/jalien-dev', 'mode':'rw'},
                                                  str(jalien_setup_repo):{'bind':'/jalien-setup', 'mode':'rw'},
