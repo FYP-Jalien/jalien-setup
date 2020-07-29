@@ -14,16 +14,16 @@ alien.users.basehomedir = /localhost/localdomain/user/
 apiService = 127.0.0.1:8998
 
 trusted.certificates.location = $out/trusts
-host.cert.priv.location = $out/globus/hostkey.pem
-host.cert.pub.location = $out/globus/hostcert.pem
-user.cert.priv.location = $out/globus/userkey.pem
-user.cert.pub.location = $out/globus/usercert.pem
+host.cert.priv.location = $out/globus/host/hostkey.pem
+host.cert.pub.location = $out/globus/host/hostcert.pem
+user.cert.priv.location = $out/globus/user/userkey.pem
+user.cert.pub.location = $out/globus/user/usercert.pem
 alice_close_site = JTestSite
 
-jAuthZ.priv.key.location = $out/globus/AuthZ_priv.pem
-jAuthZ.pub.key.location = $out/globus/AuthZ_pub.pem
-SE.priv.key.location = $out/globus/SE_priv.pem
-SE.pub.key.location = $out/globus/SE_pub.pem
+jAuthZ.priv.key.location = $out/globus/authz/AuthZ_priv.pem
+jAuthZ.pub.key.location = $out/globus/authz/AuthZ_pub.pem
+SE.priv.key.location = $out/globus/SE/SE_priv.pem
+SE.pub.key.location = $out/globus/SE/SE_pub.pem
 EoF
 
 cat > $config/logging.properties << EoF

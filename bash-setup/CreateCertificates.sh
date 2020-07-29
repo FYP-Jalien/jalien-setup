@@ -11,11 +11,10 @@ mkdir -p $TVO_CERTS $TVO_TRUSTS
 function make_CA {
     mkdir -p "$1"
     pushd "$1"
-    shift
 
-    cert="$1"
-    key="$2"
-    subj="$3"
+    cert="$2"
+    key="$3"
+    subj="$4"
 
     openssl genrsa -out "$key" 1024
     openssl req -new -batch -key "$key" -x509 -days 365 -out "$cert" -subj "$subj"
@@ -34,11 +33,10 @@ function make_CA {
 function make_cert() {
     mkdir -p "$1"
     pushd "$1"
-    shift
 
-    cert="$1"
-    key="$2"
-    subj="$3"
+    cert="$2"
+    key="$3"
+    subj="$4"
 
     openssl req -nodes -newkey rsa:1024 -out "req.pem" -keyout "$key" -subj "$subj"
     openssl x509 -req -in "req.pem" -CA "$TVO_CERTS/CA/cacert.pem" -CAkey "$TVO_CERTS/CA/cakey.pem" -CAcreateserial -out "$cert"

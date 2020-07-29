@@ -69,15 +69,17 @@ def get_info(volume):
     """
     Generate the source_env.sh script contents.
     """
-    certpath = str(volume.joinpath("certs"))
+    certpath = str(volume.joinpath("certs", "globus"))
     script = ['# Source this script to point JAliEn clients to the replica',
               f'certpath="{certpath}"',
               'export ALIENPY_JCENTRAL="127.0.0.1"',
-              'export X509_CERT_DIR="${certpath}/globus"',
-              'export X509_USER_CERT="${X509_CERT_DIR}/usercert.pem"',
-              'export X509_USER_KEY="${X509_CERT_DIR}/userkey.pem"',
-              'export JALIEN_TOKEN_CERT="${X509_CERT_DIR}/usercert.pem"',
-              'export JALIEN_TOKEN_KEY="${X509_CERT_DIR}/userkey.pem"',
+              'export X509_CERT_DIR="${certpath}/CA"',
+              'export CERT=${certpath}/user/usercert.pem',
+              'export KEY=${certpath}/user/userkey.pem',
+              'export X509_USER_CERT="${CERT}"',
+              'export X509_USER_KEY="${KEY}"',
+              'export JALIEN_TOKEN_CERT="${CERT}"',
+              'export JALIEN_TOKEN_KEY="${KEY}"',
               'export JALIEN_HOST="localhost"',
               'export JALIEN_WSPORT=8097',
               ]

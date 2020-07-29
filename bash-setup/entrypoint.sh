@@ -24,8 +24,8 @@ tail --pid $! -f  $JALIEN_DEV/verify_log.txt
 
 cp -r $TVO_CERTS $CERTS
 chown -vR $USER_ID $CERTS
-chmod -v 777 $CERTS/globus/ $JALIEN_DEV/SEshared $CERTS
-chmod -v 644 $CERTS/globus/*
+chmod -v 775 $CERTS/globus/ $CERTS/globus/* $JALIEN_DEV/SEshared $CERTS
+chmod -v 644 $CERTS/globus/*/*
 
 bash testj central &>$JALIEN_DEV/jcentral_log.txt &
 tail --pid $! -f $JALIEN_DEV/jcentral_log.txt
