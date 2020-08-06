@@ -176,6 +176,18 @@ function addSEtoDB(){
     mysql_apply < /tmp/addSE.txt
 }
 
+
+function addProcesses(){
+    cp $sql_templates/processes.txt $sql_templates/status_codes.txt /tmp 
+    mysql_apply < /tmp/processes.txt
+    for n in $(cat ${sql_templates}/status_codes.txt); do
+        code=$(echo $n | cut -d "," -f 1)
+        status=$(echo $n | cut -d "," -f 2)
+        sql_cmd="insert into processes.QUEUE_STATUS values ($code, $status);"
+        echo $sql_cmd | mysql_apply    
+    done
+}
+
 function main(){
     (
         set -e
@@ -196,8 +208,10 @@ function main(){
             createCatalogueDB $userDB
 
             catalogueInitialDirectories
-            addUserToDB "jalien" 0
+            addUserToDB "admin" 1
+            addUserToDB "jalien" 2
             addSEtoDB "firstse" 1 "JTestSite" "${SE_HOST}:1094" "/tmp" "disk"
+            addProcesses
             echo "Done DB init"
         }
         fi

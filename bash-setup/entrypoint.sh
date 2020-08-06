@@ -30,8 +30,13 @@ cp -r $TVO_CERTS $CERTS
 
 # Fix the permissions
 chown -vR $USER_ID $CERTS
+<<<<<<< HEAD
 chmod -v 775 $CERTS/globus/ $CERTS/globus/* $JALIEN_DEV/SEshared $CERTS
 chmod -v 644 $CERTS/globus/*/*
+=======
+chmod -v 777 $CERTS/globus/ $JALIEN_DEV/SEshared $CERTS
+chmod -v 644 $CERTS/globus/SE_*.pem $CERTS/globus/AuthZ_*.pem 
+>>>>>>> 7c74bcb... Submission of jobs functional till `INSERTED` status
 
 # Start JCentral for good
 ls $JALIEN_DEV/*.jar | entr -rcs "cp -v $JALIEN_DEV/*.jar $JALIEN_HOME && ./testj central &>$JALIEN_DEV/jcentral_log.txt" &

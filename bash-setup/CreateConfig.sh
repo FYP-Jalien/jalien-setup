@@ -37,7 +37,7 @@ java.util.logging.FileHandler.pattern = /tmp/alien%g.log
 lia.level = WARNING
 lazyj.level = WARNING
 apmon.level = WARNING
-alien.level = FINEST
+alien.level = FINER
 # tell LazyJ to use the same logging facilities
 use_java_logger=true
 EoF
@@ -57,7 +57,16 @@ useSSL=false
 EoF
 }
 
-write_db_config $config/processses.properties processes
+replica_host=127.0.0.1
+jobagent_config=/jalien/config
+
+function write_jobagent_config() {
+  cp $config/config.properties $jobagent_config
+  sed -i -e "s:aliendb06c.cern.ch:${replica_host}:g" $jobagent_config/alice_data.properties
+  sed -i -e "s:aliendb06c.cern.ch:${replica_host}:g" $jobagent_config/alice_users.properties
+}
+
+write_db_config $config/processes.properties processes
 write_db_config $config/alice_data.properties alice_data
 write_db_config $config/alice_users.properties alice_users
 
