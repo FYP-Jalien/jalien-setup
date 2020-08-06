@@ -6,6 +6,7 @@ objectClass: posixAccount
 objectClass: AliEnUser
 objectClass: pkiUser
 roles: admin
+roles: vobox
 uid: jalien
 uidNumber: 2
 subject: /C=CH/O=JAliEn/CN=jalien

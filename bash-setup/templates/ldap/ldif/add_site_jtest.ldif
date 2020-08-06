@@ -1,4 +1,5 @@
 dn: ou=JTestSite,ou=Sites,o=localhost,dc=localdomain
+accoutName: JTestSite
 logdir: /tmp
 cachedir: /tmp
 objectClass: top

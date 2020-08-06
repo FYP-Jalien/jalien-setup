@@ -1,0 +1,10 @@
+dn: name=firstce,ou=CE,ou=Services,ou=JTestSite,ou=Sites,o=localhost,dc=localdomain
+host: 172.17.0.1
+installmethod: CVMFS
+maxjobs: 3000
+maxqueuedjobs: 300
+name: firstce
+objectclass: AliEnCE
+objectclass: top
+ttl: 87000
+type: HTCONDOR
