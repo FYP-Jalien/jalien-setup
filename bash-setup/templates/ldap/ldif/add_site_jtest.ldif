@@ -1,5 +1,5 @@
 dn: ou=JTestSite,ou=Sites,o=localhost,dc=localdomain
-accoutName: JTestSite
+accountName: JTestSite
 logdir: /tmp
 cachedir: /tmp
 objectClass: top

@@ -52,6 +52,8 @@ function initializeLDAP(){
         add_user_jalien
         add_role_jalien
 
+        # add VOBox
+        add_role_vobox
         # add site
         add_site_jtest
         add_config_jtest
@@ -62,6 +64,15 @@ function initializeLDAP(){
 
         # add SE
         add_SE_firstse
+        add_SE_secondse
+        #add CE
+        add_CE_firstce
+        
+        #add host
+        add_config_host
+
+        #add jobagent
+        add_user_jobagent
     )
 
     for i in ${arr[@]}

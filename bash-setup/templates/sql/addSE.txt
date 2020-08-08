@@ -2,11 +2,11 @@ USE `dataDB`;
                 
 LOCK TABLES `SE` WRITE;
                 
-INSERT INTO `SE` VALUES (seNumber,0,'','VO_name::site::seName',',qos,','storedir','File',NULL,NULL,'','root://iodeamon','');
+INSERT INTO `SE` VALUES (seNumber,0,'','VO_name::site::seName',',qos,','storedir','disk',NULL,NULL,'','root://iodeamon','');
                 
 LOCK TABLES `SE_VOLUMES` WRITE;
                 
-INSERT INTO `SE_VOLUMES` VALUES ('storedir',seNumber,0,'VO_name::site::seName','toredir',-1,'file://sub_string','freespace');
+INSERT INTO `SE_VOLUMES` VALUES ('storedir',seNumber,0,'VO_name::site::seName','storedir',-1,'file://sub_string','freespace');
                 
 LOCK TABLES `SERanks` WRITE;
 
@@ -22,7 +22,7 @@ USE `userDB`;
 
 LOCK TABLES `SE` WRITE;
 
-INSERT INTO `SE` VALUES (seNumber,0,'','VO_name::site::seName',',qos,','storedir','File',NULL,NULL,'','root://iodeamon','');
+INSERT INTO `SE` VALUES (seNumber,0,'','VO_name::site::seName',',qos,','storedir','disk',NULL,NULL,'','root://iodeamon','');
 
 LOCK TABLES `SE_VOLUMES` WRITE;
 

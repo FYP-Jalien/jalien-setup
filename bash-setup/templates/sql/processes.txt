@@ -676,7 +676,7 @@ CREATE TABLE `TODELETE` (
 
 USE `processes`;
 LOCK TABLES SITEQUEUES WRITE;
-insert into SITEQUEUES (siteId,runload,blocked,cost,timeblocked,maxqueued,status,site,statustime,maxrunning) values (1,0,"open", NULL,NULL,10,"down","LOCALHOST::JTESTSITE::FIRSTCE",0,100);
+insert into SITEQUEUES (siteId,runload,blocked,cost,timeblocked,maxqueued,status,site,statustime,maxrunning) values (1,0,"open", NULL,NULL,10,"down","ALICE::JTESTSITE::FIRSTCE",0,100);
 UNLOCK TABLES;
 --
 -- Final view structure for view `QUEUE_VIEW`

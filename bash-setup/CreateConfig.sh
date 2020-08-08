@@ -74,4 +74,5 @@ echo "password=pass" >> $config/ldap.config
 
 # create other dirs
 mkdir -p $out/{config,bin,logs,slapd,sql,SE_storage} # but don't create globus and trusts
+write_jobagent_config
 echo "CreateConfig done"

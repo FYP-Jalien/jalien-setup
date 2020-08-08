@@ -2,8 +2,5 @@ dn: host=localhost.localdomain,ou=Config,ou=JTestSite,ou=Sites,o=localhost,dc=lo
 cachedir: $HOME/cache
 ce: firstce
 host: localhost.localdomain
-localconfig: add
-logdir: $HOME/alien-logs
 objectclass: top
 objectclass: AliEnHostConfig
-tmpdir: $HOME/tmp

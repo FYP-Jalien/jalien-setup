@@ -208,9 +208,11 @@ function main(){
             createCatalogueDB $userDB
 
             catalogueInitialDirectories
-            addUserToDB "admin" 1
-            addUserToDB "jalien" 2
+            #addUserToDB "admin" 1
+            addUserToDB "jalien" 0
+            #addUserToDB "jobagent" -2
             addSEtoDB "firstse" 1 "JTestSite" "${SE_HOST}:1094" "/tmp" "disk"
+            addSEtoDB "secondse" 2 "JTestSite" "${SE_HOST_NEW}:1094" "/second" "disk"
             addProcesses
             echo "Done DB init"
         }

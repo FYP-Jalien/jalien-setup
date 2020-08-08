@@ -113,7 +113,7 @@ def start_container(jalien_setup_repo, volume, image, replica_name, cmd):
     Start a JCentral replica container
     """
     uid = os.getuid()
-    env = ["USER_ID="+str(uid), "SE_HOST="+replica_name+"-SE"]
+    env = ["USER_ID="+str(uid), "SE_HOST="+replica_name+"-SE", "SE_HOST_NEW="+replica_name+"-SE-NEW"]
     se_image = 'xrootd-se'
     se_cmd = 'bash /runner.sh'
     network_name = "localhost"
@@ -145,6 +145,7 @@ def start_container(jalien_setup_repo, volume, image, replica_name, cmd):
                                              auto_remove=True,
                                              name=replica_name,
                                              network=network_name,
+                                             hostname="localhost.localdomain",
                                              environment=env,
                                              detach=True,
                                              ports={'8098/tcp':'8098', '8097/tcp':'8097', '3307/tcp':'3307', '8389/tcp':'8389'},
@@ -161,7 +162,19 @@ def start_container(jalien_setup_repo, volume, image, replica_name, cmd):
                                              ports={'1094/tcp':'1094'},
                                              volumes={
                                                  str(volume):{'bind':'/jalien-dev', 'mode':'rw'},
-                                                 "xrootd-se-storage":{'bind':'/shared-volume', 'mode':'rw'}
+                                                 str(volume)+"/SEshared":{'bind':'/shared-volume', 'mode':'rw'}
+                                             })
+
+    logging.info("command is: %s", se_cmd)
+    xrootd_container = client.containers.run(se_image, se_cmd,
+                                             auto_remove=True,
+                                             name=replica_name+"-SE-NEW",
+                                             network=network_name,
+                                             detach=True,
+                                             ports={'1094/tcp':'2094'},
+                                             volumes={
+                                                 str(volume):{'bind':'/jalien-dev', 'mode':'rw'},
+                                                 str(volume)+"/SEshared-new":{'bind':'/shared-volume', 'mode':'rw'}
                                              })
 
     if jalien_container.status != 'created':
