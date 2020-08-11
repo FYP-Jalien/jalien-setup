@@ -31,7 +31,7 @@ cp -r $TVO_CERTS $CERTS
 # Fix the permissions
 chown -vR $USER_ID $CERTS
 chmod -v 777 $CERTS/globus/ $JALIEN_DEV/SEshared $CERTS
-chmod -v 644 $CERTS/globus/SE_*.pem $CERTS/globus/AuthZ_*.pem 
+chmod -v 644 $CERTS/globus/SE/*.pem $CERTS/globus/authz/*.pem 
 
 # Start JCentral for good
 ls $JALIEN_DEV/*.jar | entr -rcs "cp -v $JALIEN_DEV/*.jar $JALIEN_HOME && ./testj central &>$JALIEN_DEV/jcentral_log.txt" &
