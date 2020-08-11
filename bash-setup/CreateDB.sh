@@ -212,7 +212,7 @@ function main(){
             addUserToDB "jalien" 0
             #addUserToDB "jobagent" -2
             addSEtoDB "firstse" 1 "JTestSite" "${SE_HOST}:1094" "/tmp" "disk"
-            addSEtoDB "secondse" 2 "JTestSite" "${SE_HOST_NEW}:1094" "/second" "disk"
+            #addSEtoDB "secondse" 2 "JTestSite" "${SE_HOST_NEW}:1094" "/second" "disk"
             addProcesses
             echo "Done DB init"
         }

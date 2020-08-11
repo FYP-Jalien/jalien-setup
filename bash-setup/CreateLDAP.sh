@@ -64,7 +64,7 @@ function initializeLDAP(){
 
         # add SE
         add_SE_firstse
-        add_SE_secondse
+        #add_SE_secondse
         #add CE
         add_CE_firstce
         
