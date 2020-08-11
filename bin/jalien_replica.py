@@ -162,7 +162,7 @@ def start_container(jalien_setup_repo, volume, image, replica_name, cmd):
                                              ports={'1094/tcp':'1094'},
                                              volumes={
                                                  str(volume):{'bind':'/jalien-dev', 'mode':'rw'},
-                                                 str(volume)+"/SEshared":{'bind':'/shared-volume', 'mode':'rw'}
+                                                 "xrootd-se-storage":{'bind':'/shared-volume', 'mode':'rw'}
                                              })
 
     if jalien_container.status != 'created':
