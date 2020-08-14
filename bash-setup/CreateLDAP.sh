@@ -5,6 +5,8 @@ set -e
 testVO=$(realpath -m $1)
 ldap_conf_dir="$testVO/slapd/slapd.d"
 jalien_setup="/jalien-setup/bash-setup"
+logdir=${LOGS:-/tmp}
+ldap_log=$logdir/ldap.log
 
 ldap_port="8389"
 ldap_pass="pass"
@@ -24,9 +26,6 @@ function createSchema(){
 }
 
 function startLDAP(){
-    ldap_log="$testVO/logs/ldap.log"
-
-    mkdir -p $(dirname $ldap_log)
     nohup slapd -d -1 -s 0 -h ldap://:${ldap_port} -F ${ldap_conf_dir} > ${ldap_log} 2>&1> /dev/null&
 }
 

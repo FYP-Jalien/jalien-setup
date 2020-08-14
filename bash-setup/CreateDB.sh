@@ -1,13 +1,16 @@
 #!/bin/bash
 set -e
 
-sql_home="${HOME}/.j/testVO/sql"
+[ x"$1" == x"" ] && echo "Please specify the target path" && exit 1
+
+sql_home="$(realpath $1)"
 my_cnf="${sql_home}/my.cnf"
 
 sql_socket="${sql_home}/jalien-mysql.sock"
 
 sql_pid_file="/tmp/jalien-mysql.pid"
-sql_log="${sql_home}/jalien-mysql.log"
+logdir=${LOGS:-/tmp}
+sql_log="${logdir}/jalien-mysql.log"
 
 systemDB="alice_system"
 dataDB="alice_data"
