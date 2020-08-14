@@ -3,36 +3,24 @@ set -e
 
 export JALIEN_HOME=/jalien
 export JALIEN_SETUP=/jalien-setup
-export CERTS=/jalien-dev/certs
-export TVO_CERTS=/root/.j/testVO/globus
 export JALIEN_DEV=/jalien-dev
-export USER_ID=${USER_ID:-1000}
+export LOGS=$JALIEN_DEV/logs
+export PATH=$PATH:$JALIEN_SETUP/bash-setup
 
-# Get the jar
 cd $JALIEN_HOME
+ln -vnsf -t $JALIEN_HOME $JALIEN_DEV/*.jar
 
-chmod +t $JALIEN_DEV
-pushd $JALIEN_DEV
-    touch setup_log.txt verify_log.txt jcentral_log.txt
-    chown $USER_ID *.txt
-popd
+setuplocalVO.sh &>$LOGS/setup_log.txt &
+tail --pid $! -f $LOGS/setup_log.txt
 
-# Do setup
-bash $JALIEN_SETUP/bash-setup/setuplocalVO.sh &>$JALIEN_DEV/setup_log.txt &
-tail --pid $! -f $JALIEN_DEV/setup_log.txt
-
+# TODO: enable setup verify again
 # Verify setup
-bash $JALIEN_SETUP/bash-setup/verifylocalVO.sh &>$JALIEN_DEV/verify_log.txt &
-tail --pid $! -f  $JALIEN_DEV/verify_log.txt
+# bash $JALIEN_SETUP/bash-setup/verifylocalVO.sh &>$JALIEN_DEV/verify_log.txt &
+# tail --pid $! -f  $JALIEN_DEV/verify_log.txt
 
-# Export data that should be shared
-cp -r $TVO_CERTS $CERTS
+export CLASSPATH="$(ls lib/*.jar | paste -s | tr '\t' ':'):alien.jar"
+JCENTRAL_CMD="java -Duserid=$(id -u) -DAliEnConfig=/jalien-dev/config/JCentral alien.JCentral $(pwd)"
 
-# Fix the permissions
-chown -vR $USER_ID $CERTS
-chmod -v 777 $CERTS/globus/ $JALIEN_DEV/SEshared $CERTS
-chmod -v 644 $CERTS/globus/SE/*.pem $CERTS/globus/authz/*.pem 
-
-# Start JCentral for good
-ls $JALIEN_DEV/*.jar | entr -rcs "cp -v $JALIEN_DEV/*.jar $JALIEN_HOME && ./testj central &>$JALIEN_DEV/jcentral_log.txt" &
-tail --pid $! -f $JALIEN_DEV/jcentral_log.txt
+echo "hello world" > $LOGS/jcentral_stdout.txt
+ls $JALIEN_DEV/*.jar | entr -rcs "$JCENTRAL_CMD &>$LOGS/jcentral_stdout.txt" &
+tail --pid $! -f $LOGS/jcentral_stdout.txt

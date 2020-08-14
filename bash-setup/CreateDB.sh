@@ -178,13 +178,13 @@ function addSEtoDB(){
 
 
 function addProcesses(){
-    cp $sql_templates/processes.txt $sql_templates/status_codes.txt /tmp 
+    cp $sql_templates/processes.txt $sql_templates/status_codes.txt /tmp
     mysql_apply < /tmp/processes.txt
     for n in $(cat ${sql_templates}/status_codes.txt); do
         code=$(echo $n | cut -d "," -f 1)
         status=$(echo $n | cut -d "," -f 2)
         sql_cmd="insert into processes.QUEUE_STATUS values ($code, $status);"
-        echo $sql_cmd | mysql_apply    
+        echo $sql_cmd | mysql_apply
     done
 }
 
@@ -215,6 +215,7 @@ function main(){
             #addSEtoDB "secondse" 2 "JTestSite" "${SE_HOST_NEW}:1094" "/second" "disk"
             addProcesses
             echo "Done DB init"
+            touch /tmp/jalien_db_ready
         }
         fi
         exit 0
@@ -222,4 +223,5 @@ function main(){
     )
     die "DB setup failed!"
 }
+[ -e /tmp/jalien_db_ready ] && startDB && exit || true
 main $@

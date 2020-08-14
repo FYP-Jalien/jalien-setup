@@ -3,41 +3,40 @@
 
 out="$(realpath $1)"
 [ -d $out/config ] && echo "config directory already exists" && exit 1
-config=$out/config
-mkdir -p $config
+jcentral_config_dir=$out/config/JCentral
+mkdir -p $jcentral_config_dir
 
-cat > $config/config.properties << EoF
+cat > $jcentral_config_dir/config.properties << EoF
 ldap_server = 127.0.0.1:8389
 ldap_root = o=localhost,dc=localdomain
 alien.users.basehomedir = /localhost/localdomain/user/
 
-apiService = 127.0.0.1:8098
+apiService = 0.0.0.0:8098
 
-trusted.certificates.location = $out/trusts
-host.cert.priv.location = $out/globus/host/hostkey.pem
-host.cert.pub.location = $out/globus/host/hostcert.pem
-user.cert.priv.location = $out/globus/user/userkey.pem
-user.cert.pub.location = $out/globus/user/usercert.pem
+trusted.certificates.location = /jalien-dev/trusts
+host.cert.priv.location = /jalien-dev/globus/host/hostkey.pem
+host.cert.pub.location = /jalien-dev/globus/host/hostcert.pem
 alice_close_site = JTestSite
 
-jAuthZ.priv.key.location = $out/globus/authz/AuthZ_priv.pem
-jAuthZ.pub.key.location = $out/globus/authz/AuthZ_pub.pem
-SE.priv.key.location = $out/globus/SE/SE_priv.pem
-SE.pub.key.location = $out/globus/SE/SE_pub.pem
+jAuthZ.priv.key.location = /jalien-dev/globus/authz/AuthZ_priv.pem
+jAuthZ.pub.key.location = /jalien-dev/globus/authz/AuthZ_pub.pem
+SE.priv.key.location = /jalien-dev/globus/SE/SE_priv.pem
+SE.pub.key.location = /jalien-dev/globus/SE/SE_pub.pem
 EoF
 
-cat > $config/logging.properties << EoF
+cat > $jcentral_config_dir/logging.properties << EoF
 handlers= java.util.logging.FileHandler
 java.util.logging.FileHandler.formatter = java.util.logging.SimpleFormatter
 java.util.logging.FileHandler.limit = 1000000
 java.util.logging.FileHandler.count = 4
 java.util.logging.FileHandler.append = true
-java.util.logging.FileHandler.pattern = /tmp/alien%g.log
+java.util.logging.FileHandler.pattern = /jalien-dev/logs/jcentral-%g.log
 .level = WARNING
 lia.level = WARNING
 lazyj.level = WARNING
 apmon.level = WARNING
-alien.level = FINER
+alien.level = FINEST
+alien.monitoring.level = SEVERE
 # tell LazyJ to use the same logging facilities
 use_java_logger=true
 EoF
@@ -56,23 +55,10 @@ user=root
 useSSL=false
 EoF
 }
+write_db_config $jcentral_config_dir/processes.properties processes
+write_db_config $jcentral_config_dir/alice_data.properties alice_data
+write_db_config $jcentral_config_dir/alice_users.properties alice_users
 
-replica_host=127.0.0.1
-jobagent_config=/jalien/config
-
-function write_jobagent_config() {
-  cp $config/config.properties $jobagent_config
-  sed -i -e "s:aliendb06c.cern.ch:${replica_host}:g" $jobagent_config/alice_data.properties
-  sed -i -e "s:aliendb06c.cern.ch:${replica_host}:g" $jobagent_config/alice_users.properties
-}
-
-write_db_config $config/processes.properties processes
-write_db_config $config/alice_data.properties alice_data
-write_db_config $config/alice_users.properties alice_users
-
-echo "password=pass" >> $config/ldap.config
-
-# create other dirs
-mkdir -p $out/{config,bin,logs,slapd,sql,SE_storage} # but don't create globus and trusts
-write_jobagent_config
+# TODO: this will cause problems
+echo "password=pass" >> $jcentral_config_dir/ldap.config
 echo "CreateConfig done"

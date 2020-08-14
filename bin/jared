@@ -1,0 +1,42 @@
+#!/bin/bash
+set -e
+
+# TODO: parametrize this
+JALIEN_SETUP=~/code/jalien-setup
+JALIEN_ROOT=~/code/jalien
+SHARED_VOLUME=/tmp/replica_volume_wip
+JAR=$JALIEN_ROOT/alien.jar
+TEMPLATES=$JALIEN_SETUP/bash-setup/templates
+export PATH=$PATH:$JALIEN_SETUP/bash-setup
+
+mkdir -p $SHARED_VOLUME
+rm -rf $SHARED_VOLUME/*
+cp $JAR $SHARED_VOLUME
+mkdir -p $SHARED_VOLUME/logs
+touch $SHARED_VOLUME/logs/{setup_log,verify_log,jcentral_stdout}.txt
+
+CreateCertificates.sh $SHARED_VOLUME
+CreateConfig.sh $SHARED_VOLUME
+
+cp $TEMPLATES/docker-compose.yml $SHARED_VOLUME
+
+cat > $SHARED_VOLUME/env_setup.sh <<EoF
+certpath="$SHARED_VOLUME/globus"
+export ALIENPY_JCENTRAL="127.0.0.1"
+export X509_CERT_DIR="\${certpath}/CA"
+export CERT=\${certpath}/user/usercert.pem
+export KEY=\${certpath}/user/userkey.pem
+export X509_USER_CERT="\${CERT}"
+export X509_USER_KEY="\${KEY}"
+export JALIEN_TOKEN_CERT="\${CERT}"
+export JALIEN_TOKEN_KEY="\${KEY}"
+export JALIEN_HOST="localhost"
+export JALIEN_WSPORT=8097
+EoF
+
+cat > $SHARED_VOLUME/.env <<EoF
+SHARED_VOLUME=$SHARED_VOLUME
+JALIEN_SETUP=$JALIEN_SETUP
+EoF
+
+chmod +x $SHARED_VOLUME/env_setup.sh

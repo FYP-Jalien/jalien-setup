@@ -1,6 +1,7 @@
 #!/bin/bash
 
 
+# TODO: pass custom config path
 #checks if JSh/ JBox can connect to JCentral
 bash "${JALIEN_HOME}/testj" central &> /dev/null&
 sleep 5

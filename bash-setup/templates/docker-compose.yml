@@ -1,0 +1,36 @@
+version: "3.3"
+services:
+  JCentral:
+    image: jalien-dev
+    command: /jalien-setup/bash-setup/entrypoint.sh
+    networks:
+      - localhost
+    hostname: localhost.localdomain
+    ports:
+      - 8098:8098
+      - 8097:8097/tcp
+      - 3307:3307
+      - 8389:8389
+    volumes:
+      - $SHARED_VOLUME:/jalien-dev
+      - $JALIEN_SETUP:/jalien-setup:ro
+
+  SE1:
+    image: xrootd-se
+    command: bash /runner.sh
+    networks:
+      - localhost
+    hostname: JCentral-dev-SE
+    domainname: JCentral-dev-SE.localhost
+    ports:
+      - 1094:1094
+    volumes:
+      - $SHARED_VOLUME:/jalien-dev
+      - jsite-storage:/shared-volume
+
+networks:
+  localhost:
+    driver: bridge
+
+volumes:
+  jsite-storage:
