@@ -54,5 +54,7 @@ make_cert "host"  "hostcert.pem"  "hostkey.pem"    "/C=CH/O=JAliEn/CN=localhost.
 make_cert "authz" "AuthZ_pub.pem" "AuthZ_priv.pem" "/C=CH/O=JAliEn/CN=jAuth"
 make_cert "SE"    "SE_pub.pem"    "SE_priv.pem"    "/C=CH/O=JAliEn/CN=TESTSE"
 
-find -name '*.pem' | xargs -n1 chmod 440
+# NOTE: SE runs with user xrootd/975
+# setting 644 instead of 640 to make certs readable across containers
+find -name '*.pem' | xargs -n1 chmod 644
 popd

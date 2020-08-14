@@ -19,6 +19,7 @@ CreateCertificates.sh $SHARED_VOLUME
 CreateConfig.sh $SHARED_VOLUME
 
 cp $TEMPLATES/docker-compose.yml $SHARED_VOLUME
+cp $JALIEN_SETUP/xrootd/xrootd-conf/TkAuthz.Authorization $SHARED_VOLUME
 
 cat > $SHARED_VOLUME/env_setup.sh <<EoF
 certpath="$SHARED_VOLUME/globus"
