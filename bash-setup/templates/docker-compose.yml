@@ -1,7 +1,7 @@
 version: "3.3"
 services:
-  JCentral:
-    image: jalien-dev
+  JCentral-dev:
+    image: jalien-base
     command: /jalien-setup/bash-setup/entrypoint.sh
     ports:
       - 8098:8098
@@ -16,7 +16,7 @@ services:
 
   JCentral-dev-SE:
     image: xrootd-se
-    command: bash /runner.sh
+    command: xrootd -c /etc/xrootd/xrootd-standalone.cfg
     hostname: JCentral-dev-SE
     ports:
       - 1094:1094
