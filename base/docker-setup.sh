@@ -22,3 +22,10 @@ mkdir /build && cd /build
 cmake /xrootd-4.12.1 -DCMAKE_INSTALL_PREFIX=/usr -DENABLE_PERL=FALSE
 make && make install
 cd /
+
+#Install HTCondor
+wget -qO - https://research.cs.wisc.edu/htcondor/ubuntu/HTCondor-Release.gpg.key | apt-key add -
+echo "deb http://research.cs.wisc.edu/htcondor/ubuntu/8.8/bionic bionic contrib">> /etc/apt/sources.list
+echo "deb-src http://research.cs.wisc.edu/htcondor/ubuntu/8.8/bionic bionic contrib" >> /etc/apt/sources.list
+apt update
+apt install -y htcondor

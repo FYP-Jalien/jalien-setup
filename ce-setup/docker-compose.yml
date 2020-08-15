@@ -1,0 +1,44 @@
+version: '3.3'
+services:
+  schedd:
+    image: "htcondor/cm:8.9.6-el7"
+    networks:
+      - localhost
+    environment:
+      USE_POOL_PASSWORD: "yes"
+    configs:
+    - source: pool_password
+      target: /root/secrets/pool_password
+
+  worker:
+    image: "htcondor/execute:8.9.6-el7"
+    networks:
+      - localhost
+    command: yum install -y environment-modules tcl && /start.sh
+    environment:
+      CONDOR_HOST: "schedd"
+      USE_POOL_PASSWORD: "yes"
+    configs:
+    - source: pool_password
+      target: /root/secrets/pool_password
+
+  submit:
+    image: "jalien-base"
+    networks:
+      - localhost
+    command: 
+    hostname: "localhost.localdomain"
+    environment:
+      CONDOR_HOST: "schedd"
+      USE_POOL_PASSWORD: "yes"
+    configs:
+    - source: pool_password
+      target: /root/secrets/pool_password
+
+networks:
+  localhost:
+    driver: bridge
+
+configs:
+  pool_password:
+    file: $JALIEN_SETUP/ce-setup/htcondor-conf/pool_password

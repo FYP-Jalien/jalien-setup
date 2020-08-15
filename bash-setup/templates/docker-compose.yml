@@ -3,6 +3,9 @@ services:
   JCentral-dev:
     image: jalien-base
     command: /jalien-setup/bash-setup/entrypoint.sh
+    networks:
+      - localhost
+    hostname: JCentral-dev
     ports:
       - 8098:8098 # Java binary serialization
       - 8097:8097 # JSON WebSocket
@@ -17,11 +20,18 @@ services:
   JCentral-dev-SE:
     image: xrootd-se
     command: xrootd -c /etc/xrootd/xrootd-standalone.cfg
+    networks:
+      - localhost
+    hostname: JCentral-dev-SE
     ports:
       - 1094:1094 # XRootD
     volumes:
       - $SHARED_VOLUME:/jalien-dev
       - jsite-storage:/shared-volume
+
+networks:
+  localhost:
+    driver: bridge
 
 volumes:
   jsite-storage:

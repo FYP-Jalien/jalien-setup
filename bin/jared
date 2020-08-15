@@ -70,3 +70,5 @@ chmod +x $SHARED_VOLUME/env_setup.sh
 ### SETUP ###
 CreateCertificates.sh $SHARED_VOLUME
 CreateConfig.sh $SHARED_VOLUME
+
+ce-config.sh $SHARED_VOLUME
