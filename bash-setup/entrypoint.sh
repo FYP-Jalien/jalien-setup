@@ -15,7 +15,7 @@ tail --pid $! -f $LOGS/setup_log.txt
 CreateDB.sh $target/sql &>>$LOGS/setup_log.txt &
 tail --pid $! -f $LOGS/setup_log.txt
 
-JCENTRAL_CMD="java -cp $JALIEN_DEV/alien-cs.jar -Duserid=$(id -u) -DAliEnConfig=/jalien-dev/config/JCentral alien.JCentral $(pwd)"
+JCENTRAL_CMD="java -cp $JALIEN_DEV/alien-users.jar -Duserid=$(id -u) -DAliEnConfig=/jalien-dev/config/JCentral alien.JCentral $(pwd)"
 
 ls $JALIEN_DEV/*.jar | entr -rcs "$JCENTRAL_CMD &>$LOGS/jcentral_stdout.txt" &
 tail --pid $! -f $LOGS/jcentral_stdout.txt

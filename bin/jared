@@ -17,7 +17,7 @@ do
         -j|--jar)
             JAR="$(realpath $2)"
             [ ! -f "$JAR" ] && die "jar $JAR doesn't exit"
-            [ x"$(basename $JAR)" != x"alien-cs.jar" ] && die "please use alien-cs.jar"
+            [ x"$(basename $JAR)" != x"alien-users.jar" ] && die "please use alien-users.jar"
             shift 2
             ;;
 
@@ -33,7 +33,7 @@ done
 
 JALIEN_SETUP_DIR="$(realpath $(dirname $0)/..)"
 TEMPLATES=$JALIEN_SETUP_DIR/bash-setup/templates
-export PATH=$PATH:$JALIEN_SETUP_DIR/bash-setup
+export PATH=$PATH:$JALIEN_SETUP_DIR/bash-setup:$JALIEN_SETUP_DIR/ce-setup
 
 mkdir -p $SHARED_VOLUME
 rm -rf $SHARED_VOLUME/*
@@ -71,4 +71,4 @@ chmod +x $SHARED_VOLUME/env_setup.sh
 CreateCertificates.sh $SHARED_VOLUME
 CreateConfig.sh $SHARED_VOLUME
 
-ce-config.sh $SHARED_VOLUME
+bash ce-config.sh $SHARED_VOLUME
