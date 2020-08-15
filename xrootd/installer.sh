@@ -12,6 +12,8 @@ yum -y install python3 cmake3 python3-devel
 pip3 install wheel setuptools
 pip3 install alienpy
 ln -s /usr/bin/cmake3 /usr/bin/cmake
+mkdir /shared-volume
+chown xrootd:xrootd /shared-volume
 echo "root:root" | chpasswd
 echo "xrootd:xrootd" | chpasswd
 echo "finally done"
