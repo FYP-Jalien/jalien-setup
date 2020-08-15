@@ -31,9 +31,9 @@ do
     esac
 done
 
-JALIEN_SETUP="$(realpath $(dirname $0)/..)"
-TEMPLATES=$JALIEN_SETUP/bash-setup/templates
-export PATH=$PATH:$JALIEN_SETUP/bash-setup
+JALIEN_SETUP_DIR="$(realpath $(dirname $0)/..)"
+TEMPLATES=$JALIEN_SETUP_DIR/bash-setup/templates
+export PATH=$PATH:$JALIEN_SETUP_DIR/bash-setup
 
 mkdir -p $SHARED_VOLUME
 rm -rf $SHARED_VOLUME/*
@@ -43,7 +43,7 @@ touch $SHARED_VOLUME/logs/{setup_log,verify_log,jcentral_stdout}.txt
 
 
 cp $TEMPLATES/docker-compose.yml $SHARED_VOLUME
-cp $JALIEN_SETUP/xrootd/xrootd-conf/TkAuthz.Authorization $SHARED_VOLUME
+cp $JALIEN_SETUP_DIR/xrootd/xrootd-conf/TkAuthz.Authorization $SHARED_VOLUME
 chmod 644 $SHARED_VOLUME/TkAuthz.Authorization
 
 cat > $SHARED_VOLUME/env_setup.sh <<EoF
@@ -62,7 +62,7 @@ EoF
 
 cat > $SHARED_VOLUME/.env <<EoF
 SHARED_VOLUME=$SHARED_VOLUME
-JALIEN_SETUP=$JALIEN_SETUP
+JALIEN_SETUP_DIR=$JALIEN_SETUP_DIR
 EoF
 
 chmod +x $SHARED_VOLUME/env_setup.sh

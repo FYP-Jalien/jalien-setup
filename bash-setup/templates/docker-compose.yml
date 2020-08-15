@@ -4,22 +4,21 @@ services:
     image: jalien-base
     command: /jalien-setup/bash-setup/entrypoint.sh
     ports:
-      - 8098:8098
-      - 8097:8097/tcp
-      - 3307:3307
-      - 8389:8389
+      - 8098:8098 # Java binary serialization
+      - 8097:8097 # JSON WebSocket
+      - 3307:3307 # MySQL
+      - 8389:8389 # LDAP
     volumes:
       - $SHARED_VOLUME:/jalien-dev
-      - $JALIEN_SETUP:/jalien-setup:ro
+      - $JALIEN_SETUP_DIR:/jalien-setup:ro
     environment:
       SE_HOST: JCentral-dev-SE
 
   JCentral-dev-SE:
     image: xrootd-se
     command: xrootd -c /etc/xrootd/xrootd-standalone.cfg
-    hostname: JCentral-dev-SE
     ports:
-      - 1094:1094
+      - 1094:1094 # XRootD
     volumes:
       - $SHARED_VOLUME:/jalien-dev
       - jsite-storage:/shared-volume
