@@ -17,6 +17,5 @@ do
         $MYSQLCALL  "update QUEUE set agentId=1 where statusId=5;"
         #Cleanup killed jobs
         $MYSQLCALL "delete from QUEUE where statusId='-14';"
-        exit 0
         sleep 30
 done
