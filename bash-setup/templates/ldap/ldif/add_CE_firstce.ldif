@@ -2,6 +2,9 @@ dn: name=firstce,ou=CE,ou=Services,ou=JTestSite,ou=Sites,o=localhost,dc=localdom
 host: 172.17.0.1
 installmethod: CVMFS
 maxjobs: 3000
+environment: CE_LCGCE=172.17.0.1:9618
+environment: USE_JOB_ROUTER=1
+environment: ROUTES_LIST=[ 172.17.0.1:9618 ]
 maxqueuedjobs: 300
 name: firstce
 objectclass: AliEnCE
