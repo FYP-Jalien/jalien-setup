@@ -19,6 +19,7 @@ su submituser
 touch /home/submituser/no-proxy-check /home/submituser/enable-sandbox
 
 #run CE with auto reloading
-CE_cmd="java -cp $JALIEN_DEV/alien-users.jar -Duserid=$(id -u) -Dcom.sun.jndi.ldap.connect.pool=false -DAliEnConfig=${CE_CONFIG} -Djava.net.preferIPv4Stack=true alien.site.ComputingElement"
+CE_CMD="java -cp $JALIEN_DEV/alien-cs.jar -Duserid=$(id -u) -Dcom.sun.jndi.ldap.connect.pool=false -DAliEnConfig=${CE_CONFIG} -Djava.net.preferIPv4Stack=true alien.site.ComputingElement"
+#CE_CMD="java -cp $JALIEN_DEV/alien-users.jar -server -XX:+OptimizeStringConcat -XX:CompileThreshold=20000 -Xms64m -Xmx512m  -XX:+UseG1GC -XX:+DisableExplicitGC -XX:+UseCompressedOops -XX:MaxTrivialSize=1K -Duserid=$(id -u) -Dcom.sun.jndi.ldap.connect.pool=false --add-opens=java.base/java.lang=ALL-UNNAMED --add-opens=java.base/java.io=ALL-UNNAMED --add-opens=java.rmi/sun.rmi.transport=ALL-UNNAMED -Djava.io.tmpdir=/tmp -DAliEnConfig=$CE_CONFIG -Djava.net.preferIPv4Stack=true alien.site.ComputingElement"
 ls $JALIEN_DEV/*.jar | entr -rcs "$CE_CMD &>$LOGS/computing_element_stdout.txt" &
 tail --pid $! -f $LOGS/computing_element_stout.txt
