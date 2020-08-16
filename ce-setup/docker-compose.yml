@@ -14,10 +14,13 @@ services:
     image: "htcondor/execute:8.9.6-el7"
     networks:
       - localhost
-    command: yum install -y environment-modules tcl && /start.sh
+    command: bash /ce-setup/cvmfs-checker.sh
     environment:
       CONDOR_HOST: "schedd"
       USE_POOL_PASSWORD: "yes"
+    volumes:
+      - /cvmfs/alice.cern.ch:/cvmfs/alice.cern.ch
+      - $JALIEN_SETUP_DIR:/jalien-setup:ro
     configs:
     - source: pool_password
       target: /root/secrets/pool_password
@@ -26,11 +29,14 @@ services:
     image: "jalien-base"
     networks:
       - localhost
-    command: 
+    command: bash /ce-setup/ce-entrypoint.sh
     hostname: "localhost.localdomain"
     environment:
       CONDOR_HOST: "schedd"
       USE_POOL_PASSWORD: "yes"
+    volumes:
+      - $SHARED_VOLUME:/jalien-dev
+      - $JALIEN_SETUP_DIR/ce-setup:/ce-setup:ro
     configs:
     - source: pool_password
       target: /root/secrets/pool_password
@@ -41,4 +47,4 @@ networks:
 
 configs:
   pool_password:
-    file: $JALIEN_SETUP/ce-setup/htcondor-conf/pool_password
+    file: $JALIEN_SETUP_DIR/ce-setup/htcondor-conf/pool_password
