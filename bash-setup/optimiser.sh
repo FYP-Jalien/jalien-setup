@@ -2,7 +2,7 @@
                     
 echo "Ceci n'est pas un Optimizer"
 MYSQLCALL="mysql --verbose --host=127.0.0.1 --port=3307 --password=pass --user=root -D processes -e"
-$MYSQLCALL 'insert into HOSTS (hostId, date, maxJobs, cename, Version, maxqueued, queues, status, hostPort, rating, connected, hostName, siteId, commandName, adminName) values (12277789, NULL, 400, "ALICE::JTestSite:firstce", "v2-19.395", 5, NULL, "CONNECTED", 1094, NULL, 1, "localhost.localdomain", 1, NULL, NULL);'
+$MYSQLCALL 'insert into HOSTS (hostId, date, maxJobs, cename, Version, maxqueued, queues, status, hostPort, rating, connected, hostName, siteId, commandName, adminName) values (12277789, NULL, 3000, "ALICE::JTestSite:firstce", "J-1.0", 300, NULL, "CONNECTED", 1094, NULL, 1, "localhost.localdomain", 1, NULL, NULL);'
 while :
 do
         echo \"Optimizing\"
