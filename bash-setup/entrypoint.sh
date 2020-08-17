@@ -15,6 +15,9 @@ tail --pid $! -f $LOGS/setup_log.txt
 CreateDB.sh $target/sql &>>$LOGS/setup_log.txt &
 tail --pid $! -f $LOGS/setup_log.txt
 
+mkdir -p ~/.globus
+cp $JALIEN_DEV/trusts/alien.p12 ~/.globus
+
 JCENTRAL_CMD="java -cp $JALIEN_DEV/alien-cs.jar -Duserid=$(id -u) -DAliEnConfig=/jalien-dev/config/JCentral alien.JCentral $(pwd)"
 
 #running optimizer
