@@ -3,8 +3,6 @@ services:
   JCentral-dev:
     image: jalien-base
     command: /jalien-setup/bash-setup/entrypoint.sh
-    networks:
-      - localhost
     hostname: JCentral-dev
     ports:
       - 8098:8098 # Java binary serialization
@@ -20,8 +18,6 @@ services:
   JCentral-dev-SE:
     image: xrootd-se
     command: xrootd -c /etc/xrootd/xrootd-standalone.cfg
-    networks:
-      - localhost
     hostname: JCentral-dev-SE
     ports:
       - 1094:1094 # XRootD
@@ -29,9 +25,38 @@ services:
       - $SHARED_VOLUME:/jalien-dev
       - jsite-storage:/shared-volume
 
-networks:
-  localhost:
-    driver: bridge
+  schedd:
+    image: "htcondor/cm:8.9.6-el7"
+    environment:
+      USE_POOL_PASSWORD: "yes"
+    volumes:
+      - $JALIEN_SETUP_DIR/ce-setup/htcondor-conf/pool_password:/root/secrets/pool_password
+
+  worker:
+    image: "htcondor/execute:8.9.6-el7"
+    command: bash /ce-setup/cvmfs-checker.sh
+    environment:
+      CONDOR_HOST: "schedd"
+      USE_POOL_PASSWORD: "yes"
+    volumes:
+      - /cvmfs/alice.cern.ch:/cvmfs/alice.cern.ch
+      - $JALIEN_SETUP_DIR/ce-setup:/ce-setup:ro
+      - $SHARED_VOLUME:/jalien-dev
+      - $JALIEN_SETUP_DIR/ce-setup/htcondor-conf/pool_password:/root/secrets/pool_password
+
+  submit:
+    image: "jalien-base"
+    command: bash /ce-setup/ce-entrypoint.sh
+    hostname: "localhost.localdomain"
+    environment:
+      CONDOR_HOST: "schedd"
+      USE_POOL_PASSWORD: "yes"
+      LD_LIBRARY_PATH: "/"
+    volumes:
+      - /cvmfs/alice.cern.ch:/cvmfs/alice.cern.ch
+      - $SHARED_VOLUME:/jalien-dev
+      - $JALIEN_SETUP_DIR/ce-setup:/ce-setup:ro
+      - $JALIEN_SETUP_DIR/ce-setup/htcondor-conf/pool_password:/root/secrets/pool_password
 
 volumes:
   jsite-storage:
