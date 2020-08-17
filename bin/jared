@@ -17,7 +17,7 @@ do
         -j|--jar)
             JAR="$(realpath $2)"
             [ ! -f "$JAR" ] && die "jar $JAR doesn't exit"
-            [ x"$(basename $JAR)" != x"alien-users.jar" ] && die "please use alien-users.jar"
+            [ x"$(basename $JAR)" != x"alien-cs.jar" ] && die "please use alien-cs.jar"
             shift 2
             ;;
 
