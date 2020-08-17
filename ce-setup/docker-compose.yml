@@ -6,9 +6,8 @@ services:
       - localhost
     environment:
       USE_POOL_PASSWORD: "yes"
-    configs:
-    - source: pool_password
-      target: /root/secrets/pool_password
+    volumes:
+      - $JALIEN_SETUP_DIR/ce-setup/htcondor-conf/pool_password:/root/secrets/pool_password
 
   worker:
     image: "htcondor/execute:8.9.6-el7"
@@ -21,9 +20,7 @@ services:
     volumes:
       - /cvmfs/alice.cern.ch:/cvmfs/alice.cern.ch
       - $JALIEN_SETUP_DIR/ce-setup:/ce-setup:ro
-    configs:
-    - source: pool_password
-      target: /root/secrets/pool_password
+      - $JALIEN_SETUP_DIR/ce-setup/htcondor-conf/pool_password:/root/secrets/pool_password
 
   submit:
     image: "jalien-base"
@@ -34,17 +31,12 @@ services:
     environment:
       CONDOR_HOST: "schedd"
       USE_POOL_PASSWORD: "yes"
+      LD_LIBRARY_PATH: "/"
     volumes:
       - $SHARED_VOLUME:/jalien-dev
       - $JALIEN_SETUP_DIR/ce-setup:/ce-setup:ro
-    configs:
-    - source: pool_password
-      target: /root/secrets/pool_password
+      - $JALIEN_SETUP_DIR/ce-setup/htcondor-conf/pool_password:/root/secrets/pool_password 
 
 networks:
   localhost:
     driver: bridge
-
-configs:
-  pool_password:
-    file: $JALIEN_SETUP_DIR/ce-setup/htcondor-conf/pool_password

@@ -19,6 +19,8 @@ apiService = $replica_host:8098
 trusted.certificates.location = $2/trusts
 host.cert.priv.location = $2/globus/host/hostkey.pem
 host.cert.pub.location = $2/globus/host/hostcert.pem
+user.cert.priv.location = $2/globus/user/userkey.pem
+user.cert.pub.location = $2/globus/user/usercert.pem
 alice_close_site = JTestSite
 
 jAuthZ.priv.key.location = $2/globus/authz/AuthZ_priv.pem
@@ -33,7 +35,7 @@ java.util.logging.FileHandler.formatter = java.util.logging.SimpleFormatter
 java.util.logging.FileHandler.limit = 1000000
 java.util.logging.FileHandler.count = 4
 java.util.logging.FileHandler.append = true
-java.util.logging.FileHandler.pattern = $2/logs/jcentral-%g.log
+java.util.logging.FileHandler.pattern = $2/logs/jalien-ce-%g.log
 .level = WARNING
 lia.level = WARNING
 lazyj.level = WARNING
@@ -45,18 +47,10 @@ use_java_logger=true
 EoF
 }
 
-function write_db_config() {
-    cp $out/config/JCentral/alice_* $CE_CONFIG/host/
-    sed -i -e "s:127.0.0.1:${replica_host}:g" $CE_CONFIG/host/alice_data.properties
-    sed -i -e "s:127.0.0.1:${replica_host}:g" $CE_CONFIG/host/alice_users.properties
-    cp $CE_CONFIG/host/alice_* $CE_CONFIG/docker/
-}
-
 
 write_config host $out
 write_config docker /jalien-dev
 
-write_db_config
 
 #creates custom jdl with required params to override from generated jdl in HDCONDOR.java
 cat > $CE_CONFIG/docker/custom-classad.jdl << EOF
