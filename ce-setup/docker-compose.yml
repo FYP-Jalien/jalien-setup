@@ -20,7 +20,7 @@ services:
       USE_POOL_PASSWORD: "yes"
     volumes:
       - /cvmfs/alice.cern.ch:/cvmfs/alice.cern.ch
-      - $JALIEN_SETUP_DIR:/jalien-setup:ro
+      - $JALIEN_SETUP_DIR/ce-setup:/ce-setup:ro
     configs:
     - source: pool_password
       target: /root/secrets/pool_password

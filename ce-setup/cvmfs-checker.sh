@@ -1,7 +1,8 @@
 #!/bin/bash
 yum install -y environment-modules tcl
-if [[ -d /cvmfs/alice.cern.ch/bin]] then {
-    bash /start.sh &
+if [[ -d /cvmfs/alice.cern.ch/bin ]] 
+then {
+    bash /start.sh
     exit
 }
 else {
