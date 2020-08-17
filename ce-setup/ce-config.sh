@@ -19,8 +19,6 @@ apiService = $replica_host:8098
 trusted.certificates.location = $2/trusts
 host.cert.priv.location = $2/globus/host/hostkey.pem
 host.cert.pub.location = $2/globus/host/hostcert.pem
-user.cert.priv.location = $2/globus/user/userkey.pem
-user.cert.pub.location = $2/globus/user/usercert.pem
 alice_close_site = JTestSite
 
 jAuthZ.priv.key.location = $2/globus/authz/AuthZ_priv.pem
