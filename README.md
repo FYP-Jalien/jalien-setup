@@ -1,45 +1,119 @@
 Hello there!
 
-### Instructions on running the bash-conversion setup.
+This repository contains the work done to setup and run a local replica of JAliEn using docker containers. 
 
-1. Firt as it is meant to work with the bash scripts, change `JALIEN_REPO` to `https://gitlab.cern.ch/adangwal/jalien.git`
-and clone the `bash-conversion` branch by changing `git clone --depth=1 $JALIEN_REPO;` to `git clone --depth=1 $JALIEN_REPO bash-conversion` in the `docker-setup.sh` script.
+The containers in the replica deployment are:
+- JCentral (LDAP, MySQL, Certificates) : `JCentral-dev`
+- XRootD Storage Element (SE) : `JCentral-dev-SE`
+- Computing Element (CE) : `JCentral-dev-CE`
+- HTCondor Central Manager: `schedd`
+- HTcondor Worker : `worker`
 
-2. Second, compile this repository locally as well and feed the path to the local `alien.jar` appropriately to `jalien-replica.py`
+## Intructions of use:
 
-##### This is required for it to work with `jalien-replica.py`.
+##### Building containers
+Build containers using `make all` in `/path/to/repo` on your local system
 
-#### Manual Setup
+##### Setup
+- Export `$SHARED_VOLUME` (eg: `export SHARED_VOLUME=/path/doesn't/exist/yet`)
+- Run `/path/to/repo/bin/jared --jar /path/to/jar --volume $SHARED_VOLUME`
+- Config, logs and certificates can be found in `$SHARED_VOLUME`, along with `docker-compose.yml` and `env_setup.sh`
 
-Alternatively, one can ssh into docker container and run the above manually, including running `./entry-point.sh` with the following environment variables set: 
-- `export JALIEN_HOME=/jalien`
-- `export custom_jalienpath=/custom/path` (defaults to `$HOME`)
+##### Deploy containers
+- Run `docker-compose up -d` in `$SHARED_VOLUME` directory
 
-(this is enough to test the working of `./setuplocalVO.sh` and `./verifylocalVO.sh` manually. The rest can be followed for the full experience of connecting to the replica external from docker)
+##### Using alien.py
+To use an interface such as `alien.py`, the steps assume that `alien.py` is installed correctly on host system.  
+- Add `JCentral-dev`, `JCentral-dev-SE` to your system's  `/etc/hosts` file (with ip either as `127.0.0.1` or `172.17.0.1`)
+- Source the `env_setup.sh` file in `$SHARED_VOLUME`
+- Run `alien.py`
 
-- `export JALIEN_DEV=/jalien-dev` (move alien.jar here manually)
-- `export USER_ID=1000`
-- `export TVO_CERTS="${custom_jalienpath}/.j/testVO/globus"` (make sure to use `$HOME` if `$custom_jalienpath` not specified)
-- `export CERTS="${JALIEN_DEV}/certs"`
+##### SE functionalities
+- Run `alien.py cp /path/to/file alien://`
 
-command to run 
-`docker run --name JCentral-dev -v /path/to/local/jar:/jalien-dev -p 8097:8097 -p 8998:8998 -it gitlab-registry.cern.ch/adangwal/jalien/jalien-modified:version0.5 /bin/bash entrypoint.sh`
+```
+[xjalienfs] / > alien.py cp /path/to/file-sample alien://
+alien.py cpjobID: 1/1 >>> Start
+jobID: 1/1 >>> ERRNO/CODE/XRDSTAT 0/0/0 >>> STATUS OK >>> SPEED 2.88 KiB/s MESSAGE: [SUCCESS]
 
-#### Automated Setup
+[xjalienfs] / > alien.py
+AliEn[jalien]:/localhost/localdomain/user/j/jalien/ >ls
+file-sample
+```
 
-command to build docker image:
-`docker build -t gitlab-registry.cern.ch/adangwal/jalien/jalien-modified:version0.5 .`
+##### CE functionalities
+- Write your jdl file and job script
 
-command to run local replica:
-`./test-setup.py run-jcentral --path /path/to/local/JAliEn/jar` (final message should be `Container is running JCentral` )
+sample.jdl
 
+```
+Executable = "/localhost/localdomain/user/j/jalien/testscript.sh";
+Output = {stdout@disk=1};
+OutputDir = "/localhost/localdomain/user/j/jalien/output_dir_new/";
+```
+testscript.sh
 
-- JCentral service starts based off the provided `.jar`
-- Database is populated with default users `jalien` and `admin`
-- Certificates generated and exported to shared volume (local .jar path)
+```
+#!/bin/bash
+echo "it works :)"
+```
 
-(For manual setup need to fill in certpath appropriately)
+NOTE: Make sure to specify `disk=1` (no trailing white spaces, failure to remove them can result in `ESV`) as current deployment has only 1 SE, failing to do so will result in a `DW` state even after succesfull job execution. 
 
-Run `. /path/to/env_setup.sh && alien.py`
+- Run `alien.py cp /path/to/sample.jdl alien://` and `alien.py cp /path/to/testscript.sh alien://`
 
-Hopefully everything is fixed/ fixes itself from there :)
+```
+[xjalienfs] / > alien.py cp /sample.jdl alien://
+alien.py cpjobID: 1/1 >>> Start
+jobID: 1/1 >>> ERRNO/CODE/XRDSTAT 0/0/0 >>> STATUS OK >>> SPEED 2.88 KiB/s MESSAGE: [SUCCESS] 
+[xjalienfs] / > alien.py cp /testscript.sh alien://
+alien.pyjobID: 1/1 >>> Start
+jobID: 1/1 >>> ERRNO/CODE/XRDSTAT 0/0/0 >>> STATUS OK >>> SPEED 3.84 KiB/s MESSAGE: [SUCCESS] 
+```
+
+- Run `bash /path/to/repo/bash-setup/optimiser.sh`
+- Run `alien.py submit sample.jdl`
+
+```
+Submitting /localhost/localdomain/user/j/jalien/sample.jdl
+Your new job ID is 1888757065
+```
+- Run `alien.py ps` to verify status
+
+```
+jalien 1888757065    0    I                 testscript.sh
+```
+
+this show status as well (I- Inserted, W- Waiting, ASG- Assigned, SV- Saving, D- Done, DW- Done Waiting)
+Any status starting with E is an error.
+
+- Run `alien.py ls` to check if output and/ or directories created
+
+Before job completion
+
+```
+AliEn[jalien]:/localhost/localdomain/user/j/jalien/ >ls
+sample.jdl
+testscript.sh
+```
+After completion
+
+```
+AliEn[jalien]:/localhost/localdomain/user/j/jalien/ >ls
+output_dir_new/
+sample.jdl
+testscript.sh
+
+AliEn[jalien]:/localhost/localdomain/user/j/jalien/ >cd output_dir_new/
+AliEn[jalien]:/localhost/localdomain/user/j/jalien/output_dir_another/ >ls
+stdout
+AliEn[jalien]:/localhost/localdomain/user/j/jalien/output_dir_another/ >cat stdout
+it works :)
+```
+Do note CE is a running process and will keep creating files in the background inside the container. Please make sure to teardown deployment after use. 
+
+## For the Curious
+
+There are many things one can tweak within the replica specifically in the config files, present in `$SHARED_VOLUME/config`.
+
+One can also use the autoreloading feature of the deployment. After any changes made, either `touch $SHARED_VOLUME/alien-cs.jar` or replace jar with a new `alien-cs.jar` to restart JCentral and CE within their containers. 
