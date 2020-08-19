@@ -20,8 +20,6 @@ cp $JALIEN_DEV/trusts/alien.p12 ~/.globus
 
 JCENTRAL_CMD="java -cp $JALIEN_DEV/alien-cs.jar -Duserid=$(id -u) -DAliEnConfig=/jalien-dev/config/JCentral alien.JCentral $(pwd)"
 
-#running optimizer
-bash optimiser.sh &> /dev/null &
 
 ls $JALIEN_DEV/*.jar | entr -rcs "$JCENTRAL_CMD &>$LOGS/jcentral_stdout.txt" &
 tail --pid $! -f $LOGS/jcentral_stdout.txt
