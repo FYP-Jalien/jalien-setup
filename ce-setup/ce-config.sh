@@ -20,11 +20,6 @@ trusted.certificates.location = $2/trusts
 host.cert.priv.location = $2/globus/host/hostkey.pem
 host.cert.pub.location = $2/globus/host/hostcert.pem
 alice_close_site = JTestSite
-
-jAuthZ.priv.key.location = $2/globus/authz/AuthZ_priv.pem
-jAuthZ.pub.key.location = $2/globus/authz/AuthZ_pub.pem
-SE.priv.key.location = $2/globus/SE/SE_priv.pem
-SE.pub.key.location = $2/globus/SE/SE_pub.pem
 EoF
 
     cat > $CE_CONFIG/$1/logging.properties << EoF
