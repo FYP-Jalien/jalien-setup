@@ -28,4 +28,4 @@ wget -qO - https://research.cs.wisc.edu/htcondor/ubuntu/HTCondor-Release.gpg.key
 echo "deb http://research.cs.wisc.edu/htcondor/ubuntu/8.8/bionic bionic contrib">> /etc/apt/sources.list
 echo "deb-src http://research.cs.wisc.edu/htcondor/ubuntu/8.8/bionic bionic contrib" >> /etc/apt/sources.list
 apt update
-apt install -y htcondor supervisor
+apt install -y htcondor supervisor environment-modules tcl
