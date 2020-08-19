@@ -49,7 +49,7 @@ chmod 644 $SHARED_VOLUME/TkAuthz.Authorization
 cat > $SHARED_VOLUME/env_setup.sh <<EoF
 [ \$(cat /proc/1/cgroup | grep "docker" | wc -l) -ne 0 ] && vol=/jalien-dev/ || vol=$SHARED_VOLUME
 certpath="\$vol/globus"
-export ALIENPY_JCENTRAL="172.17.0.1"
+export ALIENPY_JCENTRAL="JCentral-dev"
 export X509_CERT_DIR="\${certpath}/CA"
 export CERT=\${certpath}/user/usercert.pem
 export KEY=\${certpath}/user/userkey.pem
