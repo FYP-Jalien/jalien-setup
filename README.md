@@ -11,12 +11,20 @@ The containers in the replica deployment are:
 
 ## Intructions of use:
 
+##### Dependecies
+For host system
+- docker
+- docker-compose
+- java 11.08+
+- MySQL
+- jalien repository clone and or alien-cs.jar
+
 ##### Building containers
 Build containers using `make all` in `/path/to/repo` on your local system
 
 ##### Setup
 - Export `$SHARED_VOLUME` (eg: `export SHARED_VOLUME=/path/doesn't/exist/yet`)
-- Run `/path/to/repo/bin/jared --jar /path/to/jar --volume $SHARED_VOLUME`
+- Run `/path/to/repo/bin/jared --jar /path/to/jalien/jar --volume $SHARED_VOLUME`
 - Config, logs and certificates can be found in `$SHARED_VOLUME`, along with `docker-compose.yml` and `env_setup.sh`
 
 ##### Deploy containers
@@ -105,9 +113,9 @@ sample.jdl
 testscript.sh
 
 AliEn[jalien]:/localhost/localdomain/user/j/jalien/ >cd output_dir_new/
-AliEn[jalien]:/localhost/localdomain/user/j/jalien/output_dir_another/ >ls
+AliEn[jalien]:/localhost/localdomain/user/j/jalien/output_dir_new/ >ls
 stdout
-AliEn[jalien]:/localhost/localdomain/user/j/jalien/output_dir_another/ >cat stdout
+AliEn[jalien]:/localhost/localdomain/user/j/jalien/output_dir_new/ >cat stdout
 it works :)
 ```
 Do note CE is a running process and will keep creating files in the background inside the container. Please make sure to teardown deployment after use. 
