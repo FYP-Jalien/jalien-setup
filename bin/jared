@@ -44,6 +44,7 @@ touch $SHARED_VOLUME/logs/{setup_log,verify_log,jcentral_stdout}.txt
 
 cp $TEMPLATES/docker-compose.yml $SHARED_VOLUME
 cp $JALIEN_SETUP_DIR/xrootd/xrootd-conf/TkAuthz.Authorization $SHARED_VOLUME
+cp $JALIEN_SETUP_DIR/bash-setup/optimiser.sh $SHARED_VOLUME
 chmod 644 $SHARED_VOLUME/TkAuthz.Authorization
 
 cat > $SHARED_VOLUME/env_setup.sh <<EoF
