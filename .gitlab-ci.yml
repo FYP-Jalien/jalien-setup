@@ -1,4 +1,4 @@
 e2e-test:
   image: registry.gitlab.com/finestructure/pipeline-trigger
   script:
-    - trigger -h gitlab.cern.ch -a "$API_TOKEN" -p "$CI_JOB_TOKEN" -t feature-docker-compose -e JALIEN_SETUP=1 -e JALIEN_SETUP_REPO=$CI_REPOSITORY_URL -e JALIEN_SETUP_BRANCH=$CI_COMMIT_REF_NAME 46440
+    - trigger -h gitlab.cern.ch -a "$API_TOKEN" -p "$CI_JOB_TOKEN" -t dev -e JALIEN_SETUP=1 -e JALIEN_SETUP_REPO=$CI_REPOSITORY_URL -e JALIEN_SETUP_BRANCH=$CI_COMMIT_REF_NAME 46440
