@@ -31,7 +31,7 @@ do
     esac
 done
 
-JALIEN_SETUP_DIR="$(realpath $(dirname $0)/..)"
+JALIEN_SETUP_DIR="$(realpath $(dirname $(realpath -L $0))/..)"
 TEMPLATES=$JALIEN_SETUP_DIR/bash-setup/templates
 export PATH=$PATH:$JALIEN_SETUP_DIR/bash-setup:$JALIEN_SETUP_DIR/ce-setup
 
@@ -47,7 +47,7 @@ cp $JALIEN_SETUP_DIR/xrootd/xrootd-conf/TkAuthz.Authorization $SHARED_VOLUME
 chmod 644 $SHARED_VOLUME/TkAuthz.Authorization
 
 cat > $SHARED_VOLUME/env_setup.sh <<EoF
-[ \$(cat /proc/1/cgroup | grep "docker" | wc -l) -ne 0 ] && vol=/jalien-dev/ || vol=$SHARED_VOLUME
+export vol=$(dirname $(realpath $BASH_SOURCE))
 certpath="\$vol/globus"
 export ALIENPY_JCENTRAL="JCentral-dev"
 export X509_CERT_DIR="\${certpath}/CA"
