@@ -10,3 +10,5 @@
   - [ ] Register more SEs to test TPC and replica failovers
   - [ ] Register more sites
   - [ ] JobOptimizer and splitting
+  - [ ] CVMFS agnostic setup
+  - [ ] Monitoring infrastructure - MonALISA
