@@ -17,6 +17,7 @@ services:
 
   JCentral-dev-SE:
     image: xrootd-se
+    entrypoint: bash -c
     command: xrootd -c /etc/xrootd/xrootd-standalone.cfg
     hostname: JCentral-dev-SE
     ports:
