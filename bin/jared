@@ -60,6 +60,11 @@ export JALIEN_TOKEN_CERT="\${CERT}"
 export JALIEN_TOKEN_KEY="\${KEY}"
 export JALIEN_HOST="localhost"
 export JALIEN_WSPORT=8097
+
+export apiService="localhost:8098"
+export ldap_server="localhost:8389"
+export ldap_root="o=localhost,dc=localdomain"
+export JALIEN_OPTS="-Dtrusted.certificates.location=\"\${X509_CERT_DIR}\""
 EoF
 
 cat > $SHARED_VOLUME/.env <<EoF
