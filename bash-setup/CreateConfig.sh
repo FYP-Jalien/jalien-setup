@@ -22,6 +22,8 @@ jAuthZ.priv.key.location = /jalien-dev/globus/authz/AuthZ_priv.pem
 jAuthZ.pub.key.location = /jalien-dev/globus/authz/AuthZ_pub.pem
 SE.priv.key.location = /jalien-dev/globus/SE/SE_priv.pem
 SE.pub.key.location = /jalien-dev/globus/SE/SE_pub.pem
+
+ca.password =
 EoF
 
 cat > $jcentral_config_dir/logging.properties << EoF
