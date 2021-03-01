@@ -10,7 +10,7 @@ lint_haskell:
   image:
     name: hadolint/hadolint
   script:
-  - /bin/hadolint base/Dockerfile
+  - /bin/hadolint Dockerfile.base
   - /bin/hadolint xrootd/Dockerfile
   allow_failure: true
 
@@ -26,7 +26,7 @@ lint_haskell:
     name: build/$CI_COMMIT_REF_NAME
   script:
   - echo "{\"auths\":{\"$CI_REGISTRY\":{\"username\":\"$CI_REGISTRY_USER\",\"password\":\"$CI_REGISTRY_PASSWORD\"}}}" > /kaniko/.docker/config.json
-  - /kaniko/executor --context $CI_PROJECT_DIR --dockerfile Dockerfile --destination ${CI_REGISTRY_IMAGE}/voboximg:${IMAGE_TAG}
+  - /kaniko/executor --context $CI_PROJECT_DIR --dockerfile Dockerfile.base --destination ${CI_REGISTRY_IMAGE}/voboximg:${IMAGE_TAG}
 
 .build_latest:
   <<: *job_build
