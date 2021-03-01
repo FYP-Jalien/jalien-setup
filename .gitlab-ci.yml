@@ -1,4 +1,54 @@
-e2e-test:
+stages:
+- lint
+- build
+
+#####################
+## Lint Dockerfile
+
+lint_haskell:
+  stage: lint
+  image:
+    name: hadolint/hadolint
+  script:
+  - /bin/hadolint base/Dockerfile
+  - /bin/hadoling xrootd/Dockerfile
+  allow_failure: true
+
+######################
+## Build Containers
+
+.job_template: &job_build
+  stage: build
+  image:
+    name: gitlab-registry.cern.ch/ci-tools/docker-image-builder
+    entrypoint: [""]
+  environment:
+    name: build/$CI_COMMIT_REF_NAME
+  script:
+  - echo "{\"auths\":{\"$CI_REGISTRY\":{\"username\":\"$CI_REGISTRY_USER\",\"password\":\"$CI_REGISTRY_PASSWORD\"}}}" > /kaniko/.docker/config.json
+  - /kaniko/executor --context $CI_PROJECT_DIR --dockerfile Dockerfile --destination ${CI_REGISTRY_IMAGE}/voboximg:${IMAGE_TAG}
+
+.build_latest:
+  <<: *job_build
+  before_script:
+  - export IMAGE_TAG="latest"
+  only:
+    variables:
+    - $CI_COMMIT_REF_NAME == "master"
+
+.build_tag:
+  <<: *job_build
+  before_script:
+  - export IMAGE_TAG=${CI_COMMIT_TAG}
+  only:
+    variables:
+    - $CI_COMMIT_TAG =~ /^v.*$/
+
+##########################
+## Testing
+
+# TODO: Integrate with Nikola's tests
+.e2e-test:
   image: registry.gitlab.com/finestructure/pipeline-trigger
   script:
     - trigger -h gitlab.cern.ch -a "$API_TOKEN" -p "$CI_JOB_TOKEN" -t dev -e JALIEN_SETUP=1 -e JALIEN_SETUP_REPO=$CI_REPOSITORY_URL -e JALIEN_SETUP_BRANCH=$CI_COMMIT_REF_NAME 46440

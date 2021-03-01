@@ -1,3 +1,5 @@
+# JAliEn in Box
+
 Hello there!
 
 This repository contains the work done to setup and run a local replica of JAliEn using docker containers. 
