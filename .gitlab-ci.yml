@@ -11,7 +11,7 @@ lint_haskell:
     name: hadolint/hadolint
   script:
   - /bin/hadolint base/Dockerfile
-  - /bin/hadoling xrootd/Dockerfile
+  - /bin/hadolint xrootd/Dockerfile
   allow_failure: true
 
 ######################
