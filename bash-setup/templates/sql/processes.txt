@@ -122,6 +122,7 @@ CREATE TABLE `JOBAGENT` (
   `price` float DEFAULT '1',
   `oldestQueueId` int DEFAULT '0',
   `revision` int DEFAULT '0',
+  `cpucores` int DEFAULT '1',
   PRIMARY KEY (`entryId`),
   KEY `priority` (`priority`),
   KEY `ttl` (`ttl`),
