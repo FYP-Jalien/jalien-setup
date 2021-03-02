@@ -1,4 +1,4 @@
-# JAliEn in Box
+# JAliEn in a Box
 
 Hello there!
 
@@ -11,9 +11,28 @@ The containers in the replica deployment are:
 - HTCondor Central Manager: `schedd`
 - HTcondor Worker : `worker`
 
-## Intructions of use:
+How to setup a local VO
+========================
 
-##### Dependecies
+Get JCentral Docker image
+-------------------------
+- Pull the image: 
+  `gitlab-registry.cern.ch/adangwal/jalien/jalien-modified:latest`
+
+- Or build the image manually: 
+  `docker build -t gitlab-registry.cern.ch/adangwal/jalien/jalien-modified .`
+
+Run setup
+---------
+```bash
+./test-setup.py create-jcentral (setup of docker container)
+./test-setup.py start-jcentral
+# jcentral should be running from here
+```
+
+## Instructions of use:
+
+##### Dependencies
 For host system
 - docker
 - docker-compose
@@ -126,4 +145,56 @@ Do note CE is a running process and will keep creating files in the background i
 
 There are many things one can tweak within the replica specifically in the config files, present in `$SHARED_VOLUME/config`.
 
-One can also use the autoreloading feature of the deployment. After any changes made, either `touch $SHARED_VOLUME/alien-cs.jar` or replace jar with a new `alien-cs.jar` to restart JCentral and CE within their containers. 
+One can also use the autoreloading feature of the deployment. After any changes made, either `touch $SHARED_VOLUME/alien-cs.jar` or replace jar with a new `alien-cs.jar` to restart JCentral and CE within their containers.
+
+# Quick start for xrootd container:
+
+#### Prerequisites:
+The jalien-replica.py script must be run successfully (with JCentral-replica running in the background) before manually starting the xrootd container via the below mentioned commands.
+
+First make sure to be in the xrootd directory of the repository
+- Run `docker build -t <image-name> .`
+- Run `docker run -p 1094:1094 -v <path>/<to>/<shared volume>/<with jcentral replica>:/jalien-dev -it <image-name> /bin/bash`.
+
+Note currently this uses default directory `/tmp` and storage is not persistent.
+
+To run without usage of envelope verification change:
+`CMD xrootd -c /etc/xrootd/xrootd-standalone.cfg` to `CMD xrootd` in `Dockerfile` before building image.
+
+#### Test commands:
+With alien.py setup (via sourcing env_setup.sh from your shared volume with JCentral-replica) run the following:
+
+```
+[root@51aaba2b3155 /]# alien.py cp <file name> alien://
+jobID: 1/1 >>> Start
+jobID: 1/1 >>> ERRNO/CODE/XRDSTAT 0/0/0 >>> STATUS OK >>> SPEED 8.17 KiB/s MESSAGE: [SUCCESS] 
+```
+File can also be seen via the interative shell:
+
+```
+[root@51aaba2b3155 /]# alien.py
+Welcome to the ALICE GRID
+support mail: adrian.sevcenco@cern.ch
+
+AliEn[jalien]:/localhost/localdomain/user/j/jalien/ >ls
+env_setup.sh
+```
+
+# TODO
+
+## Technical Improvements
+  - [ ] Host to replica networking, hostnames and DNS
+  - [ ] Dedicated shared CVMFS mountpoint without autofs
+  - [ ] Improve the file catalog schema (simplify the L tables)
+  - [ ] Improve job submission / CE stability
+  - [ ] Improve development workflow (start JobAgent from local jar)
+
+## New Features
+  - [ ] VO administration, user management
+  - [ ] Add LDAP admin web frontend
+  - [ ] Register more SEs to test TPC and replica failovers
+  - [ ] Register more sites
+  - [ ] JobOptimizer and splitting
+  - [ ] CVMFS agnostic setup
+  - [ ] Monitoring infrastructure - MonALISA
+
