@@ -46,9 +46,17 @@ write_config docker /jalien-dev
 
 
 #creates custom jdl with required params to override from generated jdl in HDCONDOR.java
-cat > $CE_CONFIG/docker/custom-classad.jdl << EOF
+cat > $CE_CONFIG/docker/custom-classad-first.jdl << EOF
 use_x509userproxy = false
 environment = "JALIEN_CM_AS_LDAP_PROXY='localhost.localdomain' JALIEN_HOST=$replica_host JALIEN_WSPORT=8097 ldap_server=$replica_host:8389 JALIEN_PORT=8098 ldap_root=o=localhost,dc=localdomain alien.users.basehomedir=/localhost/localdomain/user/ apiService=$replica_host:8098 trusted.certificates.location=/jalien-dev/globus/CA host.cert.priv.location=/jalien-dev/globus/host/hostkey.pem host.cert.pub.location=/jalien-dev/globus/host/hostcert.pem user.cert.priv.location=/jalien-dev/globus/user/userkey.pem user.cert.pub.location=/jalien-dev/globus/user/usercert.pem alice_close_site=JTestSite jAuthZ.priv.key.location=/jalien-dev/globus/authz/AuthZ_priv.pem jAuthZ.pub.key.location=/jalien-dev/globus/authz/AuthZ_pub.pem SE.priv.key.location=/jalien-dev/globus/SE/SE_priv.pem SE.pub.key.location=/jalien-dev/globus/SE/SE_pub.pem JALIEN_IGNORE_STORAGE=true"
 EOF
-cp $CE_CONFIG/docker/custom-classad.jdl $CE_CONFIG/host
+cp $CE_CONFIG/docker/custom-classad-first.jdl $CE_CONFIG/host
+
+#creates custom jdl with required params to override from generated jdl in HDCONDOR.java
+cat > $CE_CONFIG/docker/custom-classad-second.jdl << EOF
+use_x509userproxy = false
+environment = "JALIEN_CM_AS_LDAP_PROXY='localhost2.localdomain' JALIEN_HOST=$replica_host JALIEN_WSPORT=8097 ldap_server=$replica_host:8389 JALIEN_PORT=8098 ldap_root=o=localhost,dc=localdomain alien.users.basehomedir=/localhost/localdomain/user/ apiService=$replica_host:8098 trusted.certificates.location=/jalien-dev/globus/CA host.cert.priv.location=/jalien-dev/globus/host/hostkey.pem host.cert.pub.location=/jalien-dev/globus/host/hostcert.pem user.cert.priv.location=/jalien-dev/globus/user/userkey.pem user.cert.pub.location=/jalien-dev/globus/user/usercert.pem alice_close_site=JTestSite jAuthZ.priv.key.location=/jalien-dev/globus/authz/AuthZ_priv.pem jAuthZ.pub.key.location=/jalien-dev/globus/authz/AuthZ_pub.pem SE.priv.key.location=/jalien-dev/globus/SE/SE_priv.pem SE.pub.key.location=/jalien-dev/globus/SE/SE_pub.pem JALIEN_IGNORE_STORAGE=true"
+EOF
+cp $CE_CONFIG/docker/custom-classad-second.jdl $CE_CONFIG/host
+
 echo "Computing Element Config done"

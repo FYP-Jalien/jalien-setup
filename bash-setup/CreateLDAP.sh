@@ -66,9 +66,11 @@ function initializeLDAP(){
         #add_SE_secondse
         #add CE
         add_CE_firstce
+        add_CE_secondce
 
         #add host
         add_config_host
+        add_config_secondhost
 
         #add jobagent
         add_user_jobagent

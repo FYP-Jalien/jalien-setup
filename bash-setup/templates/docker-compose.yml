@@ -47,8 +47,22 @@ services:
 
   JCentral-dev-CE:
     image: "jalien-base"
-    command: bash /ce-setup/ce-entrypoint.sh
+    command: bash /ce-setup/ce-entrypoint.sh first
     hostname: "localhost.localdomain"
+    environment:
+      CONDOR_HOST: "schedd"
+      USE_POOL_PASSWORD: "yes"
+      LD_LIBRARY_PATH: "/tmp"
+    volumes:
+      - /cvmfs/alice.cern.ch:/cvmfs/alice.cern.ch
+      - $SHARED_VOLUME:/jalien-dev
+      - $JALIEN_SETUP_DIR/ce-setup:/ce-setup:ro
+      - $JALIEN_SETUP_DIR/ce-setup/htcondor-conf/pool_password:/root/secrets/pool_password
+      
+  JCentral-dev-CE-second:
+    image: "jalien-base"
+    command: bash /ce-setup/ce-entrypoint.sh second
+    hostname: "localhost2.localdomain"
     environment:
       CONDOR_HOST: "schedd"
       USE_POOL_PASSWORD: "yes"

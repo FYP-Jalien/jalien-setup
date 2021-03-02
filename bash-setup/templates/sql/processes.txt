@@ -122,6 +122,7 @@ CREATE TABLE `JOBAGENT` (
   `price` float DEFAULT '1',
   `oldestQueueId` int DEFAULT '0',
   `revision` int DEFAULT '0',
+  `cpucores` int DEFAULT '1',
   PRIMARY KEY (`entryId`),
   KEY `priority` (`priority`),
   KEY `ttl` (`ttl`),
@@ -677,6 +678,7 @@ CREATE TABLE `TODELETE` (
 USE `processes`;
 LOCK TABLES SITEQUEUES WRITE;
 insert into SITEQUEUES (siteId,runload,blocked,cost,timeblocked,maxqueued,status,site,statustime,maxrunning) values (1,0,"open", NULL,NULL,10,"down","ALICE::JTESTSITE::FIRSTCE",0,100);
+insert into SITEQUEUES (siteId,runload,blocked,cost,timeblocked,maxqueued,status,site,statustime,maxrunning) values (2,0,"open", NULL,NULL,10,"down","ALICE::JTESTSITE::SECONDCE",0,100);
 UNLOCK TABLES;
 --
 -- Final view structure for view `QUEUE_VIEW`
@@ -691,7 +693,7 @@ UNLOCK TABLES;
 /*!50001 SET character_set_results     = latin1 */;
 /*!50001 SET collation_connection      = latin1_swedish_ci */;
 /*!50001 CREATE ALGORITHM=UNDEFINED */
-/*!50013 DEFINER=`root`@`localhost` SQL SECURITY DEFINER */
+/*!50013 DEFINER=`root`@`%` SQL SECURITY DEFINER */
 /*!50001 VIEW `QUEUE_VIEW` AS select `QUEUE`.`queueId` AS `queueId`,`QUEUE`.`statusId` AS `statusId`,`QUEUE`.`userId` AS `userId`,`QUEUE`.`priority` AS `priority`,`QUEUE`.`submitHostId` AS `submitHostId`,`QUEUE`.`finalPrice` AS `finalPrice`,`QUEUE`.`sent` AS `sent`,`QUEUE`.`split` AS `split`,`QUEUE`.`nodeId` AS `nodeId`,`QUEUE`.`execHostId` AS `execHostId`,`QUEUE`.`mtime` AS `mtime`,`QUEUE`.`agentId` AS `agentId`,`QUEUE`.`price` AS `price`,`QUEUE`.`finished` AS `finished`,`QUEUE`.`masterjob` AS `masterjob`,`QUEUE`.`splitting` AS `splitting`,`QUEUE`.`notifyId` AS `notifyId`,`QUEUE`.`optimized` AS `optimized`,`QUEUE`.`commandId` AS `commandId`,`QUEUE`.`error` AS `error`,`QUEUE`.`resubmission` AS `resubmission`,`QUEUE`.`received` AS `received`,`QUEUE`.`validate` AS `validate`,`QUEUE`.`merging` AS `merging`,`QUEUE`.`chargeStatus` AS `chargeStatus`,`QUEUE`.`siteId` AS `siteId`,`QUEUE`.`started` AS `started`,`QUEUE`.`expires` AS `expires`,`QUEUE_USER`.`user` AS `user`,`QUEUE_STATUS`.`status` AS `status`,`QUEUEJDL`.`origJdl` AS `origJdl`,`QUEUEJDL`.`resultsJdl` AS `resultsJdl`,`QUEUEJDL`.`path` AS `path` from (((`QUEUE` join `QUEUE_USER` on((`QUEUE`.`userId` = `QUEUE_USER`.`userId`))) join `QUEUE_STATUS` on((`QUEUE`.`statusId` = `QUEUE_STATUS`.`statusId`))) join `QUEUEJDL` on((`QUEUE`.`queueId` = `QUEUEJDL`.`queueId`))) */;
 /*!50001 SET character_set_client      = @saved_cs_client */;
 /*!50001 SET character_set_results     = @saved_cs_results */;

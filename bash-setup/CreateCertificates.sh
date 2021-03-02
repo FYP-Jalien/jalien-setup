@@ -51,6 +51,7 @@ make_CA "CA" "cacert.pem" "cakey.pem" "/C=CH/O=JAliEn/CN=JAliEnCA"
 
 make_cert "user"  "usercert.pem"  "userkey.pem"    "/C=CH/O=JAliEn/CN=jalien"
 make_cert "host"  "hostcert.pem"  "hostkey.pem"    "/C=CH/O=JAliEn/CN=localhost.localdomain"
+make_cert "host"  "hostcert.pem"  "hostkey.pem"    "/C=CH/O=JAliEn/CN=localhost2.localdomain"
 make_cert "authz" "AuthZ_pub.pem" "AuthZ_priv.pem" "/C=CH/O=JAliEn/CN=jAuth"
 make_cert "SE"    "SE_pub.pem"    "SE_priv.pem"    "/C=CH/O=JAliEn/CN=TESTSE"
 

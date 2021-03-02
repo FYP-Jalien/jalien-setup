@@ -1,6 +1,7 @@
 #!/bin/bash
 set -e
 
+echo "MARTA: Received $1"
 JALIEN_DEV=/jalien-dev
 CE_CONFIG=$JALIEN_DEV/config/ComputingElement/docker
 LOGS=$JALIEN_DEV/logs
@@ -14,7 +15,7 @@ bash start.sh &>$LOGS/htcondor_starter.log &
 #setup submituser to submit jobs on HTCondor and start CE
 [ ! -e /home/submituser ] && adduser submituser --gecos "First Last,RoomNumber,WorkPhone,HomePhone" --disabled-password
 echo "submituser:toor" | chpasswd
-cp $CE_CONFIG/custom-classad.jdl /home/submituser
+cp $CE_CONFIG/custom-classad-$1.jdl /home/submituser
 [ ! -e /home/submituser/tmp ] && su submituser -c "mkdir /home/submituser/tmp /home/submituser/log"
 touch /home/submituser/no-proxy-check /home/submituser/enable-sandbox
 
