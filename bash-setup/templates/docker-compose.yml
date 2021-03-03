@@ -39,6 +39,7 @@ services:
     environment:
       CONDOR_HOST: "schedd"
       USE_POOL_PASSWORD: "yes"
+      NUM_CPUS: 4
     volumes:
       - /cvmfs/alice.cern.ch:/cvmfs/alice.cern.ch
       - $JALIEN_SETUP_DIR/ce-setup:/ce-setup:ro
