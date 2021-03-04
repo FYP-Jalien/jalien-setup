@@ -3,7 +3,7 @@
 echo "Ceci n'est pas un Optimizer"
 MYSQLCALL="mysql --verbose --host=127.0.0.1 --port=3307 --password=pass --user=root -D processes -e"
 $MYSQLCALL 'update HOSTS set maxJobs=3000, maxqueued=300 where 1=1;'
-for i in 1 2 3 4
+for i in 1 2 3 4 5 6 7 8 9 10 11
 do
         echo \"Optimizing\"
         #Transition "Inserting" jobs to "Waiting"
@@ -18,5 +18,5 @@ do
         #Cleanup killed jobs
         $MYSQLCALL "delete from QUEUE where statusId='-14';"
         [ x"$1" = x"-o" ] && exit 0
-        sleep 50
+        sleep 30
 done
