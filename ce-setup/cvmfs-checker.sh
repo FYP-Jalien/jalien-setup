@@ -10,5 +10,9 @@ else {
 
     #start htcondor
     bash /start.sh
+    for n in {1..64} 
+    do
+       useradd "slot$n"
+    done
 }
 fi

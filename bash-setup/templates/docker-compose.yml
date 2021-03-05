@@ -39,12 +39,14 @@ services:
     environment:
       CONDOR_HOST: "schedd"
       USE_POOL_PASSWORD: "yes"
+      NUM_CPUS: 8
     volumes:
       - /cvmfs/alice.cern.ch:/cvmfs/alice.cern.ch
       - $JALIEN_SETUP_DIR/ce-setup:/ce-setup:ro
       - $SHARED_VOLUME:/jalien-dev
       - $JALIEN_SETUP_DIR/ce-setup/htcondor-conf/pool_password:/root/secrets/pool_password
-      
+      - $JALIEN_SETUP_DIR/ce-setup/htcondor-conf/01-slotusers.conf:/etc/condor/config.d/01-slotusers.conf 
+
   JCentral-dev-CE:
     image: "jalien-base"
     command: bash /ce-setup/ce-entrypoint.sh first
