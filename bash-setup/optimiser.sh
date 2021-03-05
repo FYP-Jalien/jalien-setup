@@ -20,5 +20,5 @@ do
         #Cleanup killed jobs
         $MYSQLCALL "delete from QUEUE where statusId='-14';"
         [ x"$1" = x"-o" ] && exit 0
-        sleep 60
+        sleep 40
 done

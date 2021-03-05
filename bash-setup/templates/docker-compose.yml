@@ -32,7 +32,7 @@ services:
       USE_POOL_PASSWORD: "yes"
     volumes:
       - $JALIEN_SETUP_DIR/ce-setup/htcondor-conf/pool_password:/root/secrets/pool_password
-
+      
   worker:
     image: "htcondor/execute:8.9.6-el7"
     command: bash /ce-setup/cvmfs-checker.sh
@@ -44,7 +44,7 @@ services:
       - $JALIEN_SETUP_DIR/ce-setup:/ce-setup:ro
       - $SHARED_VOLUME:/jalien-dev
       - $JALIEN_SETUP_DIR/ce-setup/htcondor-conf/pool_password:/root/secrets/pool_password
-
+      
   JCentral-dev-CE:
     image: "jalien-base"
     command: bash /ce-setup/ce-entrypoint.sh first
@@ -58,7 +58,7 @@ services:
       - $SHARED_VOLUME:/jalien-dev
       - $JALIEN_SETUP_DIR/ce-setup:/ce-setup:ro
       - $JALIEN_SETUP_DIR/ce-setup/htcondor-conf/pool_password:/root/secrets/pool_password
-      
+        
   JCentral-dev-CE-second:
     image: "jalien-base"
     command: bash /ce-setup/ce-entrypoint.sh second
@@ -75,3 +75,7 @@ services:
 
 volumes:
   jsite-storage:
+  
+networks:
+  first-site: {}
+  second-site: {}
