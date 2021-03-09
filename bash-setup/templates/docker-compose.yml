@@ -78,6 +78,3 @@ services:
 volumes:
   jsite-storage:
   
-networks:
-  first-site: {}
-  second-site: {}

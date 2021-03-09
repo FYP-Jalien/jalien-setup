@@ -1,7 +1,6 @@
 #!/bin/bash
 set -e
 
-echo "MARTA: Received $1"
 JALIEN_DEV=/jalien-dev
 CE_CONFIG=$JALIEN_DEV/config/ComputingElement/docker
 LOGS=$JALIEN_DEV/logs

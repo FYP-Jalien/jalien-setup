@@ -13,13 +13,9 @@ do
         #$MYSQLCALL "insert into JOBAGENT(entryId,priority,noce,fileBroker,revision,price,partition,disk,ttl,oldestQueueId,ce,userId,packages,site,counter)values('1','100','','0','0','1','%','50000000','80000','0',',ALICE::JALIEN::CEJALIEN,','6','%',',JALIEN,',1)" 
         #$MYSQLCALL "insert into JOBAGENT (entryId,priority,noce,fileBroker,revision,price,partition,disk,ttl,oldestQueueId,ce,userId,site,counter) values (1,100,NULL,0,0,1.0,NULL,50000000,80000,0,'LOCALHOST::JTESTSITE::FIRSTSE',6,'JTESTSITE',1);"
         #$MYSQLCALL "insert into JOBAGENT (entryId,priority,noce,fileBroker,revision,price,disk,ttl,oldestQueueId,ce,userId,packages,site,counter) values (1,100,'',0,0,1,0,0,0,'LOCALHOST::JTESTSITE::FIRSTSE',1235890,'%','JTESTSITE',1);"
-        $MYSQLCALL 'insert into JOBAGENT (entryId,priority,noce,fileBroker,`partition`,disk,ttl,ce,userId,packages,site,counter,price,oldestQueueId,revision,cpucores) values (1,100,"",0,",,",0,0,",ALICE::JTestSite::firstce,",1235890,"%",",JTestSite,",1,1,0,0,8);'
-<<<<<<< HEAD
-		$MYSQLCALL 'insert into JOBAGENT (entryId,priority,noce,fileBroker,`partition`,disk,ttl,ce,userId,packages,site,counter,price,oldestQueueId,revision,cpucores) values (2,100,"",0,",,",0,0,",ALICE::JTestSite::secondce,",1235890,"%",",JTestSite,",1,1,0,0,8);'
-		#Register jobs transitioned to "Waiting" with the JOBAGENT entry
-=======
-        #Register jobs transitioned to "Waiting" with the JOBAGENT entry
->>>>>>> multi-core-setup
+        $MYSQLCALL 'insert into JOBAGENT (entryId,priority,noce,fileBroker,`partition`,disk,ttl,ce,userId,packages,site,counter,price,oldestQueueId,revision,cpucores) values (1,100,"",0,",,",0,0,",ALICE::JTestSite::secondce,",1235890,"%",",JTestSite,",1,1,0,0,2);'
+	$MYSQLCALL 'insert into JOBAGENT (entryId,priority,noce,fileBroker,`partition`,disk,ttl,ce,userId,packages,site,counter,price,oldestQueueId,revision,cpucores) values (2,100,"",0,",,",0,0,",ALICE::JTestSite::firstce,",1235890,"%",",JTestSite,",1,1,0,0,1);'
+	#Register jobs transitioned to "Waiting" with the JOBAGENT entry
         $MYSQLCALL  "update QUEUE set agentId=1 where statusId=5;"
         #Cleanup killed jobs
         $MYSQLCALL "delete from QUEUE where statusId='-14';"
