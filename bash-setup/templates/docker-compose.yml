@@ -26,40 +26,88 @@ services:
       - $SHARED_VOLUME:/jalien-dev
       - jsite-storage:/shared-volume
 
-  schedd:
-    image: "htcondor/cm:8.9.6-el7"
+  mysql:
+    image: mysql:5.7
+    hostname: mysql
+    container_name: mysql
     environment:
-      USE_POOL_PASSWORD: "yes"
+      MYSQL_RANDOM_ROOT_PASSWORD: "yes"
+      MYSQL_DATABASE: slurm_acct_db
+      MYSQL_USER: slurm
+      MYSQL_PASSWORD: password
     volumes:
-      - $JALIEN_SETUP_DIR/ce-setup/htcondor-conf/pool_password:/root/secrets/pool_password
+      - var_lib_mysql:/var/lib/mysql
 
-  worker:
-    image: "htcondor/execute:8.9.6-el7"
-    command: bash /ce-setup/cvmfs-checker.sh
-    environment:
-      CONDOR_HOST: "schedd"
-      USE_POOL_PASSWORD: "yes"
-      NUM_CPUS: 8
+  slurmdbd:
+    image: jalien-base
+    entrypoint: /ce-setup/slurm-conf/docker-entrypoint.sh slurmdbd
+    container_name: slurmdbd
+    hostname: slurmdbd
     volumes:
-      - /cvmfs/alice.cern.ch:/cvmfs/alice.cern.ch
-      - $JALIEN_SETUP_DIR/ce-setup:/ce-setup:ro
+      - $JALIEN_SETUP_DIR/ce-setup/slurm-conf/slurmdbd.conf:/etc/slurm/slurmdbd.conf
+      - $JALIEN_SETUP_DIR/ce-setup/slurm-conf/slurm.conf:/etc/slurm/slurm.conf
+      - $JALIEN_SETUP_DIR/ce-setup/slurm-conf/munge.key:/etc/munge/munge.key
       - $SHARED_VOLUME:/jalien-dev
-      - $JALIEN_SETUP_DIR/ce-setup/htcondor-conf/pool_password:/root/secrets/pool_password
-      - $JALIEN_SETUP_DIR/ce-setup/htcondor-conf/01-slotusers.conf:/etc/condor/config.d/01-slotusers.conf 
+      - $JALIEN_SETUP_DIR/ce-setup:/ce-setup:ro
+    expose:
+      - "6819"
+    depends_on:
+      - mysql
+
+  slurmctld:
+    image: jalien-base
+    entrypoint: /ce-setup/slurm-conf/docker-entrypoint.sh slurmctld
+    container_name: slurmctld
+    hostname: slurmctld
+    volumes:
+      - $JALIEN_SETUP_DIR/ce-setup/slurm-conf/slurmdbd.conf:/etc/slurm/slurmdbd.conf
+      - $JALIEN_SETUP_DIR/ce-setup/slurm-conf/slurm.conf:/etc/slurm/slurm.conf
+      - /cvmfs/alice.cern.ch:/cvmfs/alice.cern.ch
+      - $JALIEN_SETUP_DIR/ce-setup/slurm-conf/munge.key:/etc/munge/munge.key
+      - $SHARED_VOLUME:/jalien-dev
+      - $JALIEN_SETUP_DIR/ce-setup:/ce-setup:ro
+      - slurm_jobdir:/data
+    expose:
+      - "6817"
+    depends_on:
+      - "slurmdbd"
 
   JCentral-dev-CE:
-    image: "jalien-base"
+    image: jalien-base
     command: bash /ce-setup/ce-entrypoint.sh
     hostname: "localhost.localdomain"
     environment:
-      CONDOR_HOST: "schedd"
-      USE_POOL_PASSWORD: "yes"
       LD_LIBRARY_PATH: "/tmp"
+    depends_on:
+      - mysql
     volumes:
+      - $JALIEN_SETUP_DIR/ce-setup/slurm-conf/slurmdbd.conf:/etc/slurm/slurmdbd.conf
+      - $JALIEN_SETUP_DIR/ce-setup/slurm-conf/slurm.conf:/etc/slurm/slurm.conf
       - /cvmfs/alice.cern.ch:/cvmfs/alice.cern.ch
+      - $JALIEN_SETUP_DIR/ce-setup/slurm-conf/munge.key:/etc/munge/munge.key
       - $SHARED_VOLUME:/jalien-dev
       - $JALIEN_SETUP_DIR/ce-setup:/ce-setup:ro
-      - $JALIEN_SETUP_DIR/ce-setup/htcondor-conf/pool_password:/root/secrets/pool_password
+      - slurm_jobdir:/data
+
+  c1:
+    image: jalien-base
+    entrypoint: /ce-setup/slurm-conf/docker-entrypoint.sh slurmd
+    hostname: c1
+    container_name: c1
+    volumes:
+      - $JALIEN_SETUP_DIR/ce-setup/slurm-conf/slurmdbd.conf:/etc/slurm/slurmdbd.conf
+      - $JALIEN_SETUP_DIR/ce-setup/slurm-conf/slurm.conf:/etc/slurm/slurm.conf
+      - /cvmfs/alice.cern.ch:/cvmfs/alice.cern.ch
+      - $JALIEN_SETUP_DIR/ce-setup/slurm-conf/munge.key:/etc/munge/munge.key
+      - $JALIEN_SETUP_DIR/ce-setup:/ce-setup:ro
+      - $SHARED_VOLUME:/jalien-dev
+      - slurm_jobdir:/data
+    expose:
+      - "6818"
+    depends_on:
+      - "JCentral-dev-CE"
 
 volumes:
   jsite-storage:
+  var_lib_mysql:
+  slurm_jobdir:

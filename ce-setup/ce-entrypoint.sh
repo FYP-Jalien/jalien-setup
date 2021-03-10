@@ -4,19 +4,16 @@ set -e
 JALIEN_DEV=/jalien-dev
 CE_CONFIG=$JALIEN_DEV/config/ComputingElement/docker
 LOGS=$JALIEN_DEV/logs
-HTCONDOR_CONF=/ce-setup/htcondor-conf
-#setup htcondor conf and start it
-cp $HTCONDOR_CONF/01* /etc/condor/config.d
-cp $HTCONDOR_CONF/start.sh $HTCONDOR_CONF/update-secrets $HTCONDOR_CONF/update-config / 
-cp $HTCONDOR_CONF/supervisord.conf /etc/
-bash start.sh &>$LOGS/htcondor_starter.log &
+SLURM_CONF=/ce-setup/slurm-conf
 
 #setup submituser to submit jobs on HTCondor and start CE
 [ ! -e /home/submituser ] && adduser submituser --gecos "First Last,RoomNumber,WorkPhone,HomePhone" --disabled-password
+[ ! -e /data/jobs ] && mkdir /data/jobs /data/logs /data/tmp && chown submituser:submituser -R /data/
 echo "submituser:toor" | chpasswd
-cp $CE_CONFIG/custom-classad.jdl /home/submituser
-[ ! -e /home/submituser/tmp ] && su submituser -c "mkdir /home/submituser/tmp /home/submituser/log"
-touch /home/submituser/no-proxy-check /home/submituser/enable-sandbox
+
+service munge start
+
+[ ! -e /home/submituser/tmp ] && su submituser -c "mkdir -p /home/submituser/tmp /home/submituser/logs"
 
 #run CE with auto reloading
 CE_CMD="java -cp $JALIEN_DEV/alien-cs.jar -Duserid=$(id -u) -Dcom.sun.jndi.ldap.connect.pool=false -DAliEnConfig=$CE_CONFIG -Djava.net.preferIPv4Stack=true alien.site.ComputingElement"
