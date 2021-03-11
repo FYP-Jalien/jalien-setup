@@ -3,6 +3,9 @@ host: localhost.localdomain
 installmethod: CVMFS
 maxjobs: 3000
 maxqueuedjobs: 300
+submitarg: "-c 8"
+cerequirements: other.cpucores==1
+matcharg: CPUCORES=1
 name: firstce
 objectclass: AliEnCE
 objectclass: top

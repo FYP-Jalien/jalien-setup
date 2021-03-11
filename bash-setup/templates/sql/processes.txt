@@ -263,6 +263,7 @@ CREATE TABLE `QUEUE` (
   `started` int DEFAULT NULL,
   `expires` int DEFAULT NULL,
   `remoteTimeout` int DEFAULT NULL,
+  `cpucores` int DEFAULT '1',
   PRIMARY KEY (`queueId`),
   KEY `notifyId` (`notifyId`),
   KEY `userId` (`userId`),
@@ -678,6 +679,7 @@ CREATE TABLE `TODELETE` (
 USE `processes`;
 LOCK TABLES SITEQUEUES WRITE;
 insert into SITEQUEUES (siteId,runload,blocked,cost,timeblocked,maxqueued,status,site,statustime,maxrunning) values (1,0,"open", NULL,NULL,10,"down","ALICE::JTESTSITE::FIRSTCE",0,100);
+insert into SITEQUEUES (siteId,runload,blocked,cost,timeblocked,maxqueued,status,site,statustime,maxrunning) values (2,0,"open", NULL,NULL,10,"down","ALICE::JTESTSITE::SECONDCE",0,100);
 UNLOCK TABLES;
 --
 -- Final view structure for view `QUEUE_VIEW`
