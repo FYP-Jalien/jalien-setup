@@ -1,9 +1,9 @@
-dn: host=localhost.localdomain,ou=Config,ou=JTestSite,ou=Sites,o=localhost,dc=localdomain
-cachedir: /data/cache
-tmpdir: /data/tmp
-workdir: /data/tmp
-logdir: /data/log
+dn: host=firsthost.localdomain,ou=Config,ou=JTestSite,ou=Sites,o=localhost,dc=localdomain
+cachedir: /data/firsthost/cache
+tmpdir: /data/firsthost/tmp
+workdir: /data/firsthost/tmp
+logdir: /data/firsthost/log
 ce: firstce
-host: localhost.localdomain
+host: firsthost.localdomain
 objectclass: top
 objectclass: AliEnHostConfig

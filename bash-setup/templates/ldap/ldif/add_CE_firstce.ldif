@@ -1,11 +1,11 @@
 dn: name=firstce,ou=CE,ou=Services,ou=JTestSite,ou=Sites,o=localhost,dc=localdomain
-host: localhost.localdomain
+host: firsthost.localdomain
 installmethod: CVMFS
 maxjobs: 3000
 maxqueuedjobs: 300
-submitarg: "-c 8"
-cerequirements: other.cpucores==1
 matcharg: CPUCORES=1
+cerequirements:other.cpucores>=1
+submitarg: "-c 1"
 name: firstce
 objectclass: AliEnCE
 objectclass: top

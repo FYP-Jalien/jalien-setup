@@ -3,6 +3,7 @@ set -e
 
 JALIEN_DEV=/jalien-dev
 CE_CONFIG=$JALIEN_DEV/config/ComputingElement/docker
+HOST_CONFIG=$JALIEN_DEV/config/ComputingElement/host
 LOGS=$JALIEN_DEV/logs
 SLURM_CONF=/ce-setup/slurm-conf
 
@@ -13,6 +14,8 @@ echo "submituser:toor" | chpasswd
 
 service munge start
 
+cp $HOST_CONFIG/slurm-environment-$1.config /home/submituser/slurm-environment.config
+export SUBMIT_ARGS="--export-file=/home/submituser/slurm-environment.config"
 [ ! -e /home/submituser/tmp ] && su submituser -c "mkdir -p /home/submituser/tmp /home/submituser/logs"
 
 #run CE with auto reloading

@@ -10,8 +10,8 @@ roles: vobox
 uid: jalien
 uidNumber: 2
 subject: /C=CH/O=JAliEn/CN=jalien
-subject: /C=CH/O=JAliEn/CN=localhost.localdomain
-subject: /C=CH/O=JAliEn/CN=localhost2.localdomain
+subject: /C=CH/O=JAliEn/CN=firsthost.localdomain
+subject: /C=CH/O=JAliEn/CN=secondhost.localdomain
 cn: jalien
 homeDirectory: /localhost/localdomain/user/j/jalien
 userPassword:: e2NyeXB0fXg=

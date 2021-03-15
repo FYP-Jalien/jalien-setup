@@ -72,8 +72,8 @@ services:
 
   JCentral-dev-CE:
     image: jalien-base
-    command: bash /ce-setup/ce-entrypoint.sh
-    hostname: "localhost.localdomain"
+    command: bash /ce-setup/ce-entrypoint.sh first
+    hostname: "firsthost.localdomain"
     environment:
       LD_LIBRARY_PATH: "/tmp"
     depends_on:
@@ -85,7 +85,23 @@ services:
       - $SHARED_VOLUME:/jalien-dev
       - $JALIEN_SETUP_DIR/ce-setup:/ce-setup:ro
       - slurm_jobdir:/data
-
+      
+  JCentral-dev-CE-SECOND:
+    image: jalien-base
+    command: bash /ce-setup/ce-entrypoint.sh second
+    hostname: "secondhost.localdomain"
+    environment:
+      LD_LIBRARY_PATH: "/tmp"
+    depends_on:
+      - mysql
+    volumes:
+      - $JALIEN_SETUP_DIR/ce-setup/slurm-conf/slurmdbd.conf:/etc/slurm/slurmdbd.conf
+      - $JALIEN_SETUP_DIR/ce-setup/slurm-conf/slurm.conf:/etc/slurm/slurm.conf
+      - /cvmfs/alice.cern.ch:/cvmfs/alice.cern.ch
+      - $SHARED_VOLUME:/jalien-dev
+      - $JALIEN_SETUP_DIR/ce-setup:/ce-setup:ro
+      - slurm_jobdir:/data
+      
   c1:
     image: jalien-base
     entrypoint: /ce-setup/slurm-conf/docker-entrypoint.sh slurmd
@@ -102,23 +118,7 @@ services:
       - "6818"
     depends_on:
       - "JCentral-dev-CE"
-      
-  c2:
-    image: jalien-base
-    entrypoint: /ce-setup/slurm-conf/docker-entrypoint.sh slurmd
-    hostname: c2
-    container_name: c2
-    volumes:
-      - $JALIEN_SETUP_DIR/ce-setup/slurm-conf/slurmdbd.conf:/etc/slurm/slurmdbd.conf
-      - $JALIEN_SETUP_DIR/ce-setup/slurm-conf/slurm.conf:/etc/slurm/slurm.conf
-      - /cvmfs/alice.cern.ch:/cvmfs/alice.cern.ch
-      - $JALIEN_SETUP_DIR/ce-setup:/ce-setup:ro
-      - $SHARED_VOLUME:/jalien-dev
-      - slurm_jobdir:/data
-    expose:
-      - "6818"
-    depends_on:
-      - "JCentral-dev-CE"
+      - "JCentral-dev-CE-SECOND"
 
 volumes:
   jsite-storage:
