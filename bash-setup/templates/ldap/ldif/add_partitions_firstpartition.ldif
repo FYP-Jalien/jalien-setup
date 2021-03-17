@@ -1,0 +1,6 @@
+dn: name=firstpartition,ou=Partitions,o=localhost,dc=localdomain
+CEname:  ALICE::JTestSite::firstce
+CEname:  ALICE::JTestSite::secondce
+name: firstpartition
+objectClass: AliEnPartition
+objectclass: top
