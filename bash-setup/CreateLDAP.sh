@@ -74,9 +74,6 @@ function initializeLDAP(){
 
         #add jobagent
         add_user_jobagent
-        
-        #add partitions
-        add_partitions_firstpartition
     )
 
     for i in ${arr[@]}
