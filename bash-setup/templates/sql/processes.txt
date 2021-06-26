@@ -113,6 +113,7 @@ CREATE TABLE `JOBAGENT` (
   `fileBroker` tinyint(1) NOT NULL DEFAULT '0',
   `partition` varchar(1000) COLLATE latin1_general_cs DEFAULT NULL,
   `disk` int DEFAULT NULL,
+  `cpucores` int DEFAULT 1,
   `ttl` int DEFAULT NULL,
   `ce` varchar(1000) COLLATE latin1_general_cs DEFAULT NULL,
   `userId` int NOT NULL,
@@ -247,6 +248,7 @@ CREATE TABLE `QUEUE` (
   `price` float DEFAULT NULL,
   `finished` int DEFAULT NULL,
   `masterjob` int DEFAULT '0',
+  `cpucores` int DEFAULT NULL,
   `splitting` int DEFAULT NULL,
   `notifyId` int DEFAULT NULL,
   `optimized` int DEFAULT '0',
@@ -506,6 +508,7 @@ SET character_set_client = utf8;
   `price` tinyint NOT NULL,
   `finished` tinyint NOT NULL,
   `masterjob` tinyint NOT NULL,
+  `cpucores` tinyint NOT NULL,
   `splitting` tinyint NOT NULL,
   `notifyId` tinyint NOT NULL,
   `optimized` tinyint NOT NULL,
@@ -692,7 +695,7 @@ UNLOCK TABLES;
 /*!50001 SET collation_connection      = latin1_swedish_ci */;
 /*!50001 CREATE ALGORITHM=UNDEFINED */
 /*!50013 DEFINER=`root`@`localhost` SQL SECURITY DEFINER */
-/*!50001 VIEW `QUEUE_VIEW` AS select `QUEUE`.`queueId` AS `queueId`,`QUEUE`.`statusId` AS `statusId`,`QUEUE`.`userId` AS `userId`,`QUEUE`.`priority` AS `priority`,`QUEUE`.`submitHostId` AS `submitHostId`,`QUEUE`.`finalPrice` AS `finalPrice`,`QUEUE`.`sent` AS `sent`,`QUEUE`.`split` AS `split`,`QUEUE`.`nodeId` AS `nodeId`,`QUEUE`.`execHostId` AS `execHostId`,`QUEUE`.`mtime` AS `mtime`,`QUEUE`.`agentId` AS `agentId`,`QUEUE`.`price` AS `price`,`QUEUE`.`finished` AS `finished`,`QUEUE`.`masterjob` AS `masterjob`,`QUEUE`.`splitting` AS `splitting`,`QUEUE`.`notifyId` AS `notifyId`,`QUEUE`.`optimized` AS `optimized`,`QUEUE`.`commandId` AS `commandId`,`QUEUE`.`error` AS `error`,`QUEUE`.`resubmission` AS `resubmission`,`QUEUE`.`received` AS `received`,`QUEUE`.`validate` AS `validate`,`QUEUE`.`merging` AS `merging`,`QUEUE`.`chargeStatus` AS `chargeStatus`,`QUEUE`.`siteId` AS `siteId`,`QUEUE`.`started` AS `started`,`QUEUE`.`expires` AS `expires`,`QUEUE_USER`.`user` AS `user`,`QUEUE_STATUS`.`status` AS `status`,`QUEUEJDL`.`origJdl` AS `origJdl`,`QUEUEJDL`.`resultsJdl` AS `resultsJdl`,`QUEUEJDL`.`path` AS `path` from (((`QUEUE` join `QUEUE_USER` on((`QUEUE`.`userId` = `QUEUE_USER`.`userId`))) join `QUEUE_STATUS` on((`QUEUE`.`statusId` = `QUEUE_STATUS`.`statusId`))) join `QUEUEJDL` on((`QUEUE`.`queueId` = `QUEUEJDL`.`queueId`))) */;
+/*!50001 VIEW `QUEUE_VIEW` AS select `QUEUE`.`queueId` AS `queueId`,`QUEUE`.`statusId` AS `statusId`,`QUEUE`.`userId` AS `userId`,`QUEUE`.`priority` AS `priority`,`QUEUE`.`submitHostId` AS `submitHostId`,`QUEUE`.`finalPrice` AS `finalPrice`,`QUEUE`.`sent` AS `sent`,`QUEUE`.`split` AS `split`,`QUEUE`.`nodeId` AS `nodeId`,`QUEUE`.`execHostId` AS `execHostId`,`QUEUE`.`mtime` AS `mtime`,`QUEUE`.`agentId` AS `agentId`,`QUEUE`.`price` AS `price`,`QUEUE`.`finished` AS `finished`,`QUEUE`.`masterjob` AS `masterjob`,`QUEUE`.`cpucores` AS `cpucores`,`QUEUE`.`splitting` AS `splitting`,`QUEUE`.`notifyId` AS `notifyId`,`QUEUE`.`optimized` AS `optimized`,`QUEUE`.`commandId` AS `commandId`,`QUEUE`.`error` AS `error`,`QUEUE`.`resubmission` AS `resubmission`,`QUEUE`.`received` AS `received`,`QUEUE`.`validate` AS `validate`,`QUEUE`.`merging` AS `merging`,`QUEUE`.`chargeStatus` AS `chargeStatus`,`QUEUE`.`siteId` AS `siteId`,`QUEUE`.`started` AS `started`,`QUEUE`.`expires` AS `expires`,`QUEUE_USER`.`user` AS `user`,`QUEUE_STATUS`.`status` AS `status`,`QUEUEJDL`.`origJdl` AS `origJdl`,`QUEUEJDL`.`resultsJdl` AS `resultsJdl`,`QUEUEJDL`.`path` AS `path` from (((`QUEUE` join `QUEUE_USER` on((`QUEUE`.`userId` = `QUEUE_USER`.`userId`))) join `QUEUE_STATUS` on((`QUEUE`.`statusId` = `QUEUE_STATUS`.`statusId`))) join `QUEUEJDL` on((`QUEUE`.`queueId` = `QUEUEJDL`.`queueId`))) */;
 /*!50001 SET character_set_client      = @saved_cs_client */;
 /*!50001 SET character_set_results     = @saved_cs_results */;
 /*!50001 SET collation_connection      = @saved_col_connection */;
