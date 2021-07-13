@@ -2,9 +2,10 @@ dn: name=secondce,ou=CE,ou=Services,ou=JTestSite,ou=Sites,o=localhost,dc=localdo
 host: secondhost.localdomain
 installmethod: CVMFS
 maxjobs: 3000
-cerequirements:other.cpucores>=4
-submitarg: "-c 4"
-matcharg: CPUCORES=4
+environment: proxy_cache_file=/data/secondhost/proxy
+environment: SLURM_LOG_PATH=/data/secondhost/log
+submitarg: --export-file=/home/submituser/slurm-environment.config -c 4
+matcharg: CPUCORES=0
 maxqueuedjobs: 300
 name: secondce
 objectclass: AliEnCE

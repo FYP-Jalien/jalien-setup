@@ -5,7 +5,7 @@ maxjobs: 3000
 maxqueuedjobs: 300
 matcharg: CPUCORES=1
 cerequirements:other.cpucores>=1
-submitarg: "-c 1"
+submitarg: --export-file=/home/submituser/slurm-environment.config -c 1
 name: firstce
 objectclass: AliEnCE
 objectclass: top
