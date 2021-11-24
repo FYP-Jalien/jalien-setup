@@ -12,7 +12,7 @@ cp $HTCONDOR_CONF/supervisord.conf /etc/
 bash start.sh &>$LOGS/htcondor_starter.log &
 
 #setup submituser to submit jobs on HTCondor and start CE
-[ ! -e /home/submituser ] && adduser submituser --gecos "First Last,RoomNumber,WorkPhone,HomePhone" --disabled-password
+[ ! -e /home/submituser ] && adduser submituser --comment "First Last,RoomNumber,WorkPhone,HomePhone" 
 echo "submituser:toor" | chpasswd
 cp $CE_CONFIG/custom-classad.jdl /home/submituser
 [ ! -e /home/submituser/tmp ] && su submituser -c "mkdir /home/submituser/tmp /home/submituser/log"

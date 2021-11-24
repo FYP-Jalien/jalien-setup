@@ -1,7 +1,7 @@
 version: "3.3"
 services:
   JCentral-dev:
-    image: jalien-base
+    image: jcentral-base
     command: /jalien-setup/bash-setup/entrypoint.sh
     hostname: JCentral-dev
     ports:

@@ -3,6 +3,7 @@
 echo "Ceci n'est pas un Optimizer"
 MYSQLCALL="mysql --verbose --host=127.0.0.1 --port=3307 --password=pass --user=root -D processes -e"
 $MYSQLCALL 'update HOSTS set maxJobs=3000, maxqueued=300 where 1=1;'
+$MYSQLCALL 'update SITEQUEUES set blocked="open" where blocked="locked";'
 while :
 do
         echo \"Optimizing\"
