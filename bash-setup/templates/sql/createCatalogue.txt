@@ -65,6 +65,10 @@ CREATE TABLE `INDEXTABLE` (  `indexId` int(11) NOT NULL AUTO_INCREMENT,  `hostIn
               `lfn` varchar(255) COLLATE latin1_general_cs DEFAULT NULL,  PRIMARY KEY (`indexId`),  UNIQUE KEY `lfn` (`lfn`)
             ) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=latin1 COLLATE=latin1_general_cs;
 
+DROP TABLE IF EXISTS `INDEXTABLE_UPDATE`;
+
+CREATE TABLE `INDEXTABLE_UPDATE` (  `entryId` ENUM("1") NOT NULL PRIMARY KEY, `last_updated` TIMESTAMP);
+
 DROP TABLE IF EXISTS `L0L`;
 
 CREATE TABLE `L0L` (  `entryId` bigint(11) NOT NULL AUTO_INCREMENT,  `owner` varchar(20) COLLATE latin1_general_cs NOT NULL,
