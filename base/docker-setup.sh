@@ -2,6 +2,8 @@
 apt update;
 
 # setup MySQL
+export DEBIAN_FRONTEND=noninteractive
+export LC_ALL=C
 apt-get install -y debconf-utils;
 { \
 echo mysql-community-server mysql-community-server/root-pass password ''; \
@@ -10,8 +12,6 @@ echo mysql-community-server mysql-community-server/re-root-pass password ''; \
 && apt install -y mysql-server
 
 # Install dependencies
-export DEBIAN_FRONTEND=noninteractive
-export LC_ALL=C
 apt install -y openjdk-11-jdk python3 python3-pip git slapd ldap-utils rsync vim tmux entr less cmake zlib1g-dev uuid uuid-dev libssl-dev
 
 # Install XRootD
@@ -25,7 +25,7 @@ cd /
 
 #Install HTCondor
 wget -qO - https://research.cs.wisc.edu/htcondor/ubuntu/HTCondor-Release.gpg.key | apt-key add -
-echo "deb http://research.cs.wisc.edu/htcondor/ubuntu/8.8/bionic bionic contrib">> /etc/apt/sources.list
-echo "deb-src http://research.cs.wisc.edu/htcondor/ubuntu/8.8/bionic bionic contrib" >> /etc/apt/sources.list
+echo "deb http://research.cs.wisc.edu/htcondor/ubuntu/8.8/focal focal contrib">> /etc/apt/sources.list
+echo "deb-src http://research.cs.wisc.edu/htcondor/ubuntu/8.8/focal focal contrib" >> /etc/apt/sources.list
 apt update
 apt install -y htcondor supervisor environment-modules tcl
