@@ -605,6 +605,9 @@ CREATE TABLE `SITEQUEUES` (
   `maxrunning` int NOT NULL DEFAULT '0',
   `SAVING` int NOT NULL DEFAULT '0',
   `STAGING` int NOT NULL DEFAULT '0',
+  `lastRejectionTime` bigint DEFAULT NULL,
+  `lastRejectionReason` varchar(255) COLLATE latin1_general_cs NOT NULL DEFAULT 'Full match',
+  `ERROR_W` int NOT NULL DEFAULT '0',
   PRIMARY KEY (`siteId`),
   UNIQUE KEY `site` (`site`)
 ) ENGINE=InnoDB AUTO_INCREMENT=303 DEFAULT CHARSET=latin1 COLLATE=latin1_general_cs;

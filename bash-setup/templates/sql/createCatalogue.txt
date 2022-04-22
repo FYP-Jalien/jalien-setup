@@ -154,3 +154,30 @@ DROP TABLE IF EXISTS `HOSTS`;
 CREATE TABLE `HOSTS` (  `hostIndex` int(11) NOT NULL AUTO_INCREMENT,  `address` char(50) COLLATE latin1_general_cs,  `db` char(40) COLLATE latin1_general_cs,
               `driver` char(10) COLLATE latin1_general_cs,  `organisation` char(40) COLLATE latin1_general_cs,  PRIMARY KEY (`hostIndex`)
             ) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=latin1 COLLATE=latin1_general_cs;
+
+DROP TABLE IF EXISTS `orphan_pfns`;
+
+CREATE TABLE `orphan_pfns` ( `guid` binary(16) DEFAULT NULL,
+  `se` int(11) DEFAULT NULL,
+  `fail_count` int(11) DEFAULT '0',
+  `md5sum` char(32) DEFAULT NULL,
+  `size` bigint(20) DEFAULT NULL,
+  `pfn` varchar(1024) DEFAULT NULL,
+  `flags` int(11) DEFAULT NULL,
+  UNIQUE KEY `orphan_pfns_uids` (`guid`,`se`),
+  KEY `orphan_pfns_se` (`se`,`fail_count`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+DROP TABLE IF EXISTS `orphan_pfns_0`;
+
+CREATE TABLE `orphan_pfns_0` (
+  `guid` binary(16) DEFAULT NULL,
+  `se` int(11) DEFAULT NULL,
+  `fail_count` int(11) DEFAULT '0',
+  `md5sum` char(32) DEFAULT NULL,
+  `size` bigint(20) DEFAULT NULL,
+  `pfn` varchar(1024) DEFAULT NULL,
+  `flags` int(11) DEFAULT NULL,
+  UNIQUE KEY `orphan_pfns_uids` (`guid`),
+  KEY `orphan_pfns_size_fail_count_idx` (`fail_count`,`size`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
