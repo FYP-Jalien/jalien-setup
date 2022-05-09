@@ -43,9 +43,23 @@ services:
     volumes:
       - $JALIEN_SETUP_DIR/ce-setup/htcondor-conf/pool_password:/root/secrets/pool_password
 
-  worker:
+  worker1:
     image: "htcondor/execute:8.9.6-el7"
     command: bash /ce-setup/cvmfs-checker.sh
+    hostname: "worker2"
+    environment:
+      CONDOR_HOST: "schedd"
+      USE_POOL_PASSWORD: "yes"
+    volumes:
+      - /cvmfs/alice.cern.ch:/cvmfs/alice.cern.ch
+      - $JALIEN_SETUP_DIR/ce-setup:/ce-setup:ro
+      - $SHARED_VOLUME:/jalien-dev
+      - $JALIEN_SETUP_DIR/ce-setup/htcondor-conf/pool_password:/root/secrets/pool_password
+  
+  worker2:
+    image: "htcondor/execute:8.9.6-el7"
+    command: bash /ce-setup/cvmfs-checker.sh
+    hostname: "worker2"
     environment:
       CONDOR_HOST: "schedd"
       USE_POOL_PASSWORD: "yes"
