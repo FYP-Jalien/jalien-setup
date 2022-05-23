@@ -46,7 +46,7 @@ services:
   worker1:
     image: "htcondor/execute:8.9.6-el7"
     command: bash /ce-setup/cvmfs-checker.sh
-    hostname: "worker2"
+    hostname: "worker1"
     environment:
       CONDOR_HOST: "schedd"
       USE_POOL_PASSWORD: "yes"

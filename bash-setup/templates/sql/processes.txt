@@ -123,6 +123,8 @@ CREATE TABLE `JOBAGENT` (
   `price` float DEFAULT '1',
   `oldestQueueId` int DEFAULT '0',
   `revision` int DEFAULT '0',
+  `flags` varchar(1000) DEFAULT NULL,
+  `noflags` varchar(1000) DEFAULT NULL,
   PRIMARY KEY (`entryId`),
   KEY `priority` (`priority`),
   KEY `ttl` (`ttl`),
@@ -132,6 +134,36 @@ CREATE TABLE `JOBAGENT` (
   CONSTRAINT `JOBAGENT_ibfk_1` FOREIGN KEY (`userId`) REFERENCES `QUEUE_USER` (`userId`) ON DELETE CASCADE ON UPDATE RESTRICT
 ) ENGINE=InnoDB AUTO_INCREMENT=197895043 DEFAULT CHARSET=latin1 COLLATE=latin1_general_cs;
 /*!40101 SET character_set_client = @saved_cs_client */;
+
+-- Custom Site sonar test TABLES
+
+DROP TABLE IF EXISTS `INCOMPATIBLE_NODES`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+/* CREATE TABLE `INCOMPATIBLE_NODES` (
+  `hostname` char(40) COLLATE latin1_general_cs NOT NULL,
+  `ce` char(40) COLLATE latin1_general_cs NOT NULL,
+  `flagname` char(40) NOT NULL,
+  `result` char(5) NOT NULL,
+  `lastupdated` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`hostname`, `ce`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_general_cs;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+INSERT INTO `INCOMPATIBLE_NODES` VALUES ('worker1','localhost.localdomain','testflag','false', 1652767093); */
+
+CREATE TABLE `SITESONAR_SUMMARY` (
+  `hostname` char(40) COLLATE latin1_general_cs NOT NULL,
+  `ce` char(40) COLLATE latin1_general_cs NOT NULL,
+  `flags` char(40) NOT NULL,
+  `noflags` char(5) NOT NULL,
+  `lastupdated` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`hostname`, `ce`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_general_cs;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+INSERT INTO `SITESONAR_SUMMARY` VALUES ('worker1','localhost.localdomain','testflag','', 1652767093);
+INSERT INTO `SITESONAR_SUMMARY` VALUES ('worker2','localhost.localdomain','','testflag', 1652767093);
 
 --
 -- Table structure for table `JOBMESSAGES`
@@ -565,7 +597,7 @@ CREATE TABLE `SITEQUEUES` (
   `SAVED` int NOT NULL DEFAULT '0',
   `A_STAGED` int NOT NULL DEFAULT '0',
   `ERROR_RE` int NOT NULL DEFAULT '0',
-  `blocked` varchar(20) COLLATE latin1_general_cs NOT NULL DEFAULT 'locked',
+  `blocked` varchar(20) COLLATE latin1_general_cs NOT NULL DEFAULT 'open',
   `INCORRECT` int NOT NULL DEFAULT '0',
   `cost` float DEFAULT NULL,
   `ERROR_A` int NOT NULL DEFAULT '0',
