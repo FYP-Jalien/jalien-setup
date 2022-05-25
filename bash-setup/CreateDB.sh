@@ -15,6 +15,8 @@ sql_log="${logdir}/jalien-mysql.log"
 systemDB="alice_system"
 dataDB="alice_data"
 userDB="alice_users"
+adminDB="ADMIN"
+transfersDB="transfers"
 
 sql_port=3307
 mysql_pass="pass"

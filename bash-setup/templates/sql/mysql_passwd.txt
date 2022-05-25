@@ -11,6 +11,8 @@ flush privileges;
 
 CREATE DATABASE IF NOT EXISTS `ADMIN` DEFAULT CHARACTER SET latin1;
 
+CREATE DATABASE IF NOT EXISTS `transfers` DEFAULT CHARACTER SET latin1;
+
 LOCK TABLES `proc` WRITE;
 
 INSERT INTO `proc` VALUES ('dataDB','string2binary','FUNCTION','string2binary','SQL','CONTAINS_SQL','YES','INVOKER','my_uuid varchar(36)','binary(16)','return unhex(replace(my_uuid, \'-\', \'\'))','admin@%','2011-10-06 17:07:18','2011-10-06 17:07:18','','','latin1','latin1_swedish_ci','latin1_swedish_ci','return unhex(replace(my_uuid, \'-\', \'\'))');

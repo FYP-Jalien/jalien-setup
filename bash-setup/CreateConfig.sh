@@ -8,7 +8,9 @@ mkdir -p $jcentral_config_dir
 
 cat > $jcentral_config_dir/config.properties << EoF
 ldap_server = 127.0.0.1:8389
+#ldap_server = alice-ldap.cern.ch:8389
 ldap_root = o=localhost,dc=localdomain
+#ldap_root = o=alice,dc=cern,dc=ch
 alien.users.basehomedir = /localhost/localdomain/user/
 
 apiService = 0.0.0.0:8098
@@ -60,6 +62,8 @@ EoF
 write_db_config $jcentral_config_dir/processes.properties processes
 write_db_config $jcentral_config_dir/alice_data.properties alice_data
 write_db_config $jcentral_config_dir/alice_users.properties alice_users
+write_db_config $jcentral_config_dir/ADMIN.properties ADMIN
+write_db_config $jcentral_config_dir/transfers.properties transfers
 
 # TODO: this will cause problems
 echo "password=pass" >> $jcentral_config_dir/ldap.config

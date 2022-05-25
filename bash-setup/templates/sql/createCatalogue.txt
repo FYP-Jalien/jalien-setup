@@ -141,8 +141,9 @@ DROP TABLE IF EXISTS `SE_VOLUMES`;
 
 CREATE TABLE `SE_VOLUMES` (  `volume` char(255) COLLATE latin1_general_cs NOT NULL,  `volumeId` int(11) NOT NULL AUTO_INCREMENT,  `usedspace` bigint(20) DEFAULT NULL,
               `seName` char(255) CHARACTER SET latin1 COLLATE latin1_general_ci NOT NULL,  `mountpoint` char(255) COLLATE latin1_general_cs DEFAULT NULL,
-              `size` bigint(20) DEFAULT NULL,  `method` char(255) COLLATE latin1_general_cs DEFAULT NULL,  `freespace` bigint(20) DEFAULT NULL,
-              PRIMARY KEY (`volumeId`),  KEY `seName` (`seName`),  KEY `volume` (`volume`)
+              `size` bigint(20) DEFAULT NULL,  `method` text COLLATE latin1_general_cs DEFAULT NULL,  `freespace` bigint(20) DEFAULT NULL,
+              PRIMARY KEY (`volumeId`),  KEY `seName` (`seName`),  KEY `volume` (`volume`),
+              UNIQUE KEY unique_volume(seName, mountpoint)
             ) ENGINE=MyISAM AUTO_INCREMENT=5 DEFAULT CHARSET=latin1 COLLATE=latin1_general_cs;
 
 DROP TABLE IF EXISTS `HOSTS`;
@@ -150,3 +151,35 @@ DROP TABLE IF EXISTS `HOSTS`;
 CREATE TABLE `HOSTS` (  `hostIndex` int(11) NOT NULL AUTO_INCREMENT,  `address` char(50) COLLATE latin1_general_cs,  `db` char(40) COLLATE latin1_general_cs,
               `driver` char(10) COLLATE latin1_general_cs,  `organisation` char(40) COLLATE latin1_general_cs,  PRIMARY KEY (`hostIndex`)
             ) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=latin1 COLLATE=latin1_general_cs;
+
+DROP TABLE IF EXISTS `USERS_LDAP`;
+
+CREATE TABLE `USERS_LDAP` (
+  `user` varchar(75) COLLATE latin1_general_cs NOT NULL,
+  `up` smallint(6) DEFAULT NULL,
+  `dn` varchar(255) COLLATE latin1_general_cs DEFAULT NULL,
+  KEY `USERS_LDAP_user_idx` (`user`),
+  KEY `USERS_LDAP_dn_idx` (`dn`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_cs;
+
+DROP TABLE IF EXISTS `USERS_LDAP_ROLE`;
+
+CREATE TABLE `USERS_LDAP_ROLE` (
+  `user` varchar(75) COLLATE latin1_general_cs NOT NULL,
+  `up` smallint(6) DEFAULT NULL,
+  `role` varchar(100) COLLATE latin1_general_cs DEFAULT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_cs;
+
+DROP TABLE IF EXISTS `PROTOCOLS`;
+
+CREATE TABLE `PROTOCOLS` (
+    `sename` varchar(50) CHARACTER SET latin1 COLLATE latin1_general_ci DEFAULT NULL,
+  `protocol` varchar(100) COLLATE latin1_general_cs DEFAULT NULL,
+  `options` varchar(255) COLLATE latin1_general_cs DEFAULT NULL,
+  `transfers` int(11) DEFAULT NULL,
+  `max_transfers` int(11) DEFAULT NULL,
+  `current_transfers` int(11) DEFAULT NULL,
+  `updated` tinyint(4) DEFAULT '1',
+  `deleteprotocol` tinyint(4) NOT NULL DEFAULT '0',
+  KEY `PROTOCOLS_sename_idx` (`sename`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_cs;
