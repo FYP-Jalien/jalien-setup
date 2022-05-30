@@ -1,0 +1,9 @@
+Executable = "/localhost/localdomain/user/j/jalien/testscript.sh";
+
+OutputDir = "/localhost/localdomain/user/j/jalien/output_dir_new";
+
+Output = {stdout@disk=1};
+
+flags = {testflag};
+
+CPUCores = "1";
