@@ -2,7 +2,7 @@ dn: olcDatabase={1}hdb
 objectClass: olcDatabaseConfig
 objectClass: olcHdbConfig
 olcDatabase: {1}hdb
-olcDbDirectory: /root/.j/testVO/slapd
+olcDbDirectory: /root/.alien/testVO/slapd
 olcSuffix: dc=localdomain
 olcAccess: {0}to attrs=userPassword,shadowLastChange by self write by anonymous auth by dn="cn=Manager,dc=localdomain" write by * none
 olcAccess: {1}to dn.base="" by * read

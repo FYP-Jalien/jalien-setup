@@ -6,8 +6,8 @@ export JALIEN_DEV=/jalien-dev
 export LOGS=$JALIEN_DEV/logs
 export PATH=$PATH:$JALIEN_SETUP/bash-setup
 
-# NOTE: LDAP config still depends on ~/.j/testVO paths
-target="/root/.j/testVO"
+# NOTE: LDAP config still depends on ~/.alien/testVO paths
+target="/root/.alien/testVO"
 mkdir -p $target
 CreateLDAP.sh $target/slapd/slapd.d &>>$LOGS/setup_log.txt &
 tail --pid $! -f $LOGS/setup_log.txt

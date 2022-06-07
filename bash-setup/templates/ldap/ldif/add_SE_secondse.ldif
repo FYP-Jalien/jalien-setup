@@ -7,7 +7,7 @@ objectClass: AliEnSE
 objectClass: AliEnMSS
 objectClass: AliEnSOAPServer
 QoS: disk
-savedir: /root/.j/testVO/SE_storage/firstse
+savedir: /root/.alien/testVO/SE_storage/firstse
 mss: File
 ioDaemons: file:host=localhost:port=${port}
 host: localhost
