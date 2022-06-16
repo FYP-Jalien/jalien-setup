@@ -29,6 +29,18 @@ function startLDAP(){
     nohup slapd -d -1 -s 0 -h ldap://:${ldap_port} -F ${ldap_conf_dir} > ${ldap_log} 2>&1> /dev/null&
 }
 
+function waitLDAP(){
+    while true
+    do
+        if ldapwhoami -x -H ldap://localhost:8389; then
+
+            break
+        else
+            sleep 1
+        fi
+    done
+}
+
 function initializeLDAP(){
     arr=(
         # setup VO
@@ -84,6 +96,6 @@ function initializeLDAP(){
 createConfig
 createSchema
 startLDAP
-sleep 2
+waitLDAP
 initializeLDAP
 echo "CreateLDAP.sh done"
