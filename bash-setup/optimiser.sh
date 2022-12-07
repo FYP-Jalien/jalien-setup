@@ -12,7 +12,8 @@ do
         #$MYSQLCALL "insert into JOBAGENT(entryId,priority,noce,fileBroker,revision,price,partition,disk,ttl,oldestQueueId,ce,userId,packages,site,counter)values('1','100','','0','0','1','%','50000000','80000','0',',ALICE::JALIEN::CEJALIEN,','6','%',',JALIEN,',1)" 
         #$MYSQLCALL "insert into JOBAGENT (entryId,priority,noce,fileBroker,revision,price,partition,disk,ttl,oldestQueueId,ce,userId,site,counter) values (1,100,NULL,0,0,1.0,NULL,50000000,80000,0,'LOCALHOST::JTESTSITE::FIRSTSE',6,'JTESTSITE',1);"
         #$MYSQLCALL "insert into JOBAGENT (entryId,priority,noce,fileBroker,revision,price,disk,ttl,oldestQueueId,ce,userId,packages,site,counter) values (1,100,'',0,0,1,0,0,0,'LOCALHOST::JTESTSITE::FIRSTSE',1235890,'%','JTESTSITE',1);"
-        $MYSQLCALL 'insert into JOBAGENT (entryId,priority,noce,fileBroker,`partition`,disk,cpucores,ttl,ce,userId,packages,site,counter,price,oldestQueueId,revision,flags,noflags) values (1,100,"",0,",,",0,1,0,",ALICE::JTestSite::firstce,",1235890,"%",",JTestSite,",1,1,0,0,"testflag","");'
+        $MYSQLCALL 'insert into JOBAGENT (entryId,priority,noce,fileBroker,`partition`,disk,cpucores,ttl,ce,userId,packages,site,counter,price,oldestQueueId,revision,OS_NAME,CPU_flags,CGROUPSv2_AVAILABLE) values (1,100,"",0,",,",0,1,0,",ALICE::JTestSite::firstce,",1235890,"%",",JTestSite,",1,1,0,0,"CentOS Linux","%bc%", TRUE);'
+        ##$MYSQLCALL 'insert into JOBAGENT (entryId,priority,noce,fileBroker,`partition`,disk,cpucores,ttl,ce,userId,packages,site,counter,price,oldestQueueId,revision,OS_NAME,CPU_flags,CGROUPSv2_AVAILABLE) values (2,100,"",0,",,",0,1,0,",ALICE::JTestSite::firstce,",1235891,"%",",JTestSite,",1,1,0,0,"CentOS Linux","avx", FALSE);'
         #Register jobs transitioned to "Waiting" with the JOBAGENT entry
         $MYSQLCALL  "update QUEUE set agentId=1 where statusId=5;"
         #Cleanup killed jobs

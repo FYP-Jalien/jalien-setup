@@ -123,8 +123,9 @@ CREATE TABLE `JOBAGENT` (
   `price` float DEFAULT '1',
   `oldestQueueId` int DEFAULT '0',
   `revision` int DEFAULT '0',
-  `flags` varchar(1000) DEFAULT NULL,
-  `noflags` varchar(1000) DEFAULT NULL,
+  `OS_NAME` varchar(1000) DEFAULT NULL,
+  `CPU_flags` varchar(1000) DEFAULT NULL,
+  `CGROUPSv2_AVAILABLE` varchar(1000) DEFAULT NULL,
   PRIMARY KEY (`entryId`),
   KEY `priority` (`priority`),
   KEY `ttl` (`ttl`),
@@ -135,35 +136,19 @@ CREATE TABLE `JOBAGENT` (
 ) ENGINE=InnoDB AUTO_INCREMENT=197895043 DEFAULT CHARSET=latin1 COLLATE=latin1_general_cs;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
--- Custom Site sonar test TABLES
 
-DROP TABLE IF EXISTS `INCOMPATIBLE_NODES`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-/* CREATE TABLE `INCOMPATIBLE_NODES` (
-  `hostname` char(40) COLLATE latin1_general_cs NOT NULL,
-  `ce` char(40) COLLATE latin1_general_cs NOT NULL,
-  `flagname` char(40) NOT NULL,
-  `result` char(5) NOT NULL,
+CREATE TABLE `SITESONAR_CONSTRAINTS` (
+  `name` char(40) COLLATE latin1_general_cs NOT NULL,
+  `expression` char(40) COLLATE latin1_general_cs NOT NULL,
+  `enabled` boolean COLLATE latin1_general_cs NOT NULL,
   `lastupdated` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY (`hostname`, `ce`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_general_cs;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
-INSERT INTO `INCOMPATIBLE_NODES` VALUES ('worker1','localhost.localdomain','testflag','false', 1652767093); */
-
-CREATE TABLE `SITESONAR_SUMMARY` (
-  `hostname` char(40) COLLATE latin1_general_cs NOT NULL,
-  `ce` char(40) COLLATE latin1_general_cs NOT NULL,
-  `flags` char(40) NOT NULL,
-  `noflags` char(5) NOT NULL,
-  `lastupdated` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY (`hostname`, `ce`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_general_cs;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
-INSERT INTO `SITESONAR_SUMMARY` VALUES ('worker1','localhost.localdomain','testflag','', 1652767093);
-INSERT INTO `SITESONAR_SUMMARY` VALUES ('worker2','localhost.localdomain','','testflag', 1652767093);
+  PRIMARY KEY (`name`)
+ ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_general_cs;
+ /*!40101 SET character_set_client = @saved_cs_client */;
+ 
+INSERT INTO `SITESONAR_CONSTRAINTS` VALUES ('CGROUPSv2_AVAILABLE','equality', TRUE, 1652767093);
+INSERT INTO `SITESONAR_CONSTRAINTS` VALUES ('OS_NAME','equality', TRUE, 1652767093);
+INSERT INTO `SITESONAR_CONSTRAINTS` VALUES ('CPU_flags','regex', TRUE, 1652767093);
 
 --
 -- Table structure for table `JOBMESSAGES`
