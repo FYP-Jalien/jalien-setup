@@ -37,14 +37,14 @@ services:
       - jsite-storage:/shared-volume
 
   schedd:
-    image: "htcondor/cm:8.9.6-el7"
+    image: "htcondor/cm:10.0.0-el7"
     environment:
       USE_POOL_PASSWORD: "yes"
     volumes:
       - $JALIEN_SETUP_DIR/ce-setup/htcondor-conf/pool_password:/root/secrets/pool_password
 
   worker1:
-    image: "htcondor/execute:8.9.6-el7"
+    image: "htcondor/execute:10.0.0-el7"
     command: bash /ce-setup/cvmfs-checker.sh
     hostname: "worker1"
     environment:
@@ -57,7 +57,7 @@ services:
       - $JALIEN_SETUP_DIR/ce-setup/htcondor-conf/pool_password:/root/secrets/pool_password
   
   worker2:
-    image: "htcondor/execute:8.9.6-el7"
+    image: "htcondor/execute:10.0.0-el7"
     command: bash /ce-setup/cvmfs-checker.sh
     hostname: "worker2"
     environment:
