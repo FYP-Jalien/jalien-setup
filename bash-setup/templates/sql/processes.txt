@@ -46,7 +46,7 @@ DROP TABLE IF EXISTS `FAH_WORKDIR`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `FAH_WORKDIR` (
   `fah_uid` int NOT NULL AUTO_INCREMENT,
-  `queueId` bigint DEFAULT NULL,
+  `queueId` bigint(20) DEFAULT NULL,
   `username` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`fah_uid`)
 ) ENGINE=InnoDB AUTO_INCREMENT=10872 DEFAULT CHARSET=latin1;
@@ -61,8 +61,8 @@ DROP TABLE IF EXISTS `FILES_BROKER`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `FILES_BROKER` (
   `lfn` varchar(255) COLLATE latin1_general_cs NOT NULL,
-  `queueId` int DEFAULT NULL,
-  `split` int NOT NULL,
+  `queueId` bigint(20) DEFAULT NULL,
+  `split` bigint(20) NOT NULL,
   `sites` varchar(255) COLLATE latin1_general_cs NOT NULL,
   KEY `split` (`split`),
   KEY `queueId` (`queueId`),
@@ -175,7 +175,7 @@ DROP TABLE IF EXISTS `JOBSTOMERGE`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `JOBSTOMERGE` (
-  `masterId` int NOT NULL,
+  `masterId` bigint(20) NOT NULL,
   PRIMARY KEY (`masterId`),
   CONSTRAINT `JOBSTOMERGE_ibfk_1` FOREIGN KEY (`masterId`) REFERENCES `QUEUE` (`queueId`) ON DELETE CASCADE ON UPDATE RESTRICT
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_general_cs;
@@ -189,7 +189,7 @@ CREATE TABLE `JOBSTOMERGE` (
 -- /*!40101 SET @saved_cs_client     = @@character_set_client */;
 -- /*!40101 SET character_set_client = utf8 */;
  CREATE TABLE `JOBTOKEN` (
-   `jobId` int NOT NULL DEFAULT '0',
+   `jobId` bigint(20) NOT NULL DEFAULT '0',
    `userName` char(20) COLLATE latin1_general_cs DEFAULT NULL,
    `jobToken` char(255) COLLATE latin1_general_cs DEFAULT NULL,
    KEY `jobId` (`jobId`),
@@ -251,7 +251,7 @@ DROP TABLE IF EXISTS `QUEUE`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `QUEUE` (
-  `queueId` int NOT NULL AUTO_INCREMENT,
+  `queueId` bigint(20) NOT NULL AUTO_INCREMENT,
   `priority` tinyint DEFAULT NULL,
   `statusId` tinyint NOT NULL,
   `submitHostId` int DEFAULT NULL,
@@ -264,7 +264,7 @@ CREATE TABLE `QUEUE` (
   `agentId` int DEFAULT NULL,
   `price` float DEFAULT NULL,
   `finished` int DEFAULT NULL,
-  `masterjob` int DEFAULT '0',
+  `masterjob` bigint(20) DEFAULT '0',
   `cpucores` int DEFAULT NULL,
   `splitting` int DEFAULT NULL,
   `notifyId` int DEFAULT NULL,
@@ -311,7 +311,7 @@ DROP TABLE IF EXISTS `QUEUEJDL`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `QUEUEJDL` (
-  `queueId` int NOT NULL,
+  `queueId` bigint(20) NOT NULL,
   `origJdl` mediumtext COLLATE latin1_general_cs,
   `resultsJdl` mediumtext COLLATE latin1_general_cs,
   `path` varchar(255) COLLATE latin1_general_cs DEFAULT NULL,
@@ -328,7 +328,7 @@ DROP TABLE IF EXISTS `QUEUEPROC`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `QUEUEPROC` (
-  `queueId` int NOT NULL,
+  `queueId` bigint(20) NOT NULL,
   `lastupdate` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `maxrsize` float DEFAULT NULL,
   `cputime` int DEFAULT NULL,
@@ -448,7 +448,7 @@ DROP TABLE IF EXISTS `QUEUE_TMP_EXP`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `QUEUE_TMP_EXP` (
-  `queueId` int NOT NULL DEFAULT '0'
+  `queueId` bigint NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -460,7 +460,7 @@ DROP TABLE IF EXISTS `QUEUE_TOKEN`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `QUEUE_TOKEN` (
-  `queueId` int NOT NULL,
+  `queueId` bigint(20) NOT NULL,
   `username` char(20) COLLATE latin1_general_cs NOT NULL,
   `resubmission` int NOT NULL,
   KEY `queueId` (`queueId`),
@@ -476,7 +476,7 @@ DROP TABLE IF EXISTS `QUEUE_TRACE`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `QUEUE_TRACE` (
-  `queueId` int NOT NULL,
+  `queueId` bigint(20) NOT NULL,
   `tag` int NOT NULL,
   `mtime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `message` text COLLATE latin1_general_cs NOT NULL,
@@ -510,7 +510,7 @@ DROP TABLE IF EXISTS `QUEUE_VIEW`;
 SET @saved_cs_client     = @@character_set_client;
 SET character_set_client = utf8;
 /*!50001 CREATE TABLE `QUEUE_VIEW` (
-  `queueId` tinyint NOT NULL,
+  `queueId` bigint(20) NOT NULL,
   `statusId` tinyint NOT NULL,
   `userId` tinyint NOT NULL,
   `priority` tinyint NOT NULL,
@@ -524,7 +524,7 @@ SET character_set_client = utf8;
   `agentId` tinyint NOT NULL,
   `price` tinyint NOT NULL,
   `finished` tinyint NOT NULL,
-  `masterjob` tinyint NOT NULL,
+  `masterjob` bigint(20) NOT NULL,
   `cpucores` tinyint NOT NULL,
   `splitting` tinyint NOT NULL,
   `notifyId` tinyint NOT NULL,
@@ -660,7 +660,7 @@ DROP TABLE IF EXISTS `STAGING`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `STAGING` (
-  `queueId` int NOT NULL,
+  `queueId` bigint(20) NOT NULL,
   `staging_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   KEY `queueId` (`queueId`),
   CONSTRAINT `STAGING_ibfk_1` FOREIGN KEY (`queueId`) REFERENCES `QUEUE` (`queueId`) ON DELETE CASCADE ON UPDATE RESTRICT
@@ -689,7 +689,7 @@ DROP TABLE IF EXISTS `TODELETE`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `TODELETE` (
-  `masterid` int NOT NULL
+  `masterid` bigint NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
