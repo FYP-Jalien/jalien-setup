@@ -331,24 +331,24 @@ CREATE TABLE `QUEUEPROC` (
   `queueId` bigint(20) NOT NULL,
   `lastupdate` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `maxrsize` float DEFAULT NULL,
-  `cputime` int DEFAULT NULL,
-  `ncpu` int DEFAULT NULL,
+  `cputime` int(11) DEFAULT NULL,
+  `ncpu` int(11) DEFAULT NULL,
   `batchid` varchar(255) COLLATE latin1_general_cs DEFAULT NULL,
   `cost` float DEFAULT NULL,
-  `cpufamily` int DEFAULT NULL,
+  `cpufamily` int(11) DEFAULT NULL,
   `cpu` float DEFAULT NULL,
-  `rsize` int DEFAULT NULL,
+  `rsize` int(11) DEFAULT NULL,
   `spyurl` varchar(64) COLLATE latin1_general_cs DEFAULT NULL,
   `runtime` varchar(20) COLLATE latin1_general_cs DEFAULT NULL,
   `mem` float DEFAULT NULL,
   `si2k` float DEFAULT NULL,
-  `cpuspeed` int DEFAULT NULL,
-  `vsize` int DEFAULT NULL,
-  `runtimes` int DEFAULT NULL,
-  `procinfotime` int DEFAULT NULL,
+  `cpuspeed` int(11) DEFAULT NULL,
+  `vsize` int(11) DEFAULT NULL,
+  `runtimes` int(11) DEFAULT NULL,
+  `procinfotime` int(20) DEFAULT NULL,
   `maxvsize` float DEFAULT NULL,
   KEY `queueId` (`queueId`),
-  CONSTRAINT `QUEUEPROC_ibfk_1` FOREIGN KEY (`queueId`) REFERENCES `QUEUE` (`queueId`) ON DELETE CASCADE ON UPDATE RESTRICT
+  CONSTRAINT `QUEUEPROC_ibfk_1` FOREIGN KEY (`queueId`) REFERENCES `QUEUE` (`queueId`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_general_cs;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
