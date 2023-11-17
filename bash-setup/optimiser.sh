@@ -6,6 +6,10 @@ $MYSQLCALL 'update HOSTS set maxJobs=3000, maxqueued=300 where 1=1;UPDATE SITEQU
 $MYSQLCALL 'insert into PRIORITY(userId,maxUnfinishedJobs,maxTotalCpuCost,maxTotalRunningTime) values (1235890, 10000,10000,10000);'
 $MYSQLCALL 'insert into SITEQUEUES(siteId,site) values (-1,"unassigned::site");'
 
+#Log all queries
+#$MYSQLCALL 'set global general_log = 1;'
+#$MYSQLCALL 'set global log_output = "table";'
+
 while :
 do
         echo \"Optimizing\"
