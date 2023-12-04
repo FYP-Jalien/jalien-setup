@@ -1,5 +1,12 @@
 #!/bin/bash
 
+yum -y install alicexrdplugins xrootd xrootd-server xrootd-client xrootd-client-devel xrootd-python
+
+yum install -y environment-modules tcl
+
+wget --no-check-certificate https://cdn.azul.com/zulu/bin/zulu11.68.17-ca-jdk11.0.21-linux.x86_64.rpm && yum -y install zulu11.68.17-ca-jdk11.0.21-linux.x86_64.rpm
+
+
 prog=${0##*/}
 
 fail () {
