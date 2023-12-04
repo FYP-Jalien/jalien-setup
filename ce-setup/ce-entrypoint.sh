@@ -26,6 +26,6 @@ CE_CMD="java -cp $JALIEN_DEV/alien-cs.jar -Duserid=$(id -u) -Dcom.sun.jndi.ldap.
 #CE_CMD="java -cp $JALIEN_DEV/alien-users.jar -server -XX:+OptimizeStringConcat -XX:CompileThreshold=20000 -Xms64m -Xmx512m  -XX:+UseG1GC -XX:+DisableExplicitGC -XX:+UseCompressedOops -XX:MaxTrivialSize=1K -Duserid=$(id -u) -Dcom.sun.jndi.ldap.connect.pool=false --add-opens=java.base/java.lang=ALL-UNNAMED --add-opens=java.base/java.io=ALL-UNNAMED --add-opens=java.rmi/sun.rmi.transport=ALL-UNNAMED -Djava.io.tmpdir=/tmp -DAliEnConfig=$CE_CONFIG -Djava.net.preferIPv4Stack=true alien.site.ComputingElement"
 
 #wait for JCentral-dev
-while ! /cvmfs/alice.cern.ch/bin/alienv setenv xjalienfs -c ". ${JALIEN_DEV}/env_setup.sh && alien.py pwd"; do sleep 1; done
+while ! /cvmfs/alice.cern.ch/bin/alienv setenv xjalienfs/1.5.2-3 -c ". ${JALIEN_DEV}/env_setup.sh && alien.py pwd"; do sleep 1; done
 
 ls $JALIEN_DEV/*.jar | entr -rcs "su submituser -c \"$CE_CMD\""
