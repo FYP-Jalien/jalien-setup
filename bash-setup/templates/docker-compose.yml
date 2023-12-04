@@ -81,7 +81,6 @@ services:
       JCentral-dev:
         condition: service_healthy
     volumes:
-      - /cvmfs/alice.cern.ch:/cvmfs/alice.cern.ch
       - $SHARED_VOLUME:/jalien-dev
       - $JALIEN_SETUP_DIR/ce-setup:/ce-setup:ro
       - $JALIEN_SETUP_DIR/ce-setup/htcondor-conf/pool_password:/root/secrets/pool_password
