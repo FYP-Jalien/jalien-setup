@@ -7,6 +7,9 @@ base-image:
 xrootd-image:
 	docker build -t xrootd-se -f xrootd/Dockerfile xrootd
 
+worker-image:
+	docker build -t worker-base -f worker/Dockerfile worker
+
 push-base: base-image xrootd-image
 	docker tag jalien-base ${gitlab_base_image}
 	docker push ${gitlab_base_image}
@@ -24,4 +27,4 @@ retag:
 	docker tag ${gitlab_xrootd_image} xrootd-se
 
 push-all: push-base push-xrootd
-all: base-image xrootd-image
+all: worker-image base-image xrootd-image 
