@@ -30,13 +30,13 @@ RUN \
 COPY htcondor-conf/*.conf /etc/condor/config.d/
 COPY supervisord.conf /etc/supervisord.conf
 RUN mkdir -p /root/config
-# COPY pre-exec.sh /root/config/pre-exec.sh
 COPY update-config /
 COPY update-secrets /
+COPY docker-setup.sh /
 RUN chmod +x \
-#   /root/config/pre-exec.sh\
   /update-config \
-  /update-secrets
+  /update-secrets \
+  /docker-setup.sh
 
 # Create pslots slot users slot1_1 through slot1_64
 RUN \
@@ -48,8 +48,5 @@ COPY $PACKAGE_LIST /root/extra-packagelist.txt
 COPY container-install-execute.sh /root/container-install-execute.sh
 RUN bash -x /root/container-install-execute.sh /root/extra-packagelist.txt
 
-# COPY htcondor-conf/*.conf /etc/condor/config.d/
-
-COPY docker-setup.sh /
 RUN /bin/bash docker-setup.sh
 
