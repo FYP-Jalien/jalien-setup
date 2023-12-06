@@ -44,7 +44,7 @@ services:
       - $JALIEN_SETUP_DIR/ce-setup/htcondor-conf/pool_password:/root/secrets/pool_password
 
   worker1:
-    image: "htcondor/execute:10.0.0-el7"
+    image: "worker"
     command: bash /ce-setup/htcondor-conf/start.sh
     hostname: "worker1"
     environment:
