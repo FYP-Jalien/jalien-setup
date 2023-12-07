@@ -44,31 +44,17 @@ services:
       - $JALIEN_SETUP_DIR/ce-setup/htcondor-conf/pool_password:/root/secrets/pool_password
 
   worker1:
-    image: "htcondor/execute:10.0.0-el7"
-    command: bash /ce-setup/cvmfs-checker.sh
+    image: "worker-base"
+    command: bash /ce-setup/htcondor-conf/start.sh
     hostname: "worker1"
     environment:
       CONDOR_HOST: "schedd"
       USE_POOL_PASSWORD: "yes"
     volumes:
-      - /cvmfs/alice.cern.ch:/cvmfs/alice.cern.ch
       - $JALIEN_SETUP_DIR/ce-setup:/ce-setup:ro
       - $SHARED_VOLUME:/jalien-dev
       - $JALIEN_SETUP_DIR/ce-setup/htcondor-conf/pool_password:/root/secrets/pool_password
   
-  worker2:
-    image: "htcondor/execute:10.0.0-el7"
-    command: bash /ce-setup/cvmfs-checker.sh
-    hostname: "worker2"
-    environment:
-      CONDOR_HOST: "schedd"
-      USE_POOL_PASSWORD: "yes"
-    volumes:
-      - /cvmfs/alice.cern.ch:/cvmfs/alice.cern.ch
-      - $JALIEN_SETUP_DIR/ce-setup:/ce-setup:ro
-      - $SHARED_VOLUME:/jalien-dev
-      - $JALIEN_SETUP_DIR/ce-setup/htcondor-conf/pool_password:/root/secrets/pool_password
-
   JCentral-dev-CE:
     image: "jalien-base"
     command: bash /ce-setup/ce-entrypoint.sh
@@ -81,7 +67,6 @@ services:
       JCentral-dev:
         condition: service_healthy
     volumes:
-      - /cvmfs/alice.cern.ch:/cvmfs/alice.cern.ch
       - $SHARED_VOLUME:/jalien-dev
       - $JALIEN_SETUP_DIR/ce-setup:/ce-setup:ro
       - $JALIEN_SETUP_DIR/ce-setup/htcondor-conf/pool_password:/root/secrets/pool_password
