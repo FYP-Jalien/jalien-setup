@@ -18,7 +18,7 @@ services:
         - >
           mysql --verbose --host=127.0.0.1 --port=3307 --password=pass --user=root --execute "SHOW DATABASES;" &&
           ldapsearch -x -b "o=localhost,dc=localdomain" -H ldap://localhost:8389
-      start_period: "30s"
+      start_period: "180s"
     environment:
       SE_HOST: JCentral-dev-SE
 
@@ -56,7 +56,7 @@ services:
       - $JALIEN_SETUP_DIR/ce-setup/htcondor-conf/pool_password:/root/secrets/pool_password
   
   JCentral-dev-CE:
-    image: "jalien-base"
+    image: jalien-ce
     command: bash /ce-setup/ce-entrypoint.sh
     hostname: "localhost.localdomain"
     environment:
