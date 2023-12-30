@@ -4,6 +4,9 @@ gitlab_xrootd_image=gitlab-registry.cern.ch/jalien/jalien-setup/xrootd-se
 base-image:
 	docker build -t jalien-base -f base/Dockerfile base
 
+ce-image:
+	docker build -t jalien-ce -f ce-setup/Dockerfile ce-setup
+
 xrootd-image:
 	docker build -t xrootd-se -f xrootd/Dockerfile xrootd
 
@@ -27,4 +30,4 @@ retag:
 	docker tag ${gitlab_xrootd_image} xrootd-se
 
 push-all: push-base push-xrootd
-all: worker-image base-image xrootd-image 
+all: worker-image base-image xrootd-image ce-image
