@@ -56,7 +56,7 @@ services:
       - $JALIEN_SETUP_DIR/ce-setup/htcondor-conf/pool_password:/root/secrets/pool_password
   
   JCentral-dev-CE:
-    image: "jalien-base"
+    image: jalien-ce
     command: bash /ce-setup/ce-entrypoint.sh
     hostname: "localhost.localdomain"
     environment:
