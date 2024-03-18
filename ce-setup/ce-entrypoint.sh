@@ -17,6 +17,7 @@ touch /home/submituser/no-proxy-check /home/submituser/enable-sandbox
 
 mkdir -p /home/submituser/.alien/config
 echo "custom.jobagent.jar=$JALIEN_DEV/alien-cs.jar" > "/home/submituser/.alien/config/version.properties"
+echo "disable.enforce=true" >> "/home/submituser/.alien/config/container.properties"
 
 #run CE with auto reloading
 CE_CMD="java -cp $JALIEN_DEV/alien-cs.jar -Duserid=$(id -u) -Dcom.sun.jndi.ldap.connect.pool=false -DAliEnConfig=$CE_CONFIG -Djava.net.preferIPv4Stack=true alien.site.ComputingElement"
