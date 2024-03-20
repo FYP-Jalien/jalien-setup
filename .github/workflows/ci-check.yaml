@@ -27,7 +27,10 @@ jobs:
           ref: main
       - name: List files
         run: |
-          ls -l
+          ls
+      - name: Create config file
+        run: |
+          mv config.sh config/config.sh
       - name: Run bash script
         run: |
           ./tasks/start.sh --pre
