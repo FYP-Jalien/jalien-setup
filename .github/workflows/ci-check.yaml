@@ -27,4 +27,4 @@ jobs:
 
       - name: Run bash script
         run: |
-          ./tasks/start.sh --pre
+          ./tasks/start.sh --shared
