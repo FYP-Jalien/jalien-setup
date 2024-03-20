@@ -15,6 +15,11 @@ jobs:
       # - name: Build docker images
       #   run: |
       #     make all
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: "temurin" # See 'Supported distributions' for available options
+          java-version: "21"
       - name: Cloning Bash repository
         uses: actions/checkout@v2
         with:
@@ -25,4 +30,4 @@ jobs:
           ls -l
       - name: Run bash script
         run: |
-          ./tasks/start.sh --shared
+          ./tasks/start.sh --pre
