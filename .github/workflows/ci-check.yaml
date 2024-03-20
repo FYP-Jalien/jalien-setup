@@ -15,12 +15,6 @@ jobs:
         with:
           repository: FYP-Jalien/bash
           ref: main
-      - name: List files
-        run: |
-          ls
-      - name: List the directory
-        run: |
-          pwd
       - name: Set up Docker
         uses: docker/setup-buildx-action@v1
       # - name: Build docker images
