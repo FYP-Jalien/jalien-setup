@@ -26,4 +26,4 @@ jobs:
 
       - name: Run bash script
         run: |
-          ./bash/tasks/start.sh --shared
+          /home/runner/work/jalien-setup/jalien-setup/bash/tasks/start.sh --shared
