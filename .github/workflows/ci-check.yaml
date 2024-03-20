@@ -12,9 +12,9 @@ jobs:
         uses: actions/checkout@v2
       - name: Set up Docker
         uses: docker/setup-buildx-action@v1
-      - name: Build docker images
-        run: |
-          make all
+      # - name: Build docker images
+      #   run: |
+      #     make all
       - name: Cloning Bash repository
         uses: actions/checkout@v2
         with:
