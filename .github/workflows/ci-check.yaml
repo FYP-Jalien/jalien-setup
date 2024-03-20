@@ -20,6 +20,9 @@ jobs:
         with:
           repository: FYP-Jalien/bash
           ref: main
+      - name: List files
+        run: |
+          ls -l
       - name: Run bash script
         run: |
           ./tasks/start.sh --shared
