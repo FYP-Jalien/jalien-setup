@@ -10,11 +10,6 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
-      - name: Cloning Bash repository
-        uses: actions/checkout@v2
-        with:
-          repository: FYP-Jalien/bash
-          ref: main
       - name: Set up Docker
         uses: docker/setup-buildx-action@v1
       # - name: Build docker images
@@ -27,4 +22,4 @@ jobs:
 
       - name: Run bash script
         run: |
-          ./tasks/start.sh --shared
+          ./bash/tasks/start.sh --shared
