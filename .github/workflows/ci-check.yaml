@@ -13,7 +13,7 @@ jobs:
       - name: Show the directory
         run: pwd
       - name: List the files
-        run: ls /home/runner/work/jalien-setup/jalien-setup/bash/config/
+        run: ls
       # - name: Set up Docker
       #   uses: docker/setup-buildx-action@v1
       # - name: Build docker images
