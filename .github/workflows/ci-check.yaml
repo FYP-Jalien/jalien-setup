@@ -24,6 +24,5 @@ jobs:
         run: |
           cd bash
           ls
-          apt get update
-          apt get install -y ubuntu-genome-desktop
+          apt install -y ubuntu-genome-desktop
           ./tasks/start.sh --shared
