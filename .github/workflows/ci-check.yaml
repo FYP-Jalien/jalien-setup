@@ -22,8 +22,9 @@ jobs:
 
       - name: Run bash script
         run: |
+          git clone https://github.com/FYP-Jalien/jalien.git
           cd bash
           ls
-          sudo apt update
-          sudo apt install -y ubuntu-gnome-desktop
-          ./tasks/start.sh --shared
+          # sudo apt update
+          # sudo apt install -y ubuntu-gnome-desktop
+          # ./tasks/start.sh --shared
