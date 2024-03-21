@@ -23,6 +23,7 @@ jobs:
       - name: Run bash script
         run: |
           git clone https://github.com/FYP-Jalien/jalien.git
+          ls
           cd bash
           ls
           # sudo apt update
