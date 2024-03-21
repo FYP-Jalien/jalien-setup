@@ -10,10 +10,6 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
-      - name: Show the directory
-        run: pwd
-      - name: List the files
-        run: ls
       # - name: Set up Docker
       #   uses: docker/setup-buildx-action@v1
       # - name: Build docker images
@@ -28,4 +24,6 @@ jobs:
         run: |
           cd bash
           ls
+          apt get update
+          apt get install -y ubuntu-genome-desktop
           ./tasks/start.sh --shared
