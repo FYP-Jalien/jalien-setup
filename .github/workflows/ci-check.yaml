@@ -27,6 +27,5 @@ jobs:
       - name: Run bash script
         run: |
           cd bash
-          cd tasks
           ls
-          ./start.sh --shared
+          ./tasks/start.sh --shared
