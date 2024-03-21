@@ -10,7 +10,7 @@ export SCRIPT_DIR=/home/runner/work/jalien-setup/jalien-setup/bash
 export SHARED_VOLUME=/home/runner/work/jalien-setup/jalien-setup/SHARED_VOLUME
 
 # Path to the directory where the jalien repository will be cloned
-export JALIEN=/home/runner/work/jalien-setup/jalien
+export JALIEN=/home/runner/work/jalien-setup/jalien-setup/jalien
 # Path to the directory where the jalien-setup repository will be cloned
 export JALIEN_SETUP=/home/runner/work/jalien-setup/jalien-setup
 
