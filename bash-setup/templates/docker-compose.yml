@@ -1,7 +1,7 @@
 version: "3.3"
 services:
   JCentral-dev:
-    image: jalien-base
+    image: kaveeshadinamidu/jalien-base:latest
     command: /jalien-setup/bash-setup/entrypoint.sh
     hostname: JCentral-dev
     ports:
@@ -23,7 +23,7 @@ services:
       SE_HOST: JCentral-dev-SE
 
   JCentral-dev-SE:
-    image: xrootd-se
+    image: kaveeshadinamidu/xrootd-se:latest
     entrypoint: bash -c
     command: xrootd -c /etc/xrootd/xrootd-standalone.cfg
     hostname: JCentral-dev-SE
@@ -44,7 +44,7 @@ services:
       - $JALIEN_SETUP_DIR/ce-setup/htcondor-conf/pool_password:/root/secrets/pool_password
 
   worker1:
-    image: "worker-base"
+    image: kaveeshadinamidu/worker-base:latest
     command: bash /ce-setup/htcondor-conf/start.sh
     hostname: "worker1"
     environment:
@@ -54,9 +54,9 @@ services:
       - $JALIEN_SETUP_DIR/ce-setup:/ce-setup:ro
       - $SHARED_VOLUME:/jalien-dev
       - $JALIEN_SETUP_DIR/ce-setup/htcondor-conf/pool_password:/root/secrets/pool_password
-  
+
   JCentral-dev-CE:
-    image: jalien-ce
+    image: kaveeshadinamidu/jalien-ce:latest
     command: bash /ce-setup/ce-entrypoint.sh
     hostname: "localhost.localdomain"
     environment:
