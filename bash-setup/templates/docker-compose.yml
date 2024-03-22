@@ -62,7 +62,6 @@ services:
     environment:
       CONDOR_HOST: "schedd"
       USE_POOL_PASSWORD: "yes"
-      LD_LIBRARY_PATH: "/tmp"
     depends_on:
       JCentral-dev:
         condition: service_healthy
