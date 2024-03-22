@@ -1,5 +1,5 @@
 #!/bin/bash
 
-source ../config/config.sh
+source config/config.sh
 
 "$SHARED_VOLUME"/optimiser.sh 
