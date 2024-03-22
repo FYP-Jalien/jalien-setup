@@ -16,7 +16,7 @@ cp $CE_CONFIG/custom-classad.jdl /home/submituser
 touch /home/submituser/no-proxy-check /home/submituser/enable-sandbox
 
 mkdir -p /home/submituser/.alien/config
-echo "custom.jobagent.jar=$JALIEN_DEV/alien-cs.jar" > "/home/submituser/.alien/config/version.properties"
+echo -e "custom.jobagent.jar=$JALIEN_DEV/alien-cs.jar\njdk.architecture=local" >> "/home/submituser/.alien/config/version.properties"
 echo "disable.enforce=true" >> "/home/submituser/.alien/config/container.properties"
 
 #run CE with auto reloading
