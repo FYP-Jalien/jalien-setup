@@ -10,8 +10,8 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
-      # - name: Set up Docker
-      #   uses: docker/setup-buildx-action@v1
+      - name: Set up Docker
+        uses: docker/setup-buildx-action@v1
       # - name: Build docker images
       #   run: |
       #     make all
@@ -23,8 +23,5 @@ jobs:
       - name: Run bash script
         run: |
           git clone https://github.com/FYP-Jalien/jalien.git
-          ls
           cd bash
-          ls
-          sudo apt update
           ./tasks/start.sh --shared
