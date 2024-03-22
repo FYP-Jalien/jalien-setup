@@ -16,8 +16,9 @@ cp $CE_CONFIG/custom-classad.jdl /home/submituser
 touch /home/submituser/no-proxy-check /home/submituser/enable-sandbox
 
 mkdir -p /home/submituser/.alien/config
-echo -e "custom.jobagent.jar=$JALIEN_DEV/alien-cs.jar\njdk.architecture=local" >> "/home/submituser/.alien/config/version.properties"
-echo "disable.enforce=true" >> "/home/submituser/.alien/config/container.properties"
+echo -e "custom.jobagent.jar=$JALIEN_DEV/alien-cs.jar\njdk.architecture=local" > "/home/submituser/.alien/config/version.properties"
+echo "disable.enforce=true" > "/home/submituser/.alien/config/container.properties"
+echo -e "export PATH=\`echo \$PATH\`\nexport LD_LIBRARY_PATH=\`echo \$LD_LIBRARY_PATH\`" > "/home/submituser/JA-custom-1.sh"
 
 #run CE with auto reloading
 CE_CMD="java -cp $JALIEN_DEV/alien-cs.jar -Duserid=$(id -u) -Dcom.sun.jndi.ldap.connect.pool=false -DAliEnConfig=$CE_CONFIG -Djava.net.preferIPv4Stack=true alien.site.ComputingElement"
