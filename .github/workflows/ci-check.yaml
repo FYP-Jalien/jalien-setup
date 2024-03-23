@@ -1,17 +1,44 @@
 name: CI Check
 on:
-  push:
+  pull_request:
     branches:
       - master
 
 jobs:
-  build-docker-images:
+  ci-cd-check:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
+      # - name: Set up MySQL
+      #   uses: mirromutth/mysql-action@v1.1
       - name: Set up Docker
         uses: docker/setup-buildx-action@v1
-      - name: Build Docker images
+      # - name: Build docker images
+      #   run: |
+      #     make all
+      # - uses: actions/setup-java@v4
+      #   with:
+      #     distribution: "temurin" # See 'Supported distributions' for available options
+      #     java-version: "21"
+
+      - name: Run bash script
         run: |
-          make all
+          git clone https://github.com/FYP-Jalien/jalien.git
+          sudo wget https://ecsft.cern.ch/dist/cvmfs/cvmfs-release/cvmfs-release-latest_all.deb
+          sudo dpkg -i cvmfs-release-latest_all.deb
+          sudo rm -f cvmfs-release-latest_all.deb
+          sudo apt-get update
+          sudo apt-get install -y cvmfs
+          sudo touch /etc/cvmfs/default.local
+          sudo chmod +x /etc/cvmfs/default.local
+          sudo echo "CVMFS_REPOSITORIES=alice.cern.ch" > /etc/cvmfs/default.local
+          sudo echo "CVMFS_CLIENT_PROFILE=single" > /etc/cvmfs/default.local
+          sudo echo "CVMFS_HTTP_PROXY=DIRECT" > /etc/cvmfs/default.local
+          sudo apt install xrootd* python3-xrootd
+          pip install alienpy
+          cd bash
+          ./tasks/start.sh --shared
+          cd ..
+          cd test-suite
+          ./index.sh
