@@ -30,13 +30,11 @@ jobs:
           sudo rm -f cvmfs-release-latest_all.deb
           sudo apt-get update
           sudo apt-get install -y cvmfs
-          ls /etc/cvmfs/
-          cd /etc/cvmfs/
-          ls -a
-          sudo chmod +x default.local
-          sudo echo "CVMFS_REPOSITORIES=alice.cern.ch" > default.local
-          sudo echo "CVMFS_CLIENT_PROFILE=single" > default.local
-          sudo echo "CVMFS_HTTP_PROXY=DIRECT" > default.local
+          sudo chmod +x /etc/cvmfs/default.local
+          sudo touch /etc/cvmfs/default.local
+          sudo echo "CVMFS_REPOSITORIES=alice.cern.ch" > /etc/cvmfs/default.local
+          sudo echo "CVMFS_CLIENT_PROFILE=single" > /etc/cvmfs/default.local
+          sudo echo "CVMFS_HTTP_PROXY=DIRECT" > /etc/cvmfs/default.local
           sudo apt install xrootd* python3-xrootd
           pip install alienpy
           cd bash
