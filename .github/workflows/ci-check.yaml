@@ -26,7 +26,7 @@ jobs:
         run: |
           git clone https://github.com/FYP-Jalien/jalien.git
           cd bash
-          # ./tasks/start.sh --shared
+          ./tasks/start.sh --shared
           cd ..
           cd test-suite
           ./index.sh
