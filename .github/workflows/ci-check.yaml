@@ -30,7 +30,6 @@ jobs:
           sudo rm -f cvmfs-release-latest_all.deb
           sudo apt-get update
           sudo apt-get install -y cvmfs
-          sudo chmod +x /etc/cvmfs/default.local
           sudo touch /etc/cvmfs/default.local
           sudo echo "CVMFS_REPOSITORIES=alice.cern.ch" > /etc/cvmfs/default.local
           sudo echo "CVMFS_CLIENT_PROFILE=single" > /etc/cvmfs/default.local
