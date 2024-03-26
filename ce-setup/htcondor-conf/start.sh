@@ -54,4 +54,4 @@ done
 # The master will crash if run as pid 1 (bug?) plus supervisor can restart
 # it if it dies, and gives us the ability to run other services.
 
-exec /usr/bin/supervisord -c /etc/supervisord.conf
+exec supervisord -c /etc/supervisord.conf

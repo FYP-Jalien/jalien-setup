@@ -1,0 +1,17 @@
+name: CI Check
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  build-docker-images:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Set up Docker
+        uses: docker/setup-buildx-action@v1
+      - name: Build Docker images
+        run: |
+          make all
