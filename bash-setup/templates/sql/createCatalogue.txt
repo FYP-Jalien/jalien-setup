@@ -133,6 +133,16 @@ CREATE TABLE `PACKAGES` (
   UNIQUE KEY `PACKAGES_pkey` (`lfn`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_general_cs;
 
+DROP TABLE IF EXISTS `OPTIMIZERS`;
+
+CREATE TABLE `OPTIMIZERS` (
+  `class` varchar(100) COLLATE latin1_general_cs NOT NULL,
+  `lastUpdate` bigint NOT NULL,
+  `frequency` int NOT NULL,
+  `lastUpdatedLog` text CHARACTER SET latin1 COLLATE latin1_general_ci,
+  `server` varchar(100) COLLATE latin1_general_cs DEFAULT NULL,
+  PRIMARY KEY (`class`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_cs;
 
 DROP TABLE IF EXISTS `SE`;
 
