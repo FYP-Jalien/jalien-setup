@@ -120,10 +120,29 @@ CREATE TABLE `LL_STATS` (  `tableNumber` int(11) NOT NULL,  `max_time` char(20) 
 
 DROP TABLE IF EXISTS `PACKAGES`;
 
-CREATE TABLE `PACKAGES` (  `fullPackageName` varchar(255) COLLATE latin1_general_cs DEFAULT NULL,  `lfn` varchar(255) COLLATE latin1_general_cs DEFAULT NULL,
-           `packageName` varchar(255) COLLATE latin1_general_cs DEFAULT NULL,  `username` varchar(20) COLLATE latin1_general_cs DEFAULT NULL,
-             `size` bigint(20) DEFAULT NULL,  `platform` varchar(255) COLLATE latin1_general_cs DEFAULT NULL,
-             `packageVersion` varchar(255) COLLATE latin1_general_cs DEFAULT NULL) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_cs;
+CREATE TABLE `PACKAGES` (
+  `fullPackageName` varchar(255) COLLATE latin1_general_cs DEFAULT NULL,
+  `packageVersion` varchar(255) COLLATE latin1_general_cs DEFAULT NULL,
+  `packageName` varchar(255) COLLATE latin1_general_cs DEFAULT NULL,
+  `username` varchar(10) COLLATE latin1_general_cs DEFAULT NULL,
+  `platform` varchar(255) COLLATE latin1_general_cs DEFAULT NULL,
+  `lfn` varchar(255) COLLATE latin1_general_cs DEFAULT NULL,
+  `size` bigint DEFAULT NULL,
+  `metadataFile` varchar(255) COLLATE latin1_general_cs DEFAULT NULL,
+  `packageComment` varchar(255) COLLATE latin1_general_cs DEFAULT NULL,
+  UNIQUE KEY `PACKAGES_pkey` (`lfn`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_general_cs;
+
+DROP TABLE IF EXISTS `OPTIMIZERS`;
+
+CREATE TABLE `OPTIMIZERS` (
+  `class` varchar(100) COLLATE latin1_general_cs NOT NULL,
+  `lastUpdate` bigint NOT NULL,
+  `frequency` int NOT NULL,
+  `lastUpdatedLog` text CHARACTER SET latin1 COLLATE latin1_general_ci,
+  `server` varchar(100) COLLATE latin1_general_cs DEFAULT NULL,
+  PRIMARY KEY (`class`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_cs;
 
 DROP TABLE IF EXISTS `SE`;
 
