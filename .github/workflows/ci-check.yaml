@@ -37,7 +37,8 @@ jobs:
           # sudo echo "CVMFS_CLIENT_PROFILE=single" > default.local
           # sudo echo "CVMFS_HTTP_PROXY=DIRECT" > default.local
           # /home/runner/work/jalien-setup/jalien-setup
-          sudo apt install xrootd* python3-xrootd
+          # sudo apt install xrootd* python3-xrootd
+          sudo apt install python3-xrootd
           pip install alienpy
           cd bash
           ./tasks/start.sh --shared
