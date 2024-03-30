@@ -216,6 +216,40 @@ CREATE TABLE `MESSAGES` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_general_cs;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
+
+DROP TABLE IF EXISTS `oom_preemptions`;
+CREATE TABLE `oom_preemptions` (
+  `queueId` bigint DEFAULT NULL,
+  `preemptionTs` bigint DEFAULT NULL,
+  `systemKillTs` bigint DEFAULT NULL,
+  `preemptionSlotMemory` float DEFAULT NULL,
+  `preemptionJobMemory` float DEFAULT NULL,
+  `numConcurrentJobs` int DEFAULT NULL,
+  `hostId` int DEFAULT NULL,
+  `resubmissionCounter` int DEFAULT NULL,
+  `statusId` tinyint DEFAULT NULL,
+  `siteId` int DEFAULT NULL,
+  `memoryPerCore` float DEFAULT NULL,
+  `growthDerivative` float DEFAULT NULL,
+  `preemptionRound` int DEFAULT NULL,
+  `wouldPreempt` bigint DEFAULT NULL,
+  `userId` int DEFAULT NULL,
+  `uuid` binary(16) DEFAULT NULL,
+  `memHardLimit` float DEFAULT NULL,
+  `memswHardLimit` float DEFAULT NULL,
+  `timeElapsed` float DEFAULT NULL,
+  `preemptionSlotSwMemory` float DEFAULT NULL,
+  `killedProcess` text,
+  `cgroupPath` text,
+  `killingSlotMemory` float DEFAULT NULL,
+  `killingSlotSwMemory` float DEFAULT NULL,
+  `lastMLPss` float DEFAULT NULL,
+  `lastMLSwapPss` float DEFAULT NULL,
+  `MLSync` tinyint(1) DEFAULT '0',
+  KEY `queueid_index` (`queueId`),
+  KEY `wouldpreempt_index` (`wouldPreempt`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
 --
 -- Table structure for table `PRIORITY`
 --
