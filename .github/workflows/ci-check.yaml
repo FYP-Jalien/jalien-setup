@@ -24,7 +24,7 @@ jobs:
 
       - name: Run bash script
         run: |
-          git clone https://github.com/FYP-Jalien/jalien.git
+          git clone https://gitlab.cern.ch/jalien/jalien
           sudo wget https://ecsft.cern.ch/dist/cvmfs/cvmfs-release/cvmfs-release-latest_all.deb
           sudo dpkg -i cvmfs-release-latest_all.deb
           sudo rm -f cvmfs-release-latest_all.deb
