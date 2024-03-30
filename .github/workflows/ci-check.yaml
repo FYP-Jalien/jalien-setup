@@ -35,8 +35,6 @@ jobs:
           sudo bash -c "echo 'CVMFS_CLIENT_PROFILE=single' >> /etc/cvmfs/default.local"
           sudo bash -c "echo 'CVMFS_HTTP_PROXY=DIRECT' >> /etc/cvmfs/default.local"
           sudo cvmfs_config setup
-          sudo apt-get update
-          # sudo apt-get install -y xrootd*
           sudo apt install python3-xrootd
           pip install alienpy
           sudo bash -c "echo '127.0.0.1       JCentral-dev' >> /etc/hosts"
@@ -44,7 +42,6 @@ jobs:
           sudo bash -c "echo '172.18.0.2       alice-jcentral.cern.ch' >> /etc/hosts"
           cd bash
           ./tasks/start.sh --shared
-          sudo docker ps
           cd ..
           cd test-suite
           ./index.sh
