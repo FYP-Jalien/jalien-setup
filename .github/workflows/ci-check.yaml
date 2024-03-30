@@ -39,6 +39,9 @@ jobs:
           # sudo apt-get install -y xrootd*
           sudo apt install python3-xrootd
           pip install alienpy
+          sudo bash -c "echo '127.0.0.1       JCentral-dev' >> /etc/hosts"
+          sudo bash -c "echo '127.0.0.1       JCentral-dev-SE' >> /etc/hosts"
+          sudo bash -c "echo '172.18.0.2       alice-jcentral.cern.ch' >> /etc/hosts"
           cd bash
           ./tasks/start.sh --shared
           sudo docker ps
