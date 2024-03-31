@@ -15,7 +15,7 @@ execute() {
         fi
     done
     if [ $is_terminal -eq 1 ]; then
-        gnome-terminal --tab --title "$3" -- bash -c "$file $SCRIPT_DIR/config/config.sh; ${*:2}"
+        "$file" "$SCRIPT_DIR/config/config.sh" "${@:2}" &
     else
         "$file" "$SCRIPT_DIR/config/config.sh" "${@:2}"
     fi
@@ -85,5 +85,3 @@ fi
 if [ "$executeOpt" = true ]; then
     execute "$SCRIPT_DIR/tasks/start_opt.sh" "terminal" "Optimiser"
 fi
-
-

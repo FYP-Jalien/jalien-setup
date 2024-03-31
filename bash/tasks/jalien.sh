@@ -8,7 +8,7 @@ execute() {
     local file="$1"
     chmod +x "$file"
     if [ "$2" = "terminal" ]; then
-        gnome-terminal --tab --title "$3" -- bash -c "$file $SCRIPT_DIR/config/config.sh;"
+        "$file" "$SCRIPT_DIR/config/config.sh" &
     else
         "$file" "$SCRIPT_DIR/config/config.sh"
     fi
