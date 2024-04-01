@@ -15,7 +15,7 @@ execute() {
         fi
     done
     if [ $is_terminal -eq 1 ]; then
-        $file "$SCRIPT_DIR/config/config.sh; ${*:2}" &
+        "$file" "$SCRIPT_DIR/config/config.sh" "${@:2}" &
     else
         "$file" "$SCRIPT_DIR/config/config.sh" "${@:2}"
     fi
