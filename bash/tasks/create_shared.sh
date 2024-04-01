@@ -2,6 +2,8 @@
 
 source "$1"
 
+use_local_image=$2
+
 # Function to set chmod to +x and execute the input
 execute() {
     local file="$1"
@@ -26,4 +28,13 @@ echo "$SHARED_VOLUME is creating...."
 "$JALIEN_SETUP/bin/jared" --jar "$JALIEN/alien-cs.jar" --volume "$SHARED_VOLUME"
 echo "$SHARED_VOLUME created"
 
-
+if [ "$use_local_image" = true ]; then
+    central_image="jalien-base"
+    se_image="xrootd-se"
+    worker_image="worker-base"
+    ce_image="jalien-ce"
+    sed -i "s/image: kaveeshadinamidu\/$central_image:latest/image: $central_image/g" "$SHARED_VOLUME/docker-compose.yml"
+    sed -i "s/image: kaveeshadinamidu\/$se_image:latest/image: $se_image/g" "$SHARED_VOLUME/docker-compose.yml"
+    sed -i "s/image: kaveeshadinamidu\/$worker_image:latest/image: $worker_image/g" "$SHARED_VOLUME/docker-compose.yml"
+    sed -i "s/image: kaveeshadinamidu\/$ce_image:latest/image: $ce_image/g" "$SHARED_VOLUME/docker-compose.yml"
+fi

@@ -31,6 +31,8 @@ executeOpt=true
 executeMake=true
 remove=false
 
+use_local_image=false
+
 for arg in "${args[@]}"; do
     if [ "$arg" = "--pre" ]; then
         executePre=true
@@ -43,6 +45,8 @@ for arg in "${args[@]}"; do
         remove=true
     elif [ "$arg" = "--remove" ]; then
         remove=true
+    elif [ "$arg" = "--local-images" ]; then
+        use_local_image=true
     fi
 done
 
@@ -64,7 +68,7 @@ if [ "$executePre" = true ]; then
 fi
 
 if [ "$executeShared" = true ]; then
-    execute "$SCRIPT_DIR/tasks/create_shared.sh"
+    execute "$SCRIPT_DIR/tasks/create_shared.sh" "$use_local_image"
 fi
 
 if [ "$executeSync" = true ]; then
