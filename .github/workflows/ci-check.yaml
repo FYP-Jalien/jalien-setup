@@ -12,9 +12,9 @@ jobs:
         uses: actions/checkout@v2
       - name: Set up Docker
         uses: docker/setup-buildx-action@v1
-      - name: Build Docker images
-        run: |
-          make all
+      # - name: Build Docker images
+      #   run: |
+      #     make all
       - name: Clone jalien
         run: |
           cd ${{ github.workspace }}
