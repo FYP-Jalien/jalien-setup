@@ -1,8 +1,7 @@
 name: CI Check
 on:
-  push:
-    branches:
-      - master
+  schedule:
+    - cron: '30 4 * * 2'
 
 jobs:
   build-docker-images:
@@ -15,3 +14,56 @@ jobs:
       - name: Build Docker images
         run: |
           make all
+      - name: Clone jalien
+        run: |
+          cd ${{ github.workspace }}
+          cd ..
+          git clone https://gitlab.cern.ch/jalien/jalien
+      - name: Create config.sh for bash
+        run: |
+          cd ${{ github.workspace }}
+          cd ..
+          echo "
+          export BASE_DIR=$(pwd)
+          export SCRIPT_DIR=$(pwd)/jalien-setup/bash
+          export SHARED_VOLUME=$(pwd)/SHARED_VOLUME
+          export JALIEN=$(pwd)/jalien
+          export JALIEN_SETUP=$(pwd)/jalien-setup
+          export JALIEN_SOURCE=https://gitlab.cern.ch/jalien/jalien
+          export JALIEN_SETUP_SOURCE=https://github.com/FYP-Jalien/jalien-setup
+          export CE_NAME=shared_volume_JCentral-dev-CE_1
+          export JCENTRAL_NAME=shared_volume_JCentral-dev_1
+          export SCHEDD_NAME=shared_volume_schedd_1
+          export SE_NAME=shared_volume_JCentral-dev-SE_1
+          export WORKER_NAME=shared_volume_worker1_1
+          " >> ${{ github.workspace }}/../jalien-setup/bash/config/config.sh  
+      - name: Run jalien-setup bash scripts
+        run: |
+          cd ${{ github.workspace }}/../jalien-setup/bash
+          ./tasks/start.sh --shared --local-images
+      - name: Clone test-suite
+        run: |
+          cd ${{ github.workspace }}
+          cd ..
+          git clone https://github.com/FYP-Jalien/test-suite
+      - name: Create .env for test-suite
+        run: |
+          cd ${{ github.workspace }}
+          cd ..
+          echo "
+          export SHARED_VOLUME_PATH=$(pwd)/SHARED_VOLUME
+          export JALIEN_SETUP_PATH=$(pwd)/jalien-setup
+          export CONTAINER_NAME_CE=shared_volume_JCentral-dev-CE_1
+          export CONTAINER_NAME_CENTRAL=shared_volume_JCentral-dev_1
+          export CONTAINER_NAME_SCHEDD=shared_volume_schedd_1
+          export CONTAINER_NAME_SE=shared_volume_JCentral-dev-SE_1
+          export CONTAINER_NAME_WORKER=shared_volume_worker1_1
+          export SCRIPT_DIR=$(pwd)/test-suite
+          export ALIENV_PATH=$(pwd)/test-suite/files/alma-alienv
+          export SAMPLE_JDL_PATH=$(pwd)/test-suite/files/sample_test.jdl
+          export TESTSCRIPT_PATH=$(pwd)/test-suite/files/testscript_test.sh
+          " >> ${{ github.workspace }}/../test-suite/.env   
+      - name: Run test-suite for container specific tests
+        run: |
+          cd ${{ github.workspace }}/../test-suite
+          ./index.sh --container-only      
