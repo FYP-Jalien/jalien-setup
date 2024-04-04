@@ -1,19 +1,13 @@
-name: CI Check
-on:
-  schedule:
-    - cron: '30 4 * * 2'
-
+name: Verify jalien-setup
+on: [push, pull_request]
 jobs:
-  build-docker-images:
+  verify-jalien-setup:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
       - name: Set up Docker
         uses: docker/setup-buildx-action@v1
-      - name: Build Docker images
-        run: |
-          make all
       - name: Clone jalien
         run: |
           cd ${{ github.workspace }}
@@ -40,7 +34,7 @@ jobs:
       - name: Run jalien-setup bash scripts
         run: |
           cd ${{ github.workspace }}/../jalien-setup/bash
-          ./tasks/start.sh --shared --local-images
+          ./tasks/start.sh --shared
       - name: Clone test-suite
         run: |
           cd ${{ github.workspace }}
