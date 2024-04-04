@@ -2,7 +2,7 @@
 
 set -e
 
-source "$1"
+source ../config/config.sh
 
 
 cp "$JALIEN/alien-cs.jar" "$SHARED_VOLUME/"

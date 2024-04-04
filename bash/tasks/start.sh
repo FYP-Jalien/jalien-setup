@@ -5,8 +5,6 @@ set -e
 source config/config.sh
 
 execute() {
-    local file="$1"
-    chmod +x "$file"
     local is_terminal=0
     for arg in "${@:2}"; do
         if [ "$arg" = "terminal" ]; then
@@ -15,9 +13,9 @@ execute() {
         fi
     done
     if [ $is_terminal -eq 1 ]; then
-        "$file" "$SCRIPT_DIR/config/config.sh" "${@:2}" &
+        "$file" "${@:2}" &
     else
-        "$file" "$SCRIPT_DIR/config/config.sh" "${@:2}"
+        "$file" "${@:2}"
     fi
 }
 

@@ -1,6 +1,6 @@
 #!/bin/bash
 
-source "$1"
+source ../config/config.sh
 
 use_local_image=$2
 

@@ -2,7 +2,7 @@
 
 set -e
 
-source "$1"
+source ../config/config.sh
 
 chmod +x "$JALIEN/compile.sh"
 "$JALIEN/compile.sh" cs
