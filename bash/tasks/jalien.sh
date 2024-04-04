@@ -68,5 +68,6 @@ done
 
 if [ $cur_iteration -eq $max_iterations ]; then
     echo "Failed to start all containers."
+    sudo docker ps
     exit 1
 fi
