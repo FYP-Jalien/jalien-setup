@@ -1,10 +1,8 @@
 name: Build Images
 on:
-  pull_request:
-    branches:
-      - main
+  push:
   schedule:
-    - cron: '30 20 * * 4'
+    - cron: '45 20 * * 4'
 
 jobs:
   build-docker-images:
