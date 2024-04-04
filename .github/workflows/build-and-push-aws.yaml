@@ -14,52 +14,39 @@ jobs:
         uses: actions/checkout@v2
       - name: Set up Docker
         uses: docker/setup-buildx-action@v1
-      - name: Build Docker images
-        run: |
-          make all
+      #   - name: Build Docker images
+      #     run: |
+      #       make all
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: us-east-1
-
+      - name: Pull test image
+        run: |
+          docker pull redis
+          docker tag redis jalien-base:latest
       - name: Login to Amazon ECR
         id: login-ecr
         uses: aws-actions/amazon-ecr-login@v1
 
       - name: Build, tag, and push jalien-base to Amazon ECR
-        env:
-          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-          ECR_REPOSITORY: fyp-jalien-base
-          IMAGE_TAG: latest
         run: |
-          docker tag jalien-base:latest $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
-          docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+          docker tag jalien-base:latest public.ecr.aws/k7p0k7q2/fyp-jalien-base:latest
+          docker push public.ecr.aws/k7p0k7q2/fyp-jalien-base:latest
 
       - name: Build, tag, and push jalien-ce to Amazon ECR
-        env:
-          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-          ECR_REPOSITORY: fyp-jalien-ce
-          IMAGE_TAG: latest
         run: |
-          docker tag jalien-ce:latest $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
-          docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+          docker tag jalien-ce:latest public.ecr.aws/k7p0k7q2/fyp-jalien-ce:latest
+          docker push public.ecr.aws/k7p0k7q2/fyp-jalien-ce:latest
 
       - name: Build, tag, and push worker-base to Amazon ECR
-        env:
-          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-          ECR_REPOSITORY: fyp-worker-base
-          IMAGE_TAG: latest
         run: |
-          docker tag worker-base:latest $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
-          docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+          docker tag worker-base:latest public.ecr.aws/k7p0k7q2/fyp-worker-base:latest
+          docker push public.ecr.aws/k7p0k7q2/fyp-worker-base:latest
 
       - name: Build, tag, and push xrootd-se to Amazon ECR
-        env:
-          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-          ECR_REPOSITORY: fyp-xrootd-se
-          IMAGE_TAG: latest
         run: |
-          docker tag xrootd-se:latest $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
-          docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+          docker tag xrootd-se:latest public.ecr.aws/k7p0k7q2/fyp-xrootd-se:latest
+          docker push public.ecr.aws/k7p0k7q2/fyp-xrootd-se:latest
