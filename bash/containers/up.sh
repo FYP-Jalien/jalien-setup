@@ -2,11 +2,11 @@
 
 set -e
 
-source "$1"
+source ../config/config.sh
 
 success=false
 while [ "$success" = false ]; do
-    if sudo docker-compose -f "$SHARED_VOLUME/docker-compose.yml" up -d ; then
+    if docker-compose -f "$SHARED_VOLUME/docker-compose.yml" up -d ; then
         success=true
         echo "All containers are up!!"
     else

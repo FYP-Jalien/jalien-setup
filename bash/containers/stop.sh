@@ -1,6 +1,6 @@
 #!/bin/bash
 
-source "$1"
+source ../config/config.sh
 
-sudo docker-compose -f "$SHARED_VOLUME/docker-compose.yml" stop
+docker-compose -f "$SHARED_VOLUME/docker-compose.yml" stop
 
