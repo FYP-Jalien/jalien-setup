@@ -5,6 +5,8 @@ set -e
 source config/config.sh
 
 execute() {
+    local file="$1"
+    chmod +x "$file"
     local is_terminal=0
     for arg in "${@:2}"; do
         if [ "$arg" = "terminal" ]; then
