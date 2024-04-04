@@ -1,5 +1,8 @@
 name: Build Images
 on:
+  pull_request:
+    branches:
+      - main
   schedule:
     - cron: '30 20 * * 4'
 
