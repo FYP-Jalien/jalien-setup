@@ -1,7 +1,7 @@
 name: CI Check
 on:
   schedule:
-    - cron: '30 4 * * 2'
+    - cron: "30 4 * * 2"
 
 jobs:
   build-docker-images:
@@ -36,11 +36,12 @@ jobs:
           export SCHEDD_NAME=shared_volume_schedd_1
           export SE_NAME=shared_volume_JCentral-dev-SE_1
           export WORKER_NAME=shared_volume_worker1_1
-          " >> ${{ github.workspace }}/../jalien-setup/bash/config/config.sh  
+          " >> ${{ github.workspace }}/../jalien-setup/bash/config/config.sh
       - name: Run jalien-setup bash scripts
         run: |
           cd ${{ github.workspace }}/../jalien-setup/bash
           ./tasks/start.sh --shared --local-images
+
       - name: Clone test-suite
         run: |
           cd ${{ github.workspace }}
@@ -62,8 +63,8 @@ jobs:
           export ALIENV_PATH=$(pwd)/test-suite/files/alma-alienv
           export SAMPLE_JDL_PATH=$(pwd)/test-suite/files/sample_test.jdl
           export TESTSCRIPT_PATH=$(pwd)/test-suite/files/testscript_test.sh
-          " >> ${{ github.workspace }}/../test-suite/.env   
+          " >> ${{ github.workspace }}/../test-suite/.env
       - name: Run test-suite for container specific tests
         run: |
           cd ${{ github.workspace }}/../test-suite
-          ./index.sh --container-only      
+          ./index.sh --container-only
