@@ -2,6 +2,9 @@ name: Push Images to AWS ECR
 on:
   schedule:
     - cron: "30 4 * * 2"
+  pull_request:
+    branches:
+      - master
 
 jobs:
   build-and-push-docker-images:
