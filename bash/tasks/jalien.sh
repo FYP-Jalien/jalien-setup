@@ -41,8 +41,11 @@ is_container_running() {
     fi
 }
 
-while true; do
+max_iterations=100
+cur_iteration=0
+while [ $cur_iteration -lt $max_iterations ]; do
     all_containers_running=true
+    cur_iteration=$((cur_iteration + 1))
 
     for container_name in "${containers[@]}"; do
         if ! is_container_running "$container_name"; then
@@ -62,3 +65,9 @@ while true; do
         sleep 15
     fi
 done
+
+if [ $cur_iteration -eq $max_iterations ]; then
+    echo "Failed to start all containers."
+    sudo docker ps
+    exit 1
+fi

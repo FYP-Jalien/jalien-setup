@@ -1,7 +1,7 @@
-name: CI Check
+name: Build Images
 on:
   schedule:
-    - cron: "30 4 * * 2"
+    - cron: "45 21 * * 4"
 
 jobs:
   build-docker-images:
