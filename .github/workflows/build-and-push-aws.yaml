@@ -1,10 +1,10 @@
-name: Build Images
+name: Push Images to AWS ECR
 on:
   schedule:
-    - cron: '45 21 * * 4'
+    - cron: "45 15 * * 5"
 
 jobs:
-  build-docker-images:
+  build-and-push-docker-images:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -36,11 +36,12 @@ jobs:
           export SCHEDD_NAME=shared_volume_schedd_1
           export SE_NAME=shared_volume_JCentral-dev-SE_1
           export WORKER_NAME=shared_volume_worker1_1
-          " >> ${{ github.workspace }}/../jalien-setup/bash/config/config.sh  
+          " >> ${{ github.workspace }}/../jalien-setup/bash/config/config.sh
       - name: Run jalien-setup bash scripts
         run: |
           cd ${{ github.workspace }}/../jalien-setup/bash
           ./tasks/start.sh --shared --local-images
+
       - name: Clone test-suite
         run: |
           cd ${{ github.workspace }}
@@ -62,8 +63,60 @@ jobs:
           export ALIENV_PATH=$(pwd)/test-suite/files/alma-alienv
           export SAMPLE_JDL_PATH=$(pwd)/test-suite/files/sample_test.jdl
           export TESTSCRIPT_PATH=$(pwd)/test-suite/files/testscript_test.sh
-          " >> ${{ github.workspace }}/../test-suite/.env   
+          " >> ${{ github.workspace }}/../test-suite/.env
       - name: Run test-suite for container specific tests
         run: |
           cd ${{ github.workspace }}/../test-suite
-          ./index.sh --container-only      
+          ./index.sh --container-only
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-east-1
+
+      - name: Login to Amazon ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v2
+        with:
+          registry-type: public
+
+      - name: Build, tag, and push jalien-base to Amazon ECR
+        env:
+          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+          REGISTRY_ALIAS: k7p0k7q2
+          ECR_REPOSITORY: fyp-jalien-base
+          IMAGE_TAG: latest
+        run: |
+          docker tag jalien-base:latest $ECR_REGISTRY/$REGISTRY_ALIAS/$ECR_REPOSITORY:$IMAGE_TAG
+          docker push $ECR_REGISTRY/$REGISTRY_ALIAS/$ECR_REPOSITORY:$IMAGE_TAG
+
+      - name: Build, tag, and push jalien-ce to Amazon ECR
+        env:
+          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+          REGISTRY_ALIAS: k7p0k7q2
+          ECR_REPOSITORY: fyp-jalien-ce
+          IMAGE_TAG: latest
+        run: |
+          docker tag jalien-ce:latest $ECR_REGISTRY/$REGISTRY_ALIAS/$ECR_REPOSITORY:$IMAGE_TAG
+          docker push $ECR_REGISTRY/$REGISTRY_ALIAS/$ECR_REPOSITORY:$IMAGE_TAG
+
+      - name: Build, tag, and push worker-base to Amazon ECR
+        env:
+          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+          REGISTRY_ALIAS: k7p0k7q2
+          ECR_REPOSITORY: fyp-worker-base
+          IMAGE_TAG: latest
+        run: |
+          docker tag worker-base:latest $ECR_REGISTRY/$REGISTRY_ALIAS/$ECR_REPOSITORY:$IMAGE_TAG
+          docker push $ECR_REGISTRY/$REGISTRY_ALIAS/$ECR_REPOSITORY:$IMAGE_TAG
+
+      - name: Build, tag, and push xrootd-se to Amazon ECR
+        env:
+          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+          REGISTRY_ALIAS: k7p0k7q2
+          ECR_REPOSITORY: fyp-xrootd-se
+          IMAGE_TAG: latest
+        run: |
+          docker tag xrootd-se:latest $ECR_REGISTRY/$REGISTRY_ALIAS/$ECR_REPOSITORY:$IMAGE_TAG
+          docker push $ECR_REGISTRY/$REGISTRY_ALIAS/$ECR_REPOSITORY:$IMAGE_TAG
