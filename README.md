@@ -19,6 +19,12 @@ For host system
 - MySQL
 - jalien repository clone and or alien-cs.jar
 
+##### Using Automated scripts
+
+Instead of following the classical procedure of setting everything from scratch, one can utilize bash scripts, available at [here](https://github.com/FYP-Jalien/jalien-setup/tree/master/bash), to automate the process. Further details are available in the repository. 
+
+It's important to note that these scripts only handle the setup of the jalien-setup. Users still need to follow necessary steps regarding alien.py.
+
 ##### Building containers
 Build containers using `make all` in `/path/to/repo` on your local system
 
