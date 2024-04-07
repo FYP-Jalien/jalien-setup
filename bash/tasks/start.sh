@@ -42,7 +42,6 @@ for arg in "${args[@]}"; do
     elif [ "$arg" = "--shared" ]; then
         executeShared=true
         executeSync=false
-        remove=true
     elif [ "$arg" = "--remove" ]; then
         remove=true
     elif [ "$arg" = "--local-images" ]; then
@@ -77,10 +76,10 @@ if [ "$executeSync" = true ]; then
 fi
 
 if [ "$executeJalien" = true ]; then
-    if [ "$remove" = true ]; then
-        execute "$SCRIPT_DIR/tasks/jalien.sh" "remove"
-    elif [ "$executeShared" = true ]; then
+    if [ "$executeShared" = true ]; then
         execute "$SCRIPT_DIR/tasks/jalien.sh" "down"
+    elif [ "$remove" = true ]; then
+        execute "$SCRIPT_DIR/tasks/jalien.sh" "remove"
     else
         execute "$SCRIPT_DIR/tasks/jalien.sh"
     fi
