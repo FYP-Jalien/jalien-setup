@@ -15,7 +15,11 @@ execute() {
         fi
     done
     if [ $is_terminal -eq 1 ]; then
-        "$file" "$SCRIPT_DIR/config/config.sh" "${@:2}" &
+        if [ "$ui_mode" = true ]; then
+            gnome-terminal --tab --title "$3" -- bash -c "$file $SCRIPT_DIR/config/config.sh; ${*:2}"
+        else
+            "$file" "$SCRIPT_DIR/config/config.sh" "${@:2}" &
+        fi
     else
         "$file" "$SCRIPT_DIR/config/config.sh" "${@:2}"
     fi
@@ -30,6 +34,7 @@ executeJalien=true
 executeOpt=true
 executeMake=false
 remove=false
+ui_mode=false
 
 use_local_image=false
 
@@ -46,6 +51,8 @@ for arg in "${args[@]}"; do
         remove=true
     elif [ "$arg" = "--local-images" ]; then
         use_local_image=true
+    elif [ "$arg" = "--ui" ]; then
+        ui_mode=true
     fi
 done
 
@@ -76,12 +83,22 @@ if [ "$executeSync" = true ]; then
 fi
 
 if [ "$executeJalien" = true ]; then
-    if [ "$executeShared" = true ]; then
-        execute "$SCRIPT_DIR/tasks/jalien.sh" "down"
-    elif [ "$remove" = true ]; then
-        execute "$SCRIPT_DIR/tasks/jalien.sh" "remove"
+    if [ "$ui_mode" = true ]; then
+        if [ "$executeShared" = true ]; then
+            execute "$SCRIPT_DIR/tasks/jalien.sh" "down" "ui"
+        elif [ "$remove" = true ]; then
+            execute "$SCRIPT_DIR/tasks/jalien.sh" "remove" "ui"
+        else
+            execute "$SCRIPT_DIR/tasks/jalien.sh" "ui"
+        fi
     else
-        execute "$SCRIPT_DIR/tasks/jalien.sh"
+        if [ "$executeShared" = true ]; then
+            execute "$SCRIPT_DIR/tasks/jalien.sh" "down"
+        elif [ "$remove" = true ]; then
+            execute "$SCRIPT_DIR/tasks/jalien.sh" "remove"
+        else
+            execute "$SCRIPT_DIR/tasks/jalien.sh"
+        fi
     fi
 fi
 

@@ -4,11 +4,20 @@ set -e
 
 source "$1"
 
+ui_mode=false
+if [ "$2" = "ui" ] || [ "$3" == "ui" ]; then
+    ui_mode=true
+fi
+
 execute() {
     local file="$1"
     chmod +x "$file"
     if [ "$2" = "terminal" ]; then
-        "$file" "$SCRIPT_DIR/config/config.sh" &
+        if [ "$ui_mode" = true ]; then
+            gnome-terminal --tab --title "$3" -- bash -c "$file $SCRIPT_DIR/config/config.sh \"ui\""
+        else
+            "$file" "$SCRIPT_DIR/config/config.sh" &
+        fi
     else
         "$file" "$SCRIPT_DIR/config/config.sh"
     fi

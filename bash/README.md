@@ -106,12 +106,16 @@ By default, this script will stop and remove all related containers, synchronize
 - --no-sync: Skip jar synchronization.
 - --no-jalien: Skip Jalien setup.
 - --no-opt: Skip optimization.
+- --ui: Starts executions in separate terminals with logs visible
 
 Please note that recreating the shared volume will always result in the removal of existing containers.
 
 ##### Examples
 
 ```bash
+# Run the setup starting with creating shared volume in UI mode
+./tasks/start.sh --shared --ui
+
 # Run the full setup including pre-setup, shared volume setup, Jalien Replica setup, and optimizer:
 ./tasks/start.sh --pre
 
