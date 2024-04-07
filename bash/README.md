@@ -55,6 +55,8 @@ export SCHEDD_NAME=shared_volume_schedd_1
 export SE_NAME=shared_volume_JCentral-dev-SE_1
 export WORKER_NAME=shared_volume_worker1_1
 ```
+#### 2.3 Make sure that docker is in the user group in the running environment.
+If not please follow this [Article](https://docs.docker.com/engine/install/linux-postinstall/) to add the user to the docker group 
 
 ### 3. Running the Setup
 

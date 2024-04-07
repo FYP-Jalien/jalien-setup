@@ -13,7 +13,7 @@ execute() {
 
 # Remove the shared volume if it exists
 if [ -d "$SHARED_VOLUME" ]; then
-    rm -rf "$SHARED_VOLUME"
+    sudo rm -rf "$SHARED_VOLUME"
     echo "Directory $SHARED_VOLUME has been removed."
 fi
 
