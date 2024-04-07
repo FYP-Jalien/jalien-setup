@@ -13,14 +13,10 @@ pull_new_changes() {
 
     # Check if there are any changes to be pulled
     if [ $(git rev-list HEAD...@{u} --count) -gt 0 ]; then
-
-        # Changes exist, ask the user if they want to pull
-        read -p "There are new changes in $1. Do you want to pull them? (y/n): " response
-        if [[ $response =~ ^[Yy]$ ]]; then
-            git pull --all
-        else
-            echo "Changes not pulled."
-        fi
+    
+        # Pull changes from all remote branches.
+        git pull --all
+      
     else
         echo "No new changes to pull."
     fi
