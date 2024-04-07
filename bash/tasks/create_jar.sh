@@ -14,8 +14,12 @@ pull_new_changes() {
     # Check if there are any changes to be pulled
     if [ $(git rev-list HEAD...@{u} --count) -gt 0 ]; then
     
-        # Pull changes from all remote branches.
-        git pull --all
+        # Attempt to pull changes from all remote branches
+        if git pull --all; then
+            echo "Changes pulled successfully."
+        else
+            echo "Failed to pull changes. Resolving conflicts..."
+        fi
       
     else
         echo "No new changes to pull."
