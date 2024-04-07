@@ -55,8 +55,34 @@ export SCHEDD_NAME=shared_volume_schedd_1
 export SE_NAME=shared_volume_JCentral-dev-SE_1
 export WORKER_NAME=shared_volume_worker1_1
 ```
-#### 2.3 Make sure that docker is in the user group in the running environment.
-If not please follow this [Article](https://docs.docker.com/engine/install/linux-postinstall/) to add the user to the docker group 
+
+#### 2.3 Make sure that the current user is in the `docker` group
+
+If not please follow this steps to add the user to the docker group  
+
+1. Create the `docker` group
+
+```bash
+sudo groupadd docker
+```
+
+2. Add the user to the `docker` group
+
+```bash
+sudo usermod -aG docker $USER
+```
+
+3. Log out and log back or use following command to activate the changes to groups:
+
+```bash
+newgrp docker
+```
+
+4. Verify that `docker` commands can be run without `sudo`
+
+```bash
+docker ps
+```
 
 ### 3. Running the Setup
 
