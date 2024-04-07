@@ -69,8 +69,10 @@ By default, this script will stop and remove all related containers, synchronize
 #### Optional command-line arguments
 
 - --pre: Execute pre-setup tasks.
+- --make: Make images locally while executing pre-setup tasks
 - --shared: Execute shared volume setup.
 - --remove: Remove all docker containers (after down them, only effective when --no-jalien is not used)
+- --local-images: Run the setup with locally built images
 - --no-pre: Skip pre-setup tasks.
 - --no-shared: Skip shared volume setup.
 - --no-sync: Skip jar synchronization.
@@ -85,11 +87,17 @@ Please note that recreating the shared volume will always result in the removal 
 # Run the full setup including pre-setup, shared volume setup, Jalien Replica setup, and optimizer:
 ./tasks/start.sh --pre
 
+# Run the full setup including pre-setup with locally building images, shared volume setup, Jalien Replica setup, and optimizer:
+./tasks/start.sh --pre --make
+
 # Run the pre-setup and shared volume setup:
 ./tasks/start.sh --pre --no-jalien
 
 # Run the full setup including shared volume setup, Jalien Replica setup, and optimizer:
 ./tasks/start.sh --shared
+
+# Run the full setup with locally built images:
+./tasks/start.sh --shared --local-images
 
 # Run only shared volume setup:
 ./tasks/start.sh --shared --no-jalien

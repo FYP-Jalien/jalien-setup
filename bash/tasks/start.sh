@@ -28,7 +28,7 @@ executeShared=false
 executeSync=true
 executeJalien=true
 executeOpt=true
-executeMake=true
+executeMake=false
 remove=false
 
 use_local_image=false
@@ -58,8 +58,8 @@ for arg in "${args[@]}"; do
         executeOpt=false
     elif [ "$arg" = "--no-opt" ]; then
         executeOpt=false
-    elif [ "$arg" = "--no-make" ]; then
-        executeMake=false
+    elif [ "$arg" = "--make" ]; then
+        executeMake=true
     fi
 done
 
