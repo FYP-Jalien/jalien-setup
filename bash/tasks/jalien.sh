@@ -2,7 +2,6 @@
 
 set -e
 
-source "$1"
 
 ui_mode=false
 if [ "$2" = "ui" ] || [ "$3" == "ui" ]; then

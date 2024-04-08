@@ -1,6 +1,5 @@
 #!/bin/bash
 
-source "$1"
 
 use_local_image=$2
 

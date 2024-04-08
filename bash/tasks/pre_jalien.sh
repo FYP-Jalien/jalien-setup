@@ -2,7 +2,6 @@
 
 set -e
 
-source $1
 
 executeMake=$2
 

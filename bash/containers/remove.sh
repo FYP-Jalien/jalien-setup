@@ -1,6 +1,5 @@
 #!/bin/bash
 
-source "$1"
 
 containers=(
     "$CE_NAME"

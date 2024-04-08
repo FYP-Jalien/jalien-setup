@@ -2,8 +2,6 @@
 
 set -e
 
-source "$1"
-
 pull_new_changes() {
     local dir_name="$1"
     cd "$dir_name" || return
