@@ -17,7 +17,7 @@ Follow these steps to set up the Jalien Replica Docker multi-container setup:
 
 ### 2. Configuration
 
-#### 2.1. Create the configuration file `config/config.sh` by copying the content from `cconfig/config.example`
+#### 2.1. Create the configuration file `config/config.sh` by copying the content from `config/config.example`
 
 ```bash
 cp config/config.example config/config.sh
