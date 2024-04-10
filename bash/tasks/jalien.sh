@@ -64,7 +64,7 @@ while [ $cur_iteration -lt $max_iterations ]; do
 
     if $all_containers_running; then
         echo "All containers are up and running."
-        echo "Waiting 200 seconds until containers are finished setting up."
+        echo "Waiting 200 seconds until containers are finished setting up." #todo: this will be a problem as we have no idea if this was started correctly. we should write the logs somewhere to check if this fails
         sleep 200
         echo "All containers are setup"
         break

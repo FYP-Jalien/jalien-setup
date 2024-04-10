@@ -18,10 +18,10 @@ Follow these steps to set up the Jalien Replica Docker multi-container setup:
 
 ### 2. Configuration
 
-#### 2.1. Create the configuration file `config/config.sh` by copying the content from `config.example`
+#### 2.1. Create the configuration file `config/config.sh` by copying the content from `config/config.example`
 
 ```bash
-cp config.example config/config.sh
+cp config/config.example config/config.sh
 ```
 
 #### 2.2. Fill in the empty fields in config/config.sh
@@ -35,15 +35,16 @@ export SCRIPT_DIR=<path_to_script_directory>
 
 # Path to the directory where the shared volume will be created
 # e.g.  export SHARED_VOLUME=/home/james/Replica/SHARED_VOLUME
-export SHARED_VOLUME=<shared_volume_path>
+export SHARED_VOLUME=<shared_volume_path> #todo: it says this will be created, but we have to create it manually
+#ERROR: .FileNotFoundError: [Errno 2] No such file or directory: '/home/kalana/work/fyp/SHARED_VOLUME/docker-compose.yml'
 
 # Path to the directory where the Jalien repository will be cloned
 # e.g.  export JALIEN=/home/james/Replica/jalien
-export JALIEN=<jalien_path>
+export JALIEN=<jalien_path> #todo: it looks like even if say the repo wil be cloned, we have to do this manually
 
 # Path to the directory where the Jalien-setup repository will be cloned
 # e.g.  export JALIEN_SETUP=/home/james/Replica/jalien-setup
-export JALIEN_SETUP=<jalien_setup_path>
+export JALIEN_SETUP=<jalien_setup_path> #todo: since we are already in the replica setup why do we clone again?
 
 export JALIEN_SOURCE="https://github.com/FYP-Jalien/jalien"
 export JALIEN_SETUP_SOURCE="https://github.com/FYP-Jalien/jalien-setup"
@@ -90,7 +91,7 @@ docker ps
 #### 3.1. Run the setup using the provided script
 - locate to bash directory.
 ```bash
-./start.sh
+./start.sh --shared
 ```
 
 By default, this script will stop and remove all related containers, synchronize with the Jalien JAR, bring up the containers, and start the optimizer.
@@ -148,7 +149,9 @@ Please note that recreating the shared volume will always result in the removal 
 ./start.sh --no-opt
 
 ```
-
+```bash
+# todo : lets explain what happens at the end - optimizer keeps running, but the user doesnt know that. we need to explain it and ask them to run the test suite if necessary and point to the test suite
+```
 ## Contributing
 
 Feel free to contribute by opening issues or submitting pull requests.

@@ -15,6 +15,8 @@ export SCRIPT_DIR=$JALIEN_SETUP/bash
 export JALIEN_SOURCE="https://gitlab.cern.ch/jalien/jalien"
 export JALIEN_SETUP_SOURCE="https://github.com/FYP-Jalien/jalien-setup"
 
+# Lets add the container registry url here as well and mention what images should already be in the registry
+
 # Name of the docker containers
 # Might have to change these names
 export CE_NAME=shared_volume_JCentral-dev-CE_1
