@@ -27,19 +27,18 @@ pull_new_changes() {
 
     # Check if there are any changes to be pulled
     if [ $(git rev-list HEAD...@{u} --count) -gt 0 ]; then
-
-        # Changes exist, ask the user if they want to pull
-        read -p "There are new changes. Do you want to pull them? (y/n): " response
-        if [[ $response =~ ^[Yy]$ ]]; then
-            git pull --all
+    
+        # Attempt to pull changes from all remote branches
+        if git pull --all; then
+            echo "Changes pulled successfully."
         else
-            echo "Changes not pulled."
+            echo "Failed to pull changes. Resolving conflicts..."
         fi
+      
     else
         echo "No new changes to pull."
     fi
 }
-
 mkdir -p "$BASE_DIR" && cd "$BASE_DIR" || exit 1
 clone_if_not_exists "$JALIEN_SETUP" "$JALIEN_SETUP_SOURCE"
 cd "$JALIEN_SETUP" || exit 1
