@@ -2,7 +2,6 @@
 
 set -e
 
-source "$1"
 
 ui_mode=false
 if [ "$2" = "ui" ] || [ "$3" == "ui" ]; then
@@ -16,10 +15,10 @@ execute() {
         if [ "$ui_mode" = true ]; then
             gnome-terminal --tab --title "$3" -- bash -c "$file $SCRIPT_DIR/config/config.sh \"ui\""
         else
-            "$file" "$SCRIPT_DIR/config/config.sh" &
+            "$file" &
         fi
     else
-        "$file" "$SCRIPT_DIR/config/config.sh"
+        "$file"
     fi
 }
 

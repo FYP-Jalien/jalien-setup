@@ -1,6 +1,5 @@
 #!/bin/bash
 
-source "$1"
 
 use_local_image=$2
 
@@ -8,7 +7,7 @@ use_local_image=$2
 execute() {
     local file="$1"
     chmod +x "$file"
-    "$file" "$SCRIPT_DIR/config/config.sh"
+    "$file"
 }
 
 # Remove the shared volume if it exists

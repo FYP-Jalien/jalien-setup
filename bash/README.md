@@ -9,6 +9,7 @@ This project provides automated shell scripts to set up a Jalien Replica Docker 
 Before running the setup scripts, ensure that the execution permissions are granted to all relevant shell script files. You can achieve this by running the following command in the project directory:
 
 ```bash
+chmod +x ./start.sh
 chmod +x ./tasks/*.sh
 chmod +x ./containers/*.sh
 ```
@@ -88,9 +89,9 @@ docker ps
 ### 3. Running the Setup
 
 #### 3.1. Run the setup using the provided script
-
+- locate to bash directory.
 ```bash
-./tasks/start.sh --shared
+./start.sh --shared
 ```
 
 By default, this script will stop and remove all related containers, synchronize with the Jalien JAR, bring up the containers, and start the optimizer.
@@ -115,37 +116,37 @@ Please note that recreating the shared volume will always result in the removal 
 
 ```bash
 # Run the setup starting with creating shared volume in UI mode
-./tasks/start.sh --shared --ui
+./start.sh --shared --ui
 
 # Run the full setup including pre-setup, shared volume setup, Jalien Replica setup, and optimizer:
-./tasks/start.sh --pre
+./start.sh --pre
 
 # Run the full setup including pre-setup with locally building images, shared volume setup, Jalien Replica setup, and optimizer:
-./tasks/start.sh --pre --make
+./start.sh --pre --make
 
 # Run the pre-setup and shared volume setup:
-./tasks/start.sh --pre --no-jalien
+./start.sh --pre --no-jalien
 
 # Run the full setup including shared volume setup, Jalien Replica setup, and optimizer:
-./tasks/start.sh --shared
+./start.sh --shared
 
 # Run the full setup with locally built images:
-./tasks/start.sh --shared --local-images
+./start.sh --shared --local-images
 
 # Run only shared volume setup:
-./tasks/start.sh --shared --no-jalien
+./start.sh --shared --no-jalien
 
 # Run the Jalien Jalien sync, Replica Setup and Optimiser:
-./tasks/start.sh
+./start.sh
 
 # Run the Jalien Replica Setup and Optimiser:
-./tasks/start.sh --no-sync
+./start.sh --no-sync
 
 # Run Jalien sync:
-./tasks/start.sh --no-jalien
+./start.sh --no-jalien
 
 # Run Jalien sync and JAlien Replica setup excluding optimization:
-./tasks/start.sh --no-opt
+./start.sh --no-opt
 
 ```
 ```bash

@@ -16,12 +16,12 @@ execute() {
     done
     if [ $is_terminal -eq 1 ]; then
         if [ "$ui_mode" = true ]; then
-            gnome-terminal --tab --title "$3" -- bash -c "$file $SCRIPT_DIR/config/config.sh; ${*:2}"
+            gnome-terminal --tab --title "$3" -- bash -c "$file; ${*:2}"
         else
-            "$file" "$SCRIPT_DIR/config/config.sh" "${@:2}" &
+            "$file" "${@:2}" &
         fi
     else
-        "$file" "$SCRIPT_DIR/config/config.sh" "${@:2}"
+        "$file" "${@:2}"
     fi
 }
 
@@ -35,38 +35,43 @@ executeOpt=true
 executeMake=false
 remove=false
 ui_mode=false
-
 use_local_image=false
 
 for arg in "${args[@]}"; do
-    if [ "$arg" = "--pre" ]; then
-        executePre=true
-        executeShared=true
-        executeSync=false
-        remove=true
-    elif [ "$arg" = "--shared" ]; then
-        executeShared=true
-        executeSync=false
-    elif [ "$arg" = "--remove" ]; then
-        remove=true
-    elif [ "$arg" = "--local-images" ]; then
-        use_local_image=true
-    elif [ "$arg" = "--ui" ]; then
-        ui_mode=true
-    fi
-done
-
-for arg in "${args[@]}"; do
-    if [ "$arg" = "--no-sync" ]; then
-        executeSync=false
-    elif [ "$arg" = "--no-jalien" ]; then
-        executeJalien=false
-        executeOpt=false
-    elif [ "$arg" = "--no-opt" ]; then
-        executeOpt=false
-    elif [ "$arg" = "--make" ]; then
-        executeMake=true
-    fi
+    case $arg in
+        --pre)
+            executePre=true
+            executeShared=true
+            executeSync=false
+            remove=true
+            ;;
+        --shared)
+            executeShared=true
+            executeSync=false
+            ;;
+        --remove)
+            remove=true
+            ;;
+        --local-images)
+            use_local_image=true
+            ;;
+        --ui)
+            ui_mode=true
+            ;;
+        --no-sync)
+            executeSync=false
+            ;;
+        --no-jalien)
+            executeJalien=false
+            executeOpt=false
+            ;;
+        --no-opt)
+            executeOpt=false
+            ;;
+        --make)
+            executeMake=true
+            ;;
+    esac
 done
 
 if [ "$executePre" = true ]; then
