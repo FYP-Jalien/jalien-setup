@@ -16,7 +16,9 @@ execute() {
     done
     if [ $is_terminal -eq 1 ]; then
         if [ "$ui_mode" = true ]; then
-            gnome-terminal --tab --title "$3" -- bash -c "$file; ${*:2}"
+            gnome-terminal --tab --title "$3" -- bash -c "$file; ${*:2}" &
+            pid=$!
+            declare -g pid=$pid # Declare pid as a gloabl variable.
         else
             "$file" "${@:2}" &
         fi
@@ -36,41 +38,45 @@ executeMake=false
 remove=false
 ui_mode=false
 use_local_image=false
+run_test_suite=false
 
 for arg in "${args[@]}"; do
     case $arg in
-        --pre)
-            executePre=true
-            executeShared=true
-            executeSync=false
-            remove=true
-            ;;
-        --shared)
-            executeShared=true
-            executeSync=false
-            ;;
-        --remove)
-            remove=true
-            ;;
-        --local-images)
-            use_local_image=true
-            ;;
-        --ui)
-            ui_mode=true
-            ;;
-        --no-sync)
-            executeSync=false
-            ;;
-        --no-jalien)
-            executeJalien=false
-            executeOpt=false
-            ;;
-        --no-opt)
-            executeOpt=false
-            ;;
-        --make)
-            executeMake=true
-            ;;
+    --pre)
+        executePre=true
+        executeShared=true
+        executeSync=false
+        remove=true
+        ;;
+    --shared)
+        executeShared=true
+        executeSync=false
+        ;;
+    --remove)
+        remove=true
+        ;;
+    --local-images)
+        use_local_image=true
+        ;;
+    --ui)
+        ui_mode=true
+        ;;
+    --no-sync)
+        executeSync=false
+        ;;
+    --no-jalien)
+        executeJalien=false
+        executeOpt=false
+        ;;
+    --no-opt)
+        executeOpt=false
+        ;;
+    --make)
+        executeMake=true
+        ;;
+    --test-suite)
+        run_test_suite=true
+        ;;
     esac
 done
 
@@ -109,4 +115,8 @@ fi
 
 if [ "$executeOpt" = true ]; then
     execute "$SCRIPT_DIR/tasks/start_opt.sh" "terminal" "Optimiser"
+fi
+
+if [ "$run_test_suite" = true ]; then
+    execute "$SCRIPT_DIR/tasks/test_suite.sh" "Test Suite"
 fi

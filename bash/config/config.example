@@ -11,9 +11,12 @@ export JALIEN=
 # Path to the directory where the jalien-setup repository will be cloned
 export JALIEN_SETUP=
 export SCRIPT_DIR=$JALIEN_SETUP/bash
+# Path to the directory where the test-suite repository will be cloned
+export TEST_SUITE=
 
 export JALIEN_SOURCE="https://gitlab.cern.ch/jalien/jalien"
 export JALIEN_SETUP_SOURCE="https://github.com/FYP-Jalien/jalien-setup"
+export TEST_SUITE_SOURCE="https://github.com/FYP-Jalien/test-suite"
 
 # Lets add the container registry url here as well and mention what images should already be in the registry
 
