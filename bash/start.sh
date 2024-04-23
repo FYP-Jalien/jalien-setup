@@ -119,4 +119,7 @@ fi
 
 if [ "$run_test_suite" = true ]; then
     execute "$SCRIPT_DIR/tasks/test_suite.sh" "Test Suite"
+    kill $pid # Kill the optimiser process.
+    execute "$SCRIPT_DIR/tasks/jalien.sh" "down" # Stop the jalien containers.
+
 fi
