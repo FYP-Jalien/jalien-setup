@@ -4,6 +4,9 @@ set -e
 
 source config/config.sh
 
+# Array to collect the pid of the processes that are started in the script.
+pids=()
+
 execute() {
     local file="$1"
     chmod +x "$file"
@@ -18,13 +21,19 @@ execute() {
         if [ "$ui_mode" = true ]; then
             gnome-terminal --tab --title "$3" -- bash -c "$file; ${*:2}" &
             pid=$!
-            declare -g pid=$pid # Declare pid as a gloabl variable.
+            pids+=($pid)
         else
             "$file" "${@:2}" &
         fi
     else
         "$file" "${@:2}"
     fi
+}
+
+kill_pids() {
+    for pid in "${pids[@]}"; do
+        kill $pid
+    done
 }
 
 args=("$@")
@@ -119,7 +128,7 @@ fi
 
 if [ "$run_test_suite" = true ]; then
     execute "$SCRIPT_DIR/tasks/test_suite.sh" "Test Suite"
-    kill $pid # Kill the optimiser process.
+    kill_pids # Killing all the processes that were started in the script.
     execute "$SCRIPT_DIR/tasks/jalien.sh" "down" # Stop the jalien containers.
 
 fi
