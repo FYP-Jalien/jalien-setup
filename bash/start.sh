@@ -129,6 +129,6 @@ fi
 if [ "$run_test_suite" = true ]; then
     execute "$SCRIPT_DIR/tasks/test_suite.sh" "Test Suite"
     kill_pids # Killing all the processes that were started in the script.
-    execute "$SCRIPT_DIR/tasks/jalien.sh" "down" # Stop the jalien containers.
+    execute "$SCRIPT_DIR/tasks/jalien.sh" "stop" # Stop the jalien containers.
 
 fi
