@@ -1,3 +1,5 @@
+#!/bin/bash
+
 # Clone the test suite.
 clone_if_not_exists() {
     local dir_name="$1"

@@ -48,6 +48,7 @@ remove=false
 ui_mode=false
 use_local_image=false
 run_test_suite=false
+show_logs=false
 
 for arg in "${args[@]}"; do
     case $arg in
@@ -86,6 +87,9 @@ for arg in "${args[@]}"; do
     --test-suite)
         run_test_suite=true
         ;;
+    --logs)
+        show_logs=true
+        ;;
     esac
 done
 
@@ -111,6 +115,14 @@ if [ "$executeJalien" = true ]; then
         else
             execute "$SCRIPT_DIR/tasks/jalien.sh" "ui"
         fi
+    elif [ $show_logs = true ]; then
+        if [ "$executeShared" = true ]; then
+            execute "$SCRIPT_DIR/tasks/jalien.sh" "down" "logs"
+        elif [ "$remove" = true ]; then
+            execute "$SCRIPT_DIR/tasks/jalien.sh" "remove" "logs"
+        else
+            execute "$SCRIPT_DIR/tasks/jalien.sh" "logs"
+        fi
     else
         if [ "$executeShared" = true ]; then
             execute "$SCRIPT_DIR/tasks/jalien.sh" "down"
@@ -128,7 +140,7 @@ fi
 
 if [ "$run_test_suite" = true ]; then
     execute "$SCRIPT_DIR/tasks/test_suite.sh" "Test Suite"
-    kill_pids # Killing all the processes that were started in the script.
+    kill_pids                                    # Killing all the processes that were started in the script.
     execute "$SCRIPT_DIR/tasks/jalien.sh" "stop" # Stop the jalien containers.
 
 fi

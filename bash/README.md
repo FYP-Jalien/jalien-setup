@@ -110,6 +110,7 @@ By default, this script will stop and remove all related containers, synchronize
 - --no-opt: Skip optimization.
 - --test-suite: Run the test suite after the setup.
 - --ui: Starts executions in separate terminals with logs visible
+- --logs: Show container logs in the same terminal in non ui mode
 
 Please note that recreating the shared volume will always result in the removal of existing containers.
 
