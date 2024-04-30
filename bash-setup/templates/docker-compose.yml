@@ -12,13 +12,13 @@ services:
     volumes:
       - $SHARED_VOLUME:/jalien-dev
       - $JALIEN_SETUP_DIR:/jalien-setup:ro
-    healthcheck:
-      test:
-        - CMD-SHELL
-        - >
-          mysql --verbose --host=127.0.0.1 --port=3307 --password=pass --user=root --execute "SHOW DATABASES;" &&
-          ldapsearch -x -b "o=localhost,dc=localdomain" -H ldap://localhost:8389
-      start_period: "180s"
+    # healthcheck:
+    #   test:
+    #     - CMD-SHELL
+    #     - >
+    #       mysql --verbose --host=127.0.0.1 --port=3307 --password=pass --user=root --execute "SHOW DATABASES;" &&
+    #       ldapsearch -x -b "o=localhost,dc=localdomain" -H ldap://localhost:8389
+    #   start_period: "180s"
     environment:
       SE_HOST: JCentral-dev-SE
 
@@ -27,9 +27,9 @@ services:
     entrypoint: bash -c
     command: xrootd -c /etc/xrootd/xrootd-standalone.cfg
     hostname: JCentral-dev-SE
-    depends_on:
-      JCentral-dev:
-        condition: service_healthy
+    # depends_on:
+    #   JCentral-dev:
+    #     condition: service_healthy
     ports:
       - 1094:1094 # XRootD
     volumes:
