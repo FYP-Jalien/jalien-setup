@@ -62,9 +62,9 @@ services:
     environment:
       CONDOR_HOST: "schedd"
       USE_POOL_PASSWORD: "yes"
-    depends_on:
-      JCentral-dev:
-        condition: service_healthy
+    # depends_on:
+    #   JCentral-dev:
+    #     condition: service_healthy
     volumes:
       - $SHARED_VOLUME:/jalien-dev
       - $JALIEN_SETUP_DIR/ce-setup:/ce-setup:ro
